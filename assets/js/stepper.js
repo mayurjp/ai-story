@@ -22,7 +22,7 @@
 (function () {
   window.PixelStepper = function PixelStepper(config) {
     var frames = config.frames || [];
-    var autoMs = config.autoMs || 2600;
+    var autoMs = config.autoMs || 4200;
     var applyFrame = config.applyFrame || function () {};
     var els = config.elements || {};
 

@@ -61,7 +61,6 @@ h1, h2, h3 { font-family: var(--font-display); font-weight: 600; text-wrap: bala
   margin-bottom: 14px;
 }
 .eyebrow .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--c); }
-.eyebrow .bonus-tag { font-weight: 700; color: var(--c); }
 
 .hero { padding-bottom: 24px; border-bottom: 1px solid var(--line); }
 .hero h1 { font-size: clamp(2rem, 6vw, 2.7rem); line-height: 1.05; }
