@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Atkinson+Hyperlegible:wght@400;700&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<title>Pixel Starts Watching, Not Just Reading — The Pixel Story</title>
+<link rel="stylesheet" href="/ai-story/assets/css/tokens.css">
+<link rel="stylesheet" href="/ai-story/assets/css/base.css">
+<style>
+  #ball { transition: cx 0.35s ease, cy 0.35s ease; }
+  #ghostPath { opacity: 0; transition: opacity 0.35s ease; }
+  #ghostPath.show { opacity: 1; }
+  @media (prefers-reduced-motion: reduce) { #ball, #ghostPath { transition: none; } }
+</style>
+</head>
+<body>
+<div class="page">
+  <a class="back-link" href="/ai-story/">&larr; All chapters</a>
+
+  <div class="eyebrow"><span class="dot"></span> Chapter 8 of 8 &nbsp;&middot;&nbsp; The Pixel Story</div>
+
+  <div class="hero">
+    <h1>Pixel Starts Watching, Not Just Reading.</h1>
+    <p class="dek">Pixel watches a short video for the first time: a ball rolling toward a ramp. Watch how building a picture of how things move lets it predict what happens next.</p>
+  </div>
+
+  <div class="learn-grid">
+  <div class="learn-col-strip">
+  <div class="section-head">
+    <h2>How Pixel learns to predict what's next</h2>
+    <div class="sub">Six steps. Watch it play, or use the arrows to go at your own pace.</div>
+  </div>
+
+  <div class="strip">
+    <div class="stage">
+      <svg viewBox="0 0 320 220" role="img" aria-label="Illustration of Pixel watching a ball roll up a ramp and predicting what happens next">
+        <!-- floor and ramp, always present -->
+        <g id="sceneGroup">
+          <rect x="16" y="170" width="264" height="4" rx="2" fill="var(--line-strong)"/>
+          <path d="M180 170 L280 170 L280 100 Z" fill="var(--surface-2)" stroke="var(--line-strong)" stroke-width="2"/>
+        </g>
+
+        <!-- predicted ghost path -->
+        <path id="ghostPath" d="M178 170 L280 100" fill="none" stroke="var(--c)" stroke-width="2" stroke-linecap="round" stroke-dasharray="1 6" opacity="0.75"/>
+        <g id="planDots" class="decor">
+          <circle cx="211" cy="147" r="3" fill="var(--good)"/>
+          <circle cx="245" cy="123" r="3" fill="var(--good)"/>
+          <circle cx="278" cy="101" r="3" fill="var(--good)"/>
+        </g>
+
+        <!-- the ball, position set per frame -->
+        <circle id="ball" cx="40" cy="160" r="10" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
+
+        <g transform="translate(30,15)">
+          <!-- Pixel base figure (unchanged geometry, repositioned via translate) -->
+          <g id="pixelBase">
+            <ellipse cx="205" cy="196" rx="46" ry="7" fill="var(--ink)" opacity="0.07"/>
+            <rect x="163" y="34" width="7" height="24" rx="3.5" fill="var(--line-strong)"/>
+            <circle cx="166.5" cy="34" r="6.5" fill="var(--c)"/>
+            <rect x="150" y="58" width="112" height="94" rx="26" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
+            <circle cx="206" cy="102" r="32" fill="var(--surface-2)" stroke="var(--line-strong)" stroke-width="2"/>
+            <circle id="facePupil" cx="206" cy="102" r="14" fill="var(--ink)"/>
+            <circle cx="200" cy="96" r="3.6" fill="var(--surface)"/>
+            <rect x="180" y="140" width="52" height="8" rx="4" fill="var(--line-strong)"/>
+          </g>
+
+          <!-- decor 1: question bubble -->
+          <g id="ov1" class="decor">
+            <circle cx="150" cy="52" r="5" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
+            <circle cx="160" cy="42" r="7" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
+            <rect x="148" y="8" width="64" height="30" rx="14" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
+            <text x="180" y="30" text-anchor="middle" font-family="var(--font-display)" font-weight="700" font-size="20" fill="var(--muted)">?</text>
+          </g>
+
+          <!-- decor 2: watching focus -->
+          <g id="ov2" class="decor">
+            <circle cx="150" cy="52" r="5" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
+            <circle cx="160" cy="42" r="7" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
+            <rect x="148" y="8" width="64" height="30" rx="14" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
+            <circle cx="172" cy="23" r="7" fill="none" stroke="var(--c)" stroke-width="1.8"/>
+            <circle cx="172" cy="23" r="2.5" fill="var(--c)"/>
+            <circle cx="188" cy="23" r="7" fill="none" stroke="var(--c)" stroke-width="1.8"/>
+            <circle cx="188" cy="23" r="2.5" fill="var(--c)"/>
+          </g>
+
+          <!-- decor 3: wrong guess bubble -->
+          <g id="ov3" class="decor">
+            <circle cx="150" cy="52" r="5" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
+            <circle cx="160" cy="42" r="7" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
+            <rect x="140" y="4" width="86" height="34" rx="16" fill="var(--surface)" stroke="var(--bad)" stroke-width="2"/>
+            <text x="173" y="27" text-anchor="middle" font-family="var(--font-display)" font-weight="700" font-size="13" fill="var(--muted)">stops?</text>
+            <circle cx="216" cy="14" r="11" fill="var(--bad)"/>
+            <path d="M212 10 L220 18 M220 10 L212 18" stroke="white" stroke-width="2.4" stroke-linecap="round"/>
+          </g>
+
+          <!-- decor 4: building a mental picture -->
+          <g id="ov4" class="decor">
+            <circle cx="150" cy="52" r="5" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
+            <circle cx="160" cy="42" r="7" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
+            <rect x="148" y="8" width="64" height="30" rx="14" fill="var(--surface)" stroke="var(--c)" stroke-width="2"/>
+            <path d="M168 30 L176 14 L184 24 L192 10" fill="none" stroke="var(--c)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="1 4"/>
+          </g>
+
+          <!-- decor 5: right bubble -->
+          <g id="ov5" class="decor">
+            <circle cx="150" cy="52" r="5" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
+            <circle cx="160" cy="42" r="7" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
+            <rect x="140" y="4" width="86" height="34" rx="16" fill="var(--surface)" stroke="var(--good)" stroke-width="2"/>
+            <text x="173" y="27" text-anchor="middle" font-family="var(--font-display)" font-weight="700" font-size="12" fill="var(--ink)">goes up!</text>
+            <circle cx="216" cy="14" r="11" fill="var(--good)"/>
+            <path d="M211 14 L215 18 L222 10" fill="none" stroke="white" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+          </g>
+
+          <!-- decor 6: mastery sparkles -->
+          <g id="ov6" class="decor">
+            <circle cx="206" cy="102" r="38" fill="none" stroke="var(--good)" stroke-width="2" opacity="0.55"/>
+            <path d="M120 40 l4 10 10 4 -10 4 -4 10 -4 -10 -10 -4 10 -4 z" fill="var(--c)"/>
+            <path d="M96 150 l3 7 7 3 -7 3 -3 7 -3 -7 -7 -3 7 -3 z" fill="var(--good)"/>
+          </g>
+        </g>
+      </svg>
+    </div>
+
+    <div class="step-meta">
+      <span id="stepLabel">Step 1 of 6</span>
+      <span id="playLabel">▶ playing</span>
+    </div>
+    <div class="caption" id="captionText">Pixel has only ever read words, never watched anything move.</div>
+
+    <div class="controls">
+      <div class="nav-btns">
+        <button type="button" class="icon" id="prevBtn" aria-label="Previous step">‹</button>
+        <button type="button" class="icon" id="nextBtn" aria-label="Next step">›</button>
+        <button type="button" class="ghost" id="playPauseBtn">⏸ Pause</button>
+      </div>
+      <div class="dots" id="dots"></div>
+    </div>
+  </div>
+  </div>
+
+  <div class="learn-col-vocab">
+  <div class="section-head">
+    <h2>Now you know the grown-up words</h2>
+    <div class="sub">Tap one to see what it means.</div>
+  </div>
+
+  <div class="vocab">
+    <details class="chip">
+      <summary>World model <span class="plus">+</span></summary>
+      <div class="def">What Pixel builds in <button type="button" class="step-ref" data-step="4">step 4</button> — an internal picture of how things move and interact, not just which words tend to follow each other. Having this kind of internal picture of how the world behaves is called a world model.</div>
+    </details>
+    <details class="chip">
+      <summary>Planning <span class="plus">+</span></summary>
+      <div class="def">What Pixel is doing by <button type="button" class="step-ref" data-step="6">step 6</button> — using its world model to picture not just the very next moment, but several moves ahead. Working out a sequence of future steps like this, before anything happens, is called planning.</div>
+    </details>
+    <details class="chip">
+      <summary>Hierarchical prediction <span class="plus">+</span></summary>
+      <div class="def">Also happening by <button type="button" class="step-ref" data-step="6">step 6</button>: Pixel predicts at more than one scale at once — "the ball will reach the top soon" (the big picture) and "the ball is moving forward right now" (the small detail), both at the same time. Predicting at multiple zoom levels like this is called hierarchical prediction.</div>
+    </details>
+    <details class="chip">
+      <summary>JEPA <span class="plus">+</span></summary>
+      <div class="def">The name for this exact kind of learning — building an internal picture of the world and predicting what happens next in it, the way Pixel does starting in <button type="button" class="step-ref" data-step="4">step 4</button> — rather than just predicting the next word. This design is called a Joint Embedding Predictive Architecture, or JEPA for short.</div>
+    </details>
+  </div>
+  </div>
+  </div>
+
+  <div class="next">
+    <div>
+      <div class="label">Coming next</div>
+      <p>Pixel helps out in a hospital, a classroom, and a bank — the same ideas, put to work.</p>
+    </div>
+    <a class="tag" href="/ai-story/chapters/09-pixel-visits-the-hospital/">Bonus · Pixel Visits the Hospital</a>
+  </div>
+
+  <footer class="page-foot">The Pixel Story</footer>
+</div>
+
+<script src="/ai-story/assets/js/stepper.js"></script>
+<script>
+(function () {
+  var FRAMES = [
+    { caption: "Pixel has only ever read words, never watched anything move.", ov: "ov1", pupilX: 206, ballX: 40, ballY: 160, ghost: false, plan: false },
+    { caption: "It watches a short video: a ball rolling toward a ramp.", ov: "ov2", pupilX: 190, ballX: 110, ballY: 160, ghost: false, plan: false },
+    { caption: "Pixel guesses the ball will just stop — wrong.", ov: "ov3", pupilX: 214, ballX: 178, ballY: 160, ghost: false, plan: false },
+    { caption: "So it builds a picture in its mind of how things move.", ov: "ov4", pupilX: 196, ballX: 178, ballY: 160, ghost: true, plan: false },
+    { caption: "Now it predicts the ball will roll right up the ramp.", ov: "ov5", pupilX: 200, ballX: 230, ballY: 135, ghost: true, plan: false },
+    { caption: "Pixel can picture what happens several moves ahead now.", ov: "ov6", pupilX: 206, ballX: 278, ballY: 101, ghost: true, plan: true }
+  ];
+
+  var ball = document.getElementById("ball");
+  var ghostPath = document.getElementById("ghostPath");
+  var planDots = document.getElementById("planDots");
+
+  function applyFrame(f) {
+    ball.setAttribute("cx", f.ballX);
+    ball.setAttribute("cy", f.ballY);
+    ghostPath.classList.toggle("show", f.ghost);
+    planDots.classList.toggle("show", f.plan);
+  }
+
+  window.PixelStepper({ frames: FRAMES, applyFrame: applyFrame });
+})();
+</script>
+</body>
+</html>

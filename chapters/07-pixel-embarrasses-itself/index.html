@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Atkinson+Hyperlegible:wght@400;700&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<title>Pixel Embarrasses Itself — The Pixel Story</title>
+<link rel="stylesheet" href="/ai-story/assets/css/tokens.css">
+<link rel="stylesheet" href="/ai-story/assets/css/base.css">
+<style>
+  #glassIntact { transition: opacity 0.35s ease, cy 0.35s ease; }
+  #glassIntact.show { opacity: 1; }
+  #glassBroken { opacity: 0; transition: opacity 0.35s ease; }
+  #glassBroken.show { opacity: 1; }
+  @media (prefers-reduced-motion: reduce) { #glassIntact, #glassBroken { transition: none; } }
+</style>
+</head>
+<body>
+<div class="page">
+  <a class="back-link" href="/ai-story/">&larr; All chapters</a>
+
+  <div class="eyebrow"><span class="dot"></span> Chapter 7 of 8 &nbsp;&middot;&nbsp; The Pixel Story</div>
+
+  <div class="hero">
+    <h1>Pixel Embarrasses Itself.</h1>
+    <p class="dek">Pixel can describe almost anything from what it's read — but reading about a kitchen isn't the same as living in one. Watch what happens when a glass gets dropped.</p>
+  </div>
+
+  <div class="learn-grid">
+  <div class="learn-col-strip">
+  <div class="section-head">
+    <h2>How Pixel learns to slow down</h2>
+    <div class="sub">Six steps. Watch it play, or use the arrows to go at your own pace.</div>
+  </div>
+
+  <div class="strip">
+    <div class="stage">
+      <svg viewBox="0 0 320 220" role="img" aria-label="Illustration of Pixel reasoning about a dropped glass">
+        <!-- kitchen counter and floor, always present -->
+        <g id="kitchenGroup">
+          <rect x="20" y="126" width="110" height="10" rx="2" fill="var(--line-strong)"/>
+          <rect x="20" y="172" width="110" height="4" rx="2" fill="var(--line-strong)"/>
+        </g>
+
+        <!-- intact glass, position/visibility set per frame -->
+        <g id="glassIntact">
+          <rect x="60" y="96" width="24" height="30" rx="4" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
+          <ellipse cx="72" cy="96" rx="12" ry="3.5" fill="none" stroke="var(--line-strong)" stroke-width="2"/>
+        </g>
+
+        <!-- broken glass shards -->
+        <g id="glassBroken">
+          <path d="M54 168 l10 -10 6 8 z" fill="var(--surface)" stroke="var(--bad)" stroke-width="1.6"/>
+          <path d="M70 170 l8 -12 8 10 -6 6 z" fill="var(--surface)" stroke="var(--bad)" stroke-width="1.6"/>
+          <path d="M90 168 l10 -8 4 10 z" fill="var(--surface)" stroke="var(--bad)" stroke-width="1.6"/>
+        </g>
+
+        <!-- decor 2: attention focus around glass -->
+        <g id="ov2" class="decor">
+          <rect x="50" y="86" width="44" height="50" rx="10" fill="none" stroke="var(--c)" stroke-width="2.5" stroke-dasharray="2 6" opacity="0.65"/>
+        </g>
+
+        <g transform="translate(60,10)">
+          <!-- Pixel base figure (unchanged geometry, repositioned via translate) -->
+          <g id="pixelBase">
+            <ellipse cx="205" cy="196" rx="46" ry="7" fill="var(--ink)" opacity="0.07"/>
+            <rect x="163" y="34" width="7" height="24" rx="3.5" fill="var(--line-strong)"/>
+            <circle cx="166.5" cy="34" r="6.5" fill="var(--c)"/>
+            <rect x="150" y="58" width="112" height="94" rx="26" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
+            <circle cx="206" cy="102" r="32" fill="var(--surface-2)" stroke="var(--line-strong)" stroke-width="2"/>
+            <circle id="facePupil" cx="206" cy="102" r="14" fill="var(--ink)"/>
+            <circle cx="200" cy="96" r="3.6" fill="var(--surface)"/>
+            <rect x="180" y="140" width="52" height="8" rx="4" fill="var(--line-strong)"/>
+          </g>
+
+          <!-- decor 1: fast/confident lightning bolt -->
+          <g id="ov1" class="decor">
+            <circle cx="150" cy="52" r="5" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
+            <circle cx="160" cy="42" r="7" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
+            <rect x="148" y="8" width="64" height="30" rx="14" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
+            <path d="M182 12 l-10 12 h7 l-4 10 12 -13 h-7 z" fill="var(--c)"/>
+          </g>
+
+          <!-- decor 3: wrong guess bubble -->
+          <g id="ov3" class="decor">
+            <circle cx="150" cy="52" r="5" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
+            <circle cx="160" cy="42" r="7" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
+            <rect x="140" y="4" width="86" height="34" rx="16" fill="var(--surface)" stroke="var(--bad)" stroke-width="2"/>
+            <text x="173" y="27" text-anchor="middle" font-family="var(--font-display)" font-weight="700" font-size="13" fill="var(--muted)">bounces?</text>
+            <circle cx="216" cy="14" r="11" fill="var(--bad)"/>
+            <path d="M212 10 L220 18 M220 10 L212 18" stroke="white" stroke-width="2.4" stroke-linecap="round"/>
+          </g>
+
+          <!-- decor 4: slow, deliberate thinking -->
+          <g id="ov4" class="decor">
+            <circle cx="150" cy="52" r="5" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
+            <circle cx="160" cy="42" r="7" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
+            <rect x="148" y="8" width="64" height="30" rx="14" fill="var(--surface)" stroke="var(--c)" stroke-width="2"/>
+            <circle cx="168" cy="23" r="3" fill="var(--c)"/>
+            <circle cx="180" cy="23" r="3" fill="var(--c)"/>
+            <circle cx="192" cy="23" r="3" fill="var(--c)"/>
+          </g>
+
+          <!-- decor 5: right bubble -->
+          <g id="ov5" class="decor">
+            <circle cx="150" cy="52" r="5" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
+            <circle cx="160" cy="42" r="7" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
+            <rect x="140" y="4" width="86" height="34" rx="16" fill="var(--surface)" stroke="var(--good)" stroke-width="2"/>
+            <text x="173" y="27" text-anchor="middle" font-family="var(--font-display)" font-weight="700" font-size="13" fill="var(--ink)">shatters!</text>
+            <circle cx="216" cy="14" r="11" fill="var(--good)"/>
+            <path d="M211 14 L215 18 L222 10" fill="none" stroke="white" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+          </g>
+
+          <!-- decor 6: mastery sparkles -->
+          <g id="ov6" class="decor">
+            <circle cx="206" cy="102" r="38" fill="none" stroke="var(--good)" stroke-width="2" opacity="0.55"/>
+            <path d="M120 40 l4 10 10 4 -10 4 -4 10 -4 -10 -10 -4 10 -4 z" fill="var(--c)"/>
+            <path d="M270 150 l3 7 7 3 -7 3 -3 7 -3 -7 -7 -3 7 -3 z" fill="var(--good)"/>
+          </g>
+        </g>
+      </svg>
+    </div>
+
+    <div class="step-meta">
+      <span id="stepLabel">Step 1 of 6</span>
+      <span id="playLabel">▶ playing</span>
+    </div>
+    <div class="caption" id="captionText">Pixel can describe almost anything, in an instant.</div>
+
+    <div class="controls">
+      <div class="nav-btns">
+        <button type="button" class="icon" id="prevBtn" aria-label="Previous step">‹</button>
+        <button type="button" class="icon" id="nextBtn" aria-label="Next step">›</button>
+        <button type="button" class="ghost" id="playPauseBtn">⏸ Pause</button>
+      </div>
+      <div class="dots" id="dots"></div>
+    </div>
+  </div>
+  </div>
+
+  <div class="learn-col-vocab">
+  <div class="section-head">
+    <h2>Now you know the grown-up words</h2>
+    <div class="sub">Tap one to see what it means.</div>
+  </div>
+
+  <div class="vocab">
+    <details class="chip">
+      <summary>Hallucination <span class="plus">+</span></summary>
+      <div class="def">What happens in <button type="button" class="step-ref" data-step="3">step 3</button> — Pixel doesn't say "I don't know," it confidently states something invented that sounds right but isn't. That confidently-wrong kind of answer is called a hallucination.</div>
+    </details>
+    <details class="chip">
+      <summary>System 1 <span class="plus">+</span></summary>
+      <div class="def">The fast, instant kind of answering Pixel does in <button type="button" class="step-ref" data-step="1">step 1</button> and <button type="button" class="step-ref" data-step="3">step 3</button> — pattern-matching straight from everything it's read, without stopping to reason. That quick, automatic kind of thinking is called System 1.</div>
+    </details>
+    <details class="chip">
+      <summary>System 2 <span class="plus">+</span></summary>
+      <div class="def">The slower, deliberate kind of thinking Pixel switches to in <button type="button" class="step-ref" data-step="4">step 4</button> — working through a problem step by step instead of blurting the first answer. That careful, step-by-step kind of thinking is called System 2.</div>
+    </details>
+    <details class="chip">
+      <summary>Chain of thought <span class="plus">+</span></summary>
+      <div class="def">The actual words Pixel would produce while reasoning slowly in <button type="button" class="step-ref" data-step="4">step 4</button>, if it wrote them out loud: "a glass is fragile... it's about to hit a hard floor... fragile things hitting hard floors shatter." Writing the reasoning out step by step like this, instead of jumping straight to an answer, is called chain of thought.</div>
+    </details>
+    <details class="chip">
+      <summary>Persistent memory <span class="plus">+</span></summary>
+      <div class="def">The one thing <button type="button" class="step-ref" data-step="6">step 6</button> doesn't fully fix: the next time someone starts a new conversation with Pixel, it won't remember any of this — every conversation starts over from scratch. Carrying memories from one conversation into the next is called persistent memory, and it's something Pixel, as you've met it here, doesn't have.</div>
+    </details>
+  </div>
+  </div>
+  </div>
+
+  <div class="next">
+    <div>
+      <div class="label">Coming next</div>
+      <p>Pixel starts watching videos instead of just reading — and predicting what happens next.</p>
+    </div>
+    <a class="tag" href="/ai-story/chapters/08-pixel-starts-watching/">Chapter 8 · World models</a>
+  </div>
+
+  <footer class="page-foot">The Pixel Story</footer>
+</div>
+
+<script src="/ai-story/assets/js/stepper.js"></script>
+<script>
+(function () {
+  var FRAMES = [
+    { caption: "Pixel can describe almost anything, in an instant.", ov: "ov1", pupilX: 206, glassY: 96, broken: false },
+    { caption: "Someone asks: what happens if you drop a glass?", ov: "ov2", pupilX: 196, glassY: 96, broken: false },
+    { caption: "Pixel blurts a fast answer — it says the glass bounces.", ov: "ov3", pupilX: 214, glassY: 120, broken: false },
+    { caption: "So it slows down and reasons it through, step by step.", ov: "ov4", pupilX: 196, glassY: 108, broken: false },
+    { caption: "This time it works out: the glass would shatter.", ov: "ov5", pupilX: 200, glassY: 96, broken: true },
+    { caption: "Pixel learns to pause and think, not just guess fast.", ov: "ov6", pupilX: 206, glassY: 96, broken: true }
+  ];
+
+  var glassIntact = document.getElementById("glassIntact");
+  var glassBroken = document.getElementById("glassBroken");
+
+  function applyFrame(f) {
+    glassIntact.classList.toggle("show", !f.broken);
+    glassIntact.setAttribute("transform", "translate(0," + (f.glassY - 96) + ")");
+    glassBroken.classList.toggle("show", f.broken);
+  }
+
+  window.PixelStepper({ frames: FRAMES, applyFrame: applyFrame });
+})();
+</script>
+</body>
+</html>

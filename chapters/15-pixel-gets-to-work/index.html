@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Atkinson+Hyperlegible:wght@400;700&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<title>Pixel Gets to Work — The Pixel Story</title>
+<link rel="stylesheet" href="/ai-story/assets/css/tokens.css">
+<link rel="stylesheet" href="/ai-story/assets/css/base.css">
+<style>
+  #stem { transition: d 0.35s ease, stroke 0.35s ease; }
+  #canGroup { opacity: 0; transition: opacity 0.35s ease; }
+  #canGroup.show { opacity: 1; }
+  @media (prefers-reduced-motion: reduce) { #stem, #canGroup { transition: none; } }
+</style>
+</head>
+<body>
+<div class="page">
+  <a class="back-link" href="/ai-story/">&larr; All chapters</a>
+
+  <div class="eyebrow"><span class="dot"></span> <span class="bonus-tag">Bonus</span> &nbsp;&middot;&nbsp; The Pixel Story</div>
+
+  <div class="hero">
+    <h1>Pixel Gets to Work.</h1>
+    <p class="dek">Until now, Pixel only ever answered in one shot. This time it's given a job — water the wilting plant — and has to check, act, and check again until it's actually done.</p>
+  </div>
+
+  <div class="learn-grid">
+  <div class="learn-col-strip">
+  <div class="section-head">
+    <h2>How Pixel gets a job done</h2>
+    <div class="sub">Six steps. Watch it play, or use the arrows to go at your own pace.</div>
+  </div>
+
+  <div class="strip">
+    <div class="stage">
+      <svg viewBox="0 0 320 220" role="img" aria-label="Illustration of Pixel watering a wilting plant, checking, and watering again">
+        <!-- plant, always present -->
+        <g id="plantGroup">
+          <rect x="40" y="150" width="40" height="28" rx="4" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
+          <path id="stem" d="M60 150 Q 52 118 34 106" fill="none" stroke="var(--bad)" stroke-width="3" stroke-linecap="round"/>
+          <path id="leaf1" d="M34 106 q-12 -4 -14 -14 q12 0 18 8 z" fill="var(--bad)" fill-opacity="0.5"/>
+          <path id="leaf2" d="M46 122 q-10 2 -16 -6 q11 -4 18 0 z" fill="var(--bad)" fill-opacity="0.5"/>
+        </g>
+
+        <!-- watering can, appears when Pixel acts -->
+        <g id="canGroup">
+          <rect x="95" y="120" width="26" height="18" rx="4" fill="var(--surface)" stroke="var(--c)" stroke-width="2"/>
+          <path d="M121 124 l14 -6" stroke="var(--c)" stroke-width="2.5" stroke-linecap="round"/>
+          <path d="M135 118 l4 4 -3 5" fill="none" stroke="var(--c)" stroke-width="1.6" stroke-linecap="round"/>
+        </g>
+
+        <g transform="translate(60,15)">
+          <!-- Pixel base figure (unchanged geometry, repositioned via translate) -->
+          <g id="pixelBase">
+            <ellipse cx="205" cy="196" rx="46" ry="7" fill="var(--ink)" opacity="0.07"/>
+            <rect x="163" y="34" width="7" height="24" rx="3.5" fill="var(--line-strong)"/>
+            <circle cx="166.5" cy="34" r="6.5" fill="var(--c)"/>
+            <rect x="150" y="58" width="112" height="94" rx="26" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
+            <circle cx="206" cy="102" r="32" fill="var(--surface-2)" stroke="var(--line-strong)" stroke-width="2"/>
+            <circle id="facePupil" cx="206" cy="102" r="14" fill="var(--ink)"/>
+            <circle cx="200" cy="96" r="3.6" fill="var(--surface)"/>
+            <rect x="180" y="140" width="52" height="8" rx="4" fill="var(--line-strong)"/>
+          </g>
+
+          <!-- decor 1: question bubble -->
+          <g id="ov1" class="decor">
+            <circle cx="150" cy="52" r="5" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
+            <circle cx="160" cy="42" r="7" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
+            <rect x="148" y="8" width="64" height="30" rx="14" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
+            <text x="180" y="30" text-anchor="middle" font-family="var(--font-display)" font-weight="700" font-size="20" fill="var(--muted)">?</text>
+          </g>
+
+          <!-- decor 2: observing focus -->
+          <g id="ov2" class="decor">
+            <circle cx="150" cy="52" r="5" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
+            <circle cx="160" cy="42" r="7" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
+            <rect x="148" y="8" width="64" height="30" rx="14" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
+            <circle cx="176" cy="21" r="8" fill="none" stroke="var(--c)" stroke-width="2"/>
+            <line x1="182" y1="27" x2="190" y2="34" stroke="var(--c)" stroke-width="2.2" stroke-linecap="round"/>
+          </g>
+
+          <!-- decor 3: still-drooping bubble -->
+          <g id="ov3" class="decor">
+            <circle cx="150" cy="52" r="5" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
+            <circle cx="160" cy="42" r="7" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
+            <rect x="140" y="4" width="86" height="34" rx="16" fill="var(--surface)" stroke="var(--bad)" stroke-width="2"/>
+            <text x="173" y="27" text-anchor="middle" font-family="var(--font-display)" font-weight="700" font-size="10" fill="var(--muted)">not yet...</text>
+            <circle cx="216" cy="14" r="11" fill="var(--bad)"/>
+            <path d="M212 10 L220 18 M220 10 L212 18" stroke="white" stroke-width="2.4" stroke-linecap="round"/>
+          </g>
+
+          <!-- decor 4: loop icon -->
+          <g id="ov4" class="decor">
+            <circle cx="150" cy="52" r="5" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
+            <circle cx="160" cy="42" r="7" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
+            <rect x="148" y="8" width="64" height="30" rx="14" fill="var(--surface)" stroke="var(--c)" stroke-width="2"/>
+            <path d="M170 23 a10 10 0 1 1 3 7" fill="none" stroke="var(--c)" stroke-width="2" stroke-linecap="round"/>
+            <path d="M170 15 l0 8 8 0" fill="none" stroke="var(--c)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </g>
+
+          <!-- decor 5: right bubble -->
+          <g id="ov5" class="decor">
+            <circle cx="150" cy="52" r="5" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
+            <circle cx="160" cy="42" r="7" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
+            <rect x="140" y="4" width="86" height="34" rx="16" fill="var(--surface)" stroke="var(--good)" stroke-width="2"/>
+            <text x="173" y="27" text-anchor="middle" font-family="var(--font-display)" font-weight="700" font-size="11" fill="var(--ink)">perking up!</text>
+            <circle cx="216" cy="14" r="11" fill="var(--good)"/>
+            <path d="M211 14 L215 18 L222 10" fill="none" stroke="white" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+          </g>
+
+          <!-- decor 6: mastery sparkles -->
+          <g id="ov6" class="decor">
+            <circle cx="206" cy="102" r="38" fill="none" stroke="var(--good)" stroke-width="2" opacity="0.55"/>
+            <path d="M120 40 l4 10 10 4 -10 4 -4 10 -4 -10 -10 -4 10 -4 z" fill="var(--c)"/>
+          </g>
+        </g>
+      </svg>
+    </div>
+
+    <div class="step-meta">
+      <span id="stepLabel">Step 1 of 6</span>
+      <span id="playLabel">▶ playing</span>
+    </div>
+    <div class="caption" id="captionText">Someone asks Pixel to take care of a wilting plant.</div>
+
+    <div class="controls">
+      <div class="nav-btns">
+        <button type="button" class="icon" id="prevBtn" aria-label="Previous step">‹</button>
+        <button type="button" class="icon" id="nextBtn" aria-label="Next step">›</button>
+        <button type="button" class="ghost" id="playPauseBtn">⏸ Pause</button>
+      </div>
+      <div class="dots" id="dots"></div>
+    </div>
+  </div>
+  </div>
+
+  <div class="learn-col-vocab">
+  <div class="section-head">
+    <h2>Now you know the grown-up words</h2>
+    <div class="sub">Tap one to see what it means.</div>
+  </div>
+
+  <div class="vocab">
+    <details class="chip">
+      <summary>Agentic AI <span class="plus">+</span></summary>
+      <div class="def">Everything before this chapter, Pixel only ever answered a question in one shot. Here it does something different: it checks the plant, acts, checks again, and decides on its own when the job is done, across <button type="button" class="step-ref" data-step="2">step 2</button> through <button type="button" class="step-ref" data-step="6">step 6</button>. A system that plans and acts toward a goal like this, instead of just answering once, is called an agent — and this whole way of working is called agentic AI.</div>
+    </details>
+    <details class="chip">
+      <summary>Tool use <span class="plus">+</span></summary>
+      <div class="def">The watering can Pixel actually picks up in <button type="button" class="step-ref" data-step="3">step 3</button> and <button type="button" class="step-ref" data-step="5">step 5</button> is outside its own "brain" — Pixel doesn't water the plant by thinking about it, it reaches for a real tool and uses it. Reaching outside itself to use an actual tool to get something done is called tool use.</div>
+    </details>
+    <details class="chip">
+      <summary>Action-observation loop <span class="plus">+</span></summary>
+      <div class="def">Pixel doesn't act once and walk away — it acts, checks what changed, and decides what to do next based on that, repeating from <button type="button" class="step-ref" data-step="3">step 3</button> through <button type="button" class="step-ref" data-step="5">step 5</button>. Repeating this act-then-check cycle until a goal is met is called an action-observation loop.</div>
+    </details>
+    <details class="chip">
+      <summary>Autonomy <span class="plus">+</span></summary>
+      <div class="def">Nobody tells Pixel exactly when to stop watering in <button type="button" class="step-ref" data-step="6">step 6</button> — it decides for itself, once the leaves perk back up, that the job is done. Making decisions and choosing when to stop without being told each individual step is called autonomy.</div>
+    </details>
+  </div>
+  </div>
+  </div>
+
+  <div class="next">
+    <div>
+      <div class="label">Coming next</div>
+      <p>Pixel looks back at everything it's learned — and talks directly to you.</p>
+    </div>
+    <a class="tag" href="/ai-story/chapters/12-what-pixel-means-for-you/">Bonus · What Pixel Means for You</a>
+  </div>
+
+  <footer class="page-foot">The Pixel Story</footer>
+</div>
+
+<script src="/ai-story/assets/js/stepper.js"></script>
+<script>
+(function () {
+  var DROOPY = "M60 150 Q 52 118 34 106";
+  var PERKED = "M60 150 Q 66 110 80 92";
+  var FRAMES = [
+    { caption: "Someone asks Pixel to take care of a wilting plant.", ov: "ov1", pupilX: 206, stem: DROOPY, stemColor: "var(--bad)", can: false },
+    { caption: "Pixel looks at the plant and decides what to do first.", ov: "ov2", pupilX: 190, stem: DROOPY, stemColor: "var(--bad)", can: false },
+    { caption: "It waters the plant once — but the leaves stay drooping.", ov: "ov3", pupilX: 214, stem: DROOPY, stemColor: "var(--bad)", can: true },
+    { caption: "So it checks again, and decides to water a bit more.", ov: "ov4", pupilX: 196, stem: DROOPY, stemColor: "var(--c)", can: false },
+    { caption: "It waters again, checks again — the leaves start to perk up.", ov: "ov5", pupilX: 200, stem: PERKED, stemColor: "var(--good)", can: true },
+    { caption: "Pixel keeps checking and acting, on its own, until the job's done.", ov: "ov6", pupilX: 206, stem: PERKED, stemColor: "var(--good)", can: false }
+  ];
+
+  var stem = document.getElementById("stem");
+  var canGroup = document.getElementById("canGroup");
+
+  function applyFrame(f) {
+    stem.setAttribute("d", f.stem);
+    stem.setAttribute("stroke", f.stemColor);
+    canGroup.classList.toggle("show", f.can);
+  }
+
+  window.PixelStepper({ frames: FRAMES, applyFrame: applyFrame });
+})();
+</script>
+</body>
+</html>

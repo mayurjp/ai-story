@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Atkinson+Hyperlegible:wght@400;700&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<title>Pixel Takes a Shot — The Pixel Story</title>
+<link rel="stylesheet" href="/ai-story/assets/css/tokens.css">
+<link rel="stylesheet" href="/ai-story/assets/css/base.css">
+<style>
+  #ballGroup { opacity: 0; transition: opacity 0.35s ease, cx 0.35s ease, cy 0.35s ease; }
+  #ballGroup.show { opacity: 1; }
+  @media (prefers-reduced-motion: reduce) {
+    #ballGroup { transition: none; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+  <a class="back-link" href="/ai-story/">&larr; All chapters</a>
+
+  <div class="eyebrow"><span class="dot"></span> Chapter 2 of 8 &nbsp;&middot;&nbsp; The Pixel Story</div>
+
+  <div class="hero">
+    <h1>Pixel Takes a Shot.</h1>
+    <p class="dek">Pixel steps up to a basketball hoop. Watch how one missed shot turns into a whole new way of learning — one that spread through machines for good in the 1980s.</p>
+  </div>
+
+  <div class="learn-grid">
+  <div class="learn-col-strip">
+  <div class="section-head">
+    <h2>How Pixel learns to aim</h2>
+    <div class="sub">Six steps. Watch it play, or use the arrows to go at your own pace.</div>
+  </div>
+
+  <div class="strip">
+    <div class="stage">
+      <svg viewBox="0 0 320 220" role="img" aria-label="Illustration of Pixel learning to shoot a basketball">
+        <!-- hoop, always present -->
+        <g id="hoopGroup">
+          <rect x="292" y="34" width="8" height="56" rx="2" fill="var(--line-strong)"/>
+          <ellipse cx="270" cy="98" rx="24" ry="6" fill="none" stroke="var(--line-strong)" stroke-width="3"/>
+          <path d="M250 100 L252 118 M258 101 L259 120 M270 101 L270 122 M282 101 L281 120 M290 100 L288 118" stroke="var(--line-strong)" stroke-width="1.6" stroke-linecap="round"/>
+        </g>
+
+        <!-- the ball, position/visibility set per frame -->
+        <circle id="ballGroup" cx="230" cy="118" r="10" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
+
+        <!-- Pixel base figure (unchanged geometry) -->
+        <g id="pixelBase">
+          <ellipse cx="205" cy="196" rx="46" ry="7" fill="var(--ink)" opacity="0.07"/>
+          <rect x="163" y="34" width="7" height="24" rx="3.5" fill="var(--line-strong)"/>
+          <circle cx="166.5" cy="34" r="6.5" fill="var(--c)"/>
+          <rect x="150" y="58" width="112" height="94" rx="26" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
+          <circle cx="206" cy="102" r="32" fill="var(--surface-2)" stroke="var(--line-strong)" stroke-width="2"/>
+          <circle id="facePupil" cx="206" cy="102" r="14" fill="var(--ink)"/>
+          <circle cx="200" cy="96" r="3.6" fill="var(--surface)"/>
+          <rect x="180" y="140" width="52" height="8" rx="4" fill="var(--line-strong)"/>
+        </g>
+
+        <!-- decor 1: question bubble -->
+        <g id="ov1" class="decor">
+          <circle cx="150" cy="52" r="5" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
+          <circle cx="160" cy="42" r="7" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
+          <rect x="148" y="8" width="64" height="30" rx="14" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
+          <text x="180" y="30" text-anchor="middle" font-family="var(--font-display)" font-weight="700" font-size="20" fill="var(--muted)">?</text>
+        </g>
+
+        <!-- decor 2: dashed arc trail toward the hoop -->
+        <g id="ov2" class="decor">
+          <path d="M232 112 Q 255 55, 270 92" fill="none" stroke="var(--c)" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="1 7" opacity="0.75"/>
+        </g>
+
+        <!-- decor 3: miss indicator near the rim -->
+        <g id="ov3" class="decor">
+          <path d="M232 112 Q 262 50, 300 90" fill="none" stroke="var(--bad)" stroke-width="2" stroke-linecap="round" stroke-dasharray="1 7" opacity="0.7"/>
+          <circle cx="300" cy="76" r="11" fill="var(--bad)"/>
+          <path d="M296 72 L304 80 M304 72 L296 80" stroke="white" stroke-width="2.4" stroke-linecap="round"/>
+        </g>
+
+        <!-- decor 4: backward trace + joint nudges -->
+        <g id="ov4" class="decor">
+          <path d="M262 90 Q 220 70, 190 100" fill="none" stroke="var(--c)" stroke-width="2" stroke-linecap="round" stroke-dasharray="1 6"/>
+          <circle cx="182" cy="126" r="10" fill="var(--surface)" stroke="var(--c)" stroke-width="2.5"/>
+          <line x1="182" y1="126" x2="178" y2="118" stroke="var(--c)" stroke-width="2.2" stroke-linecap="round"/>
+          <circle cx="160" cy="150" r="10" fill="var(--surface)" stroke="var(--c)" stroke-width="2.5"/>
+          <line x1="160" y1="150" x2="166" y2="143" stroke="var(--c)" stroke-width="2.2" stroke-linecap="round"/>
+        </g>
+
+        <!-- decor 5: swish check -->
+        <g id="ov5" class="decor">
+          <circle cx="270" cy="70" r="11" fill="var(--good)"/>
+          <path d="M265 70 L269 74 L276 66" fill="none" stroke="white" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+        </g>
+
+        <!-- decor 6: mastery streak -->
+        <g id="ov6" class="decor">
+          <circle cx="206" cy="102" r="38" fill="none" stroke="var(--good)" stroke-width="2" opacity="0.55"/>
+          <path d="M120 40 l4 10 10 4 -10 4 -4 10 -4 -10 -10 -4 10 -4 z" fill="var(--c)"/>
+          <path d="M96 150 l3 7 7 3 -7 3 -3 7 -3 -7 -7 -3 7 -3 z" fill="var(--good)"/>
+          <text x="270" y="46" text-anchor="middle" font-family="var(--font-mono)" font-weight="600" font-size="13" fill="var(--good)">3/3</text>
+        </g>
+      </svg>
+    </div>
+
+    <div class="step-meta">
+      <span id="stepLabel">Step 1 of 6</span>
+      <span id="playLabel">▶ playing</span>
+    </div>
+    <div class="caption" id="captionText">Pixel doesn't know how to aim yet.</div>
+
+    <div class="controls">
+      <div class="nav-btns">
+        <button type="button" class="icon" id="prevBtn" aria-label="Previous step">‹</button>
+        <button type="button" class="icon" id="nextBtn" aria-label="Next step">›</button>
+        <button type="button" class="ghost" id="playPauseBtn">⏸ Pause</button>
+      </div>
+      <div class="dots" id="dots"></div>
+    </div>
+  </div>
+  </div>
+
+  <div class="learn-col-vocab">
+  <div class="section-head">
+    <h2>Now you know the grown-up words</h2>
+    <div class="sub">Tap one to see what it means.</div>
+  </div>
+
+  <div class="vocab">
+    <details class="chip">
+      <summary>Loss <span class="plus">+</span></summary>
+      <div class="def">The "how far off" feeling from <button type="button" class="step-ref" data-step="3">step 3</button> — the size of the miss, measured as a number. Pixel doesn't just know it missed; it knows exactly how wide the shot was. That number, how wrong a guess was, is called the loss.</div>
+    </details>
+    <details class="chip">
+      <summary>Backpropagation <span class="plus">+</span></summary>
+      <div class="def">What <button type="button" class="step-ref" data-step="4">step 4</button> actually is: Pixel doesn't just re-aim randomly — it traces the miss backward through every part of the throw, from the hoop back to the shoulder, to work out which part caused how much of the error. Working backward from a mistake to fix the parts that caused it is called backpropagation.</div>
+    </details>
+    <details class="chip">
+      <summary>Gradient descent <span class="plus">+</span></summary>
+      <div class="def">The way each part gets nudged in <button type="button" class="step-ref" data-step="4">step 4</button>, and again after <button type="button" class="step-ref" data-step="5">step 5</button>: not one big random change, but a small step in whichever direction shrinks the miss a little more. Taking those small, error-shrinking steps over and over is called gradient descent.</div>
+    </details>
+    <details class="chip">
+      <summary>Layers <span class="plus">+</span></summary>
+      <div class="def">Pixel's throw in <button type="button" class="step-ref" data-step="2">step 2</button> isn't one motion — it's a chain of stages, each feeding the next, each getting its own correction in <button type="button" class="step-ref" data-step="4">step 4</button>. A network built from stages stacked like this, where each one adjusts based on what came before it, is what's called having layers.</div>
+    </details>
+    <details class="chip">
+      <summary>Nonlinearity <span class="plus">+</span></summary>
+      <div class="def">Notice in <button type="button" class="step-ref" data-step="4">step 4</button>: a tiny wrist snap right before release changes the shot far more than turning the shoulder by that same tiny amount. The effect isn't a straight, even trade. That bent, uneven relationship between an adjustment and its effect is nonlinearity — without it, Pixel could only ever learn plain, straight-line corrections.</div>
+    </details>
+  </div>
+  </div>
+  </div>
+
+  <div class="next">
+    <div>
+      <div class="label">Coming next</div>
+      <p>Pixel looks at a picture one small patch at a time — and learns to see.</p>
+    </div>
+    <a class="tag" href="/ai-story/chapters/03-pixel-learns-to-see/">Chapter 3 · Convolution</a>
+  </div>
+
+  <footer class="page-foot">The Pixel Story</footer>
+</div>
+
+<script src="/ai-story/assets/js/stepper.js"></script>
+<script>
+(function () {
+  var FRAMES = [
+    { caption: "Pixel doesn't know how to aim yet.", ball: false, ballX: 230, ballY: 118, ov: "ov1", pupilX: 206 },
+    { caption: "It lines up and takes a shot.", ball: true, ballX: 250, ballY: 62, ov: "ov2", pupilX: 216 },
+    { caption: "The ball sails wide — Pixel missed.", ball: true, ballX: 300, ballY: 76, ov: "ov3", pupilX: 220 },
+    { caption: "So Pixel traces the miss backward, adjusting its aim.", ball: true, ballX: 230, ballY: 118, ov: "ov4", pupilX: 196 },
+    { caption: "Next shot lines up true — swish!", ball: true, ballX: 270, ballY: 88, ov: "ov5", pupilX: 214 },
+    { caption: "After lots of practice, Pixel nails it every time.", ball: true, ballX: 270, ballY: 88, ov: "ov6", pupilX: 206 }
+  ];
+
+  var ballGroup = document.getElementById("ballGroup");
+
+  function applyFrame(f) {
+    ballGroup.classList.toggle("show", f.ball);
+    ballGroup.setAttribute("cx", f.ballX);
+    ballGroup.setAttribute("cy", f.ballY);
+  }
+
+  window.PixelStepper({ frames: FRAMES, applyFrame: applyFrame });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Atkinson+Hyperlegible:wght@400;700&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<title>Pixel Meets a Robot Who Lies — The Pixel Story</title>
+<link rel="stylesheet" href="/ai-story/assets/css/tokens.css">
+<link rel="stylesheet" href="/ai-story/assets/css/base.css">
+<style>
+  #pickHighlight { transition: x 0.35s ease, stroke 0.35s ease, opacity 0.35s ease; }
+  @media (prefers-reduced-motion: reduce) { #pickHighlight { transition: none; } }
+</style>
+</head>
+<body>
+<div class="page">
+  <a class="back-link" href="/ai-story/">&larr; All chapters</a>
+
+  <div class="eyebrow"><span class="dot"></span> <span class="bonus-tag">Bonus</span> &nbsp;&middot;&nbsp; The Pixel Story</div>
+
+  <div class="hero">
+    <h1>Pixel Meets a Robot Who Lies.</h1>
+    <p class="dek">Pixel makes a new friend, Chip — another AI who always sounds sure of itself. Watch what happens when Chip is asked to pick fairly, and always picks the same thing.</p>
+  </div>
+
+  <div class="learn-grid">
+  <div class="learn-col-strip">
+  <div class="section-head">
+    <h2>How Pixel learns to double-check confidence</h2>
+    <div class="sub">Six steps. Watch it play, or use the arrows to go at your own pace.</div>
+  </div>
+
+  <div class="strip">
+    <div class="stage">
+      <svg viewBox="0 0 320 220" role="img" aria-label="Illustration of Chip picking unfairly, then being tested and fixed">
+        <!-- Chip, a simple classmate robot, always present -->
+        <g id="chipGroup">
+          <rect x="30" y="100" width="50" height="60" rx="10" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
+          <line x1="55" y1="82" x2="55" y2="70" stroke="var(--line-strong)" stroke-width="3" stroke-linecap="round"/>
+          <circle cx="55" cy="66" r="4" fill="var(--muted)"/>
+          <circle cx="55" cy="90" r="18" fill="var(--surface-2)" stroke="var(--line-strong)" stroke-width="2"/>
+          <circle cx="55" cy="90" r="7" fill="var(--ink)"/>
+          <text x="55" y="180" text-anchor="middle" font-family="var(--font-mono)" font-size="10" fill="var(--muted)">Chip</text>
+        </g>
+
+        <!-- three name-choice chips -->
+        <g id="optionsGroup">
+          <rect x="110" y="150" width="24" height="20" rx="4" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="1.5"/>
+          <rect x="144" y="150" width="24" height="20" rx="4" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="1.5"/>
+          <rect x="178" y="150" width="24" height="20" rx="4" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="1.5"/>
+        </g>
+
+        <rect id="pickHighlight" x="110" y="147" width="24" height="26" rx="6" fill="none" stroke="var(--muted)" stroke-width="2.5" opacity="0"/>
+
+        <!-- testing decor: check marks over each option -->
+        <g id="testDecor" class="decor">
+          <path d="M117 145 l3 4 6 -7" fill="none" stroke="var(--c)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M151 145 l3 4 6 -7" fill="none" stroke="var(--c)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M185 145 l3 4 6 -7" fill="none" stroke="var(--c)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        </g>
+
+        <g transform="translate(60,15)">
+          <!-- Pixel base figure (unchanged geometry, repositioned via translate) -->
+          <g id="pixelBase">
+            <ellipse cx="205" cy="196" rx="46" ry="7" fill="var(--ink)" opacity="0.07"/>
+            <rect x="163" y="34" width="7" height="24" rx="3.5" fill="var(--line-strong)"/>
+            <circle cx="166.5" cy="34" r="6.5" fill="var(--c)"/>
+            <rect x="150" y="58" width="112" height="94" rx="26" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
+            <circle cx="206" cy="102" r="32" fill="var(--surface-2)" stroke="var(--line-strong)" stroke-width="2"/>
+            <circle id="facePupil" cx="206" cy="102" r="14" fill="var(--ink)"/>
+            <circle cx="200" cy="96" r="3.6" fill="var(--surface)"/>
+            <rect x="180" y="140" width="52" height="8" rx="4" fill="var(--line-strong)"/>
+          </g>
+
+          <!-- decor 1: question bubble -->
+          <g id="ov1" class="decor">
+            <circle cx="150" cy="52" r="5" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
+            <circle cx="160" cy="42" r="7" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
+            <rect x="148" y="8" width="64" height="30" rx="14" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
+            <text x="180" y="30" text-anchor="middle" font-family="var(--font-display)" font-weight="700" font-size="20" fill="var(--muted)">?</text>
+          </g>
+
+          <!-- decor 3: wrong/suspicious bubble -->
+          <g id="ov3" class="decor">
+            <circle cx="150" cy="52" r="5" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
+            <circle cx="160" cy="42" r="7" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
+            <rect x="140" y="4" width="86" height="34" rx="16" fill="var(--surface)" stroke="var(--bad)" stroke-width="2"/>
+            <text x="173" y="27" text-anchor="middle" font-family="var(--font-display)" font-weight="700" font-size="11" fill="var(--muted)">again?</text>
+            <circle cx="216" cy="14" r="11" fill="var(--bad)"/>
+            <path d="M212 10 L220 18 M220 10 L212 18" stroke="white" stroke-width="2.4" stroke-linecap="round"/>
+          </g>
+
+          <!-- decor 4: testing magnifier -->
+          <g id="ov4" class="decor">
+            <circle cx="150" cy="52" r="5" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
+            <circle cx="160" cy="42" r="7" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
+            <rect x="148" y="8" width="64" height="30" rx="14" fill="var(--surface)" stroke="var(--c)" stroke-width="2"/>
+            <circle cx="176" cy="21" r="8" fill="none" stroke="var(--c)" stroke-width="2"/>
+            <line x1="182" y1="27" x2="190" y2="34" stroke="var(--c)" stroke-width="2.2" stroke-linecap="round"/>
+          </g>
+
+          <!-- decor 5: right bubble -->
+          <g id="ov5" class="decor">
+            <circle cx="150" cy="52" r="5" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
+            <circle cx="160" cy="42" r="7" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
+            <rect x="140" y="4" width="86" height="34" rx="16" fill="var(--surface)" stroke="var(--good)" stroke-width="2"/>
+            <text x="173" y="27" text-anchor="middle" font-family="var(--font-display)" font-weight="700" font-size="12" fill="var(--ink)">fairer now!</text>
+            <circle cx="216" cy="14" r="11" fill="var(--good)"/>
+            <path d="M211 14 L215 18 L222 10" fill="none" stroke="white" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+          </g>
+
+          <!-- decor 6: mastery sparkles -->
+          <g id="ov6" class="decor">
+            <circle cx="206" cy="102" r="38" fill="none" stroke="var(--good)" stroke-width="2" opacity="0.55"/>
+            <path d="M120 40 l4 10 10 4 -10 4 -4 10 -4 -10 -10 -4 10 -4 z" fill="var(--c)"/>
+          </g>
+        </g>
+      </svg>
+    </div>
+
+    <div class="step-meta">
+      <span id="stepLabel">Step 1 of 6</span>
+      <span id="playLabel">▶ playing</span>
+    </div>
+    <div class="caption" id="captionText">Pixel makes a friend: another AI, named Chip.</div>
+
+    <div class="controls">
+      <div class="nav-btns">
+        <button type="button" class="icon" id="prevBtn" aria-label="Previous step">‹</button>
+        <button type="button" class="icon" id="nextBtn" aria-label="Next step">›</button>
+        <button type="button" class="ghost" id="playPauseBtn">⏸ Pause</button>
+      </div>
+      <div class="dots" id="dots"></div>
+    </div>
+  </div>
+  </div>
+
+  <div class="learn-col-vocab">
+  <div class="section-head">
+    <h2>Now you know the grown-up words</h2>
+    <div class="sub">Tap one to see what it means.</div>
+  </div>
+
+  <div class="vocab">
+    <details class="chip">
+      <summary>Bias <span class="plus">+</span></summary>
+      <div class="def">What's going on in <button type="button" class="step-ref" data-step="3">step 3</button> — Chip isn't trying to be unfair, but extra copies of one name in what it read left it leaning one way, every single time, without meaning to. That unfair lean, coming from unevenness in what a system learned from, is called bias.</div>
+    </details>
+    <details class="chip">
+      <summary>Red-teaming <span class="plus">+</span></summary>
+      <div class="def">The tricky, repeated questions people throw at Chip on purpose in <button type="button" class="step-ref" data-step="4">step 4</button> — hunting for exactly the kind of unfair pick that stays hidden until pushed. Deliberately trying to break or trick a system to find its problems first is called red-teaming.</div>
+    </details>
+    <details class="chip">
+      <summary>Alignment <span class="plus">+</span></summary>
+      <div class="def">The goal behind fixing Chip in <button type="button" class="step-ref" data-step="4">step 4</button> and <button type="button" class="step-ref" data-step="5">5</button> — making sure its answers actually match what people intend and value, not just whatever looked most common in training. This ongoing work of shaping a system's behavior to match what people actually want is called alignment.</div>
+    </details>
+    <details class="chip">
+      <summary>AI safety <span class="plus">+</span></summary>
+      <div class="def">The umbrella name for all of this — catching bias, red-teaming for hidden problems, checking alignment — so machines like Chip and Pixel behave the way people actually need them to. This whole area of work is called AI safety.</div>
+    </details>
+  </div>
+  </div>
+  </div>
+
+  <div class="next">
+    <div>
+      <div class="label">Coming next</div>
+      <p>Pixel finds out just how much space and power it takes to think this fast.</p>
+    </div>
+    <a class="tag" href="/ai-story/chapters/11-pixel-needs-a-bigger-brain/">Bonus · Pixel Needs a Bigger Brain</a>
+  </div>
+
+  <footer class="page-foot">The Pixel Story</footer>
+</div>
+
+<script src="/ai-story/assets/js/stepper.js"></script>
+<script>
+(function () {
+  var FRAMES = [
+    { caption: "Pixel makes a friend: another AI, named Chip.", ov: "ov1", pupilX: 206, pickIndex: -1, pickColor: "var(--muted)", test: false },
+    { caption: "Chip is asked to pick the best name from a list.", ov: "ov1", pupilX: 190, pickIndex: 0, pickColor: "var(--c)", test: false },
+    { caption: "Chip always picks the name it saw most in its books.", ov: "ov3", pupilX: 214, pickIndex: 0, pickColor: "var(--bad)", test: false },
+    { caption: "So people test Chip with tricky questions and fix what's unfair.", ov: "ov4", pupilX: 196, pickIndex: -1, pickColor: "var(--muted)", test: true },
+    { caption: "After fixing, Chip's answers become fairer and more balanced.", ov: "ov5", pupilX: 200, pickIndex: 2, pickColor: "var(--good)", test: false },
+    { caption: "Pixel learns: always check where a confident answer comes from.", ov: "ov6", pupilX: 206, pickIndex: 2, pickColor: "var(--good)", test: false }
+  ];
+  var PICK_X = [110, 144, 178];
+
+  var pickHighlight = document.getElementById("pickHighlight");
+  var testDecor = document.getElementById("testDecor");
+
+  function applyFrame(f) {
+    if (f.pickIndex >= 0) {
+      pickHighlight.setAttribute("x", PICK_X[f.pickIndex]);
+      pickHighlight.setAttribute("stroke", f.pickColor);
+      pickHighlight.setAttribute("opacity", "1");
+    } else {
+      pickHighlight.setAttribute("opacity", "0");
+    }
+    testDecor.classList.toggle("show", f.test);
+  }
+
+  window.PixelStepper({ frames: FRAMES, applyFrame: applyFrame });
+})();
+</script>
+</body>
+</html>

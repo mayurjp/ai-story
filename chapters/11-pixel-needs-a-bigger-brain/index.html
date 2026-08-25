@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Atkinson+Hyperlegible:wght@400;700&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<title>Pixel Needs a Bigger Brain — The Pixel Story</title>
+<link rel="stylesheet" href="/ai-story/assets/css/tokens.css">
+<link rel="stylesheet" href="/ai-story/assets/css/base.css">
+<style>
+  #smallChip { transition: opacity 0.35s ease; }
+  #smallChip.show { opacity: 1; }
+  #bigRack { opacity: 0; transition: opacity 0.35s ease; }
+  #bigRack.show { opacity: 1; }
+  @media (prefers-reduced-motion: reduce) { #smallChip, #bigRack { transition: none; } }
+</style>
+</head>
+<body>
+<div class="page">
+  <a class="back-link" href="/ai-story/">&larr; All chapters</a>
+
+  <div class="eyebrow"><span class="dot"></span> <span class="bonus-tag">Bonus</span> &nbsp;&middot;&nbsp; The Pixel Story</div>
+
+  <div class="hero">
+    <h1>Pixel Needs a Bigger Brain.</h1>
+    <p class="dek">Pixel wants to think faster — but its little setup can't keep up. Watch what it actually takes, in machines and electricity, to make that happen.</p>
+  </div>
+
+  <div class="learn-grid">
+  <div class="learn-col-strip">
+  <div class="section-head">
+    <h2>How Pixel gets faster</h2>
+    <div class="sub">Six steps. Watch it play, or use the arrows to go at your own pace.</div>
+  </div>
+
+  <div class="strip">
+    <div class="stage">
+      <svg viewBox="0 0 320 220" role="img" aria-label="Illustration of Pixel's small chip growing into a data center">
+        <!-- small chip, visible early on -->
+        <g id="smallChip" class="show">
+          <rect x="45" y="110" width="34" height="26" rx="4" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
+          <line x1="52" y1="136" x2="52" y2="144" stroke="var(--line-strong)" stroke-width="2"/>
+          <line x1="62" y1="136" x2="62" y2="144" stroke="var(--line-strong)" stroke-width="2"/>
+          <line x1="72" y1="136" x2="72" y2="144" stroke="var(--line-strong)" stroke-width="2"/>
+        </g>
+
+        <!-- big server rack, revealed once Pixel is plugged in -->
+        <g id="bigRack">
+          <rect x="24" y="52" width="70" height="126" rx="6" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
+          <rect x="34" y="64" width="50" height="16" rx="3" fill="var(--surface-2)" stroke="var(--line-strong)" stroke-width="1.3"/>
+          <rect x="34" y="86" width="50" height="16" rx="3" fill="var(--surface-2)" stroke="var(--line-strong)" stroke-width="1.3"/>
+          <rect x="34" y="108" width="50" height="16" rx="3" fill="var(--surface-2)" stroke="var(--line-strong)" stroke-width="1.3"/>
+          <rect x="34" y="130" width="50" height="16" rx="3" fill="var(--surface-2)" stroke="var(--line-strong)" stroke-width="1.3"/>
+          <rect x="34" y="152" width="50" height="16" rx="3" fill="var(--surface-2)" stroke="var(--line-strong)" stroke-width="1.3"/>
+          <circle cx="80" cy="72" r="3" fill="var(--good)"/>
+          <circle cx="80" cy="94" r="3" fill="var(--good)"/>
+          <circle cx="80" cy="116" r="3" fill="var(--good)"/>
+          <circle cx="80" cy="138" r="3" fill="var(--good)"/>
+          <circle cx="80" cy="160" r="3" fill="var(--good)"/>
+        </g>
+
+        <!-- power bolt icon -->
+        <g id="powerBolt" class="decor">
+          <path d="M104 100 l-10 16 h8 l-6 14 16 -18 h-8 z" fill="var(--c)"/>
+        </g>
+
+        <!-- cost icon -->
+        <g id="costIcon" class="decor">
+          <circle cx="105" cy="60" r="13" fill="none" stroke="var(--muted)" stroke-width="2"/>
+          <text x="105" y="65" text-anchor="middle" font-family="var(--font-mono)" font-weight="700" font-size="14" fill="var(--muted)">$</text>
+        </g>
+
+        <g transform="translate(70,15)">
+          <!-- Pixel base figure (unchanged geometry, repositioned via translate) -->
+          <g id="pixelBase">
+            <ellipse cx="205" cy="196" rx="46" ry="7" fill="var(--ink)" opacity="0.07"/>
+            <rect x="163" y="34" width="7" height="24" rx="3.5" fill="var(--line-strong)"/>
+            <circle cx="166.5" cy="34" r="6.5" fill="var(--c)"/>
+            <rect x="150" y="58" width="112" height="94" rx="26" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
+            <circle cx="206" cy="102" r="32" fill="var(--surface-2)" stroke="var(--line-strong)" stroke-width="2"/>
+            <circle id="facePupil" cx="206" cy="102" r="14" fill="var(--ink)"/>
+            <circle cx="200" cy="96" r="3.6" fill="var(--surface)"/>
+            <rect x="180" y="140" width="52" height="8" rx="4" fill="var(--line-strong)"/>
+          </g>
+
+          <!-- decor 1: question bubble -->
+          <g id="ov1" class="decor">
+            <circle cx="150" cy="52" r="5" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
+            <circle cx="160" cy="42" r="7" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
+            <rect x="148" y="8" width="64" height="30" rx="14" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
+            <text x="180" y="30" text-anchor="middle" font-family="var(--font-display)" font-weight="700" font-size="20" fill="var(--muted)">?</text>
+          </g>
+
+          <!-- decor 3: struggling bubble -->
+          <g id="ov3" class="decor">
+            <circle cx="150" cy="52" r="5" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
+            <circle cx="160" cy="42" r="7" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
+            <rect x="140" y="4" width="86" height="34" rx="16" fill="var(--surface)" stroke="var(--bad)" stroke-width="2"/>
+            <path d="M155 21 q6 -8 12 0 q6 -8 12 0 q6 -8 12 0" fill="none" stroke="var(--muted)" stroke-width="2.2" stroke-linecap="round"/>
+            <circle cx="216" cy="14" r="11" fill="var(--bad)"/>
+            <path d="M212 10 L220 18 M220 10 L212 18" stroke="white" stroke-width="2.4" stroke-linecap="round"/>
+          </g>
+
+          <!-- decor 5: right bubble -->
+          <g id="ov5" class="decor">
+            <circle cx="150" cy="52" r="5" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
+            <circle cx="160" cy="42" r="7" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
+            <rect x="140" y="4" width="86" height="34" rx="16" fill="var(--surface)" stroke="var(--good)" stroke-width="2"/>
+            <text x="173" y="27" text-anchor="middle" font-family="var(--font-display)" font-weight="700" font-size="11" fill="var(--ink)">so fast!</text>
+            <circle cx="216" cy="14" r="11" fill="var(--good)"/>
+            <path d="M211 14 L215 18 L222 10" fill="none" stroke="white" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+          </g>
+
+          <!-- decor 6: mastery sparkles -->
+          <g id="ov6" class="decor">
+            <circle cx="206" cy="102" r="38" fill="none" stroke="var(--good)" stroke-width="2" opacity="0.55"/>
+            <path d="M120 40 l4 10 10 4 -10 4 -4 10 -4 -10 -10 -4 10 -4 z" fill="var(--c)"/>
+          </g>
+        </g>
+      </svg>
+    </div>
+
+    <div class="step-meta">
+      <span id="stepLabel">Step 1 of 6</span>
+      <span id="playLabel">▶ playing</span>
+    </div>
+    <div class="caption" id="captionText">Pixel wants to learn even faster now.</div>
+
+    <div class="controls">
+      <div class="nav-btns">
+        <button type="button" class="icon" id="prevBtn" aria-label="Previous step">‹</button>
+        <button type="button" class="icon" id="nextBtn" aria-label="Next step">›</button>
+        <button type="button" class="ghost" id="playPauseBtn">⏸ Pause</button>
+      </div>
+      <div class="dots" id="dots"></div>
+    </div>
+  </div>
+  </div>
+
+  <div class="learn-col-vocab">
+  <div class="section-head">
+    <h2>Now you know the grown-up words</h2>
+    <div class="sub">Tap one to see what it means.</div>
+  </div>
+
+  <div class="vocab">
+    <details class="chip">
+      <summary>Compute <span class="plus">+</span></summary>
+      <div class="def">The raw amount of calculating power Pixel has to think with. It has very little in <button type="button" class="step-ref" data-step="3">step 3</button>, and a huge amount once it's plugged in during <button type="button" class="step-ref" data-step="4">step 4</button>. That raw calculating capacity is called compute.</div>
+    </details>
+    <details class="chip">
+      <summary>GPU <span class="plus">+</span></summary>
+      <div class="def">The actual kind of chip filling the machine room in <button type="button" class="step-ref" data-step="4">step 4</button> — built to do huge numbers of small calculations at once, which happens to be exactly the kind of math weights and knobs need. That chip is called a GPU, or graphics processing unit — originally built for video games, now the workhorse of AI.</div>
+    </details>
+    <details class="chip">
+      <summary>Data center <span class="plus">+</span></summary>
+      <div class="def">The actual building full of racks of these chips, running day and night, that Pixel gets plugged into in <button type="button" class="step-ref" data-step="4">step 4</button>. That building is called a data center.</div>
+    </details>
+    <details class="chip">
+      <summary>Scaling <span class="plus">+</span></summary>
+      <div class="def">What actually made Pixel faster in <button type="button" class="step-ref" data-step="5">step 5</button> — not a cleverer idea, just far more compute and far more data to think with. Getting better mostly by adding more compute and data, rather than a smarter trick, is called scaling.</div>
+    </details>
+  </div>
+  </div>
+  </div>
+
+  <div class="next">
+    <div>
+      <div class="label">Coming next</div>
+      <p>Pixel is asked to guess a number instead of a category — and fits a line through the dots.</p>
+    </div>
+    <a class="tag" href="/ai-story/chapters/13-pixel-guesses-a-number/">Bonus · Pixel Guesses a Number</a>
+  </div>
+
+  <footer class="page-foot">The Pixel Story</footer>
+</div>
+
+<script src="/ai-story/assets/js/stepper.js"></script>
+<script>
+(function () {
+  var FRAMES = [
+    { caption: "Pixel wants to learn even faster now.", ov: "ov1", pupilX: 206, rack: false, bolt: false, cost: false },
+    { caption: "It tries thinking harder on its same small setup.", ov: "ov1", pupilX: 196, rack: false, bolt: false, cost: false },
+    { caption: "It's too slow — Pixel's little brain can't keep up.", ov: "ov3", pupilX: 214, rack: false, bolt: false, cost: false },
+    { caption: "So Pixel gets plugged into a much bigger machine room.", ov: null, pupilX: 196, rack: true, bolt: true, cost: false },
+    { caption: "Now Pixel can think thousands of times faster.", ov: "ov5", pupilX: 200, rack: true, bolt: false, cost: false },
+    { caption: "All that speed costs real electricity — someone has to pay for it.", ov: "ov6", pupilX: 206, rack: true, bolt: false, cost: true }
+  ];
+
+  var smallChip = document.getElementById("smallChip");
+  var bigRack = document.getElementById("bigRack");
+  var powerBolt = document.getElementById("powerBolt");
+  var costIcon = document.getElementById("costIcon");
+
+  function applyFrame(f) {
+    smallChip.classList.toggle("show", !f.rack);
+    bigRack.classList.toggle("show", f.rack);
+    powerBolt.classList.toggle("show", f.bolt);
+    costIcon.classList.toggle("show", f.cost);
+  }
+
+  window.PixelStepper({ frames: FRAMES, applyFrame: applyFrame });
+})();
+</script>
+</body>
+</html>

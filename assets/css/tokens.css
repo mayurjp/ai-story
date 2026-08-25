@@ -1,0 +1,48 @@
+/* ---------- Design tokens (The Pixel Story) ---------- */
+/* See ai-story-design-guidelines.md §4.1 — reused verbatim across every page. */
+:root {
+  --bg: #FBF5E9;
+  --surface: #FFFFFF;
+  --surface-2: #F4ECDA;
+  --ink: #2A2622;
+  --muted: #7A7166;
+  --line: #E3D8C0;
+  --line-strong: #D2C4A3;
+
+  --c: #FF6B45;        /* brand accent — coral. NOT a semantic "correct/wrong" color. */
+  --c-ink: #FFFFFF;
+  --good: #2E9E5B;      /* semantic success */
+  --bad: #E2574C;       /* semantic failure */
+
+  --shadow: 0 1px 0 rgba(42,38,34,0.04), 0 8px 20px -12px rgba(42,38,34,0.18);
+  --radius-s: 6px;
+  --radius-m: 10px;
+  --radius-l: 16px;
+
+  --font-display: 'Fredoka', ui-rounded, 'Segoe UI', system-ui, sans-serif;
+  --font-body: 'Atkinson Hyperlegible', 'Segoe UI', system-ui, sans-serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, 'SF Mono', monospace;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #1C1A16;
+    --surface: #242019;
+    --surface-2: #2E2A21;
+    --ink: #F2ECDD;
+    --muted: #B3A890;
+    --line: #3B3529;
+    --line-strong: #4A4232;
+    --c: #FF7A55;
+    --c-ink: #1C1006;
+    --good: #4ADE80;
+    --bad: #FF7A70;
+    --shadow: 0 1px 0 rgba(0,0,0,0.2), 0 10px 24px -12px rgba(0,0,0,0.55);
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #1C1A16; --surface: #242019; --surface-2: #2E2A21; --ink: #F2ECDD; --muted: #B3A890;
+  --line: #3B3529; --line-strong: #4A4232; --c: #FF7A55; --c-ink: #1C1006;
+  --good: #4ADE80; --bad: #FF7A70;
+  --shadow: 0 1px 0 rgba(0,0,0,0.2), 0 10px 24px -12px rgba(0,0,0,0.55);
+}

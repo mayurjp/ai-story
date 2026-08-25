@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Atkinson+Hyperlegible:wght@400;700&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<title>Pixel Guesses a Number — The Pixel Story</title>
+<link rel="stylesheet" href="/ai-story/assets/css/tokens.css">
+<link rel="stylesheet" href="/ai-story/assets/css/base.css">
+<style>
+  #fitLine { transition: x1 0.35s ease, y1 0.35s ease, x2 0.35s ease, y2 0.35s ease, stroke 0.35s ease; }
+  #predictPoint { opacity: 0; transition: opacity 0.35s ease; }
+  #predictPoint.show { opacity: 1; }
+  @media (prefers-reduced-motion: reduce) { #fitLine, #predictPoint { transition: none; } }
+</style>
+</head>
+<body>
+<div class="page">
+  <a class="back-link" href="/ai-story/">&larr; All chapters</a>
+
+  <div class="eyebrow"><span class="dot"></span> <span class="bonus-tag">Bonus</span> &nbsp;&middot;&nbsp; The Pixel Story</div>
+
+  <div class="hero">
+    <h1>Pixel Guesses a Number.</h1>
+    <p class="dek">Back in Chapter 1, Pixel only ever answered "C" or not. This time it's asked something different: not a category, but an actual number — how high will the ball bounce?</p>
+  </div>
+
+  <div class="learn-grid">
+  <div class="learn-col-strip">
+  <div class="section-head">
+    <h2>How Pixel learns to fit a line</h2>
+    <div class="sub">Six steps. Watch it play, or use the arrows to go at your own pace.</div>
+  </div>
+
+  <div class="strip">
+    <div class="stage">
+      <svg viewBox="0 0 320 220" role="img" aria-label="Illustration of Pixel fitting a line through scattered dots to predict a number">
+        <!-- axes and scattered example dots, always present -->
+        <g id="plotGroup">
+          <line x1="30" y1="40" x2="30" y2="170" stroke="var(--line-strong)" stroke-width="2"/>
+          <line x1="30" y1="170" x2="280" y2="170" stroke="var(--line-strong)" stroke-width="2"/>
+          <text x="14" y="44" font-family="var(--font-mono)" font-size="9" fill="var(--muted)">bounce</text>
+          <text x="240" y="184" font-family="var(--font-mono)" font-size="9" fill="var(--muted)">drop height</text>
+          <circle cx="60" cy="150" r="5" fill="var(--c)"/>
+          <circle cx="110" cy="130" r="5" fill="var(--c)"/>
+          <circle cx="160" cy="110" r="5" fill="var(--c)"/>
+          <circle cx="200" cy="85" r="5" fill="var(--c)"/>
+          <circle cx="250" cy="60" r="5" fill="var(--c)"/>
+        </g>
+
+        <!-- the fitted line, position/color set per frame -->
+        <line id="fitLine" x1="30" y1="164" x2="280" y2="46" stroke="var(--line-strong)" stroke-width="2.5" stroke-linecap="round" opacity="0"/>
+
+        <!-- new prediction on an unseen drop height -->
+        <g id="predictPoint">
+          <line x1="225" y1="170" x2="225" y2="72" stroke="var(--good)" stroke-width="1.5" stroke-dasharray="1 5" opacity="0.7"/>
+          <circle cx="225" cy="72" r="6" fill="var(--good)"/>
+        </g>
+
+        <g transform="translate(20,10)">
+          <!-- Pixel base figure (unchanged geometry, repositioned via translate) -->
+          <g id="pixelBase">
+            <ellipse cx="205" cy="196" rx="46" ry="7" fill="var(--ink)" opacity="0.07"/>
+            <rect x="163" y="34" width="7" height="24" rx="3.5" fill="var(--line-strong)"/>
+            <circle cx="166.5" cy="34" r="6.5" fill="var(--c)"/>
+            <rect x="150" y="58" width="112" height="94" rx="26" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
+            <circle cx="206" cy="102" r="32" fill="var(--surface-2)" stroke="var(--line-strong)" stroke-width="2"/>
+            <circle id="facePupil" cx="206" cy="102" r="14" fill="var(--ink)"/>
+            <circle cx="200" cy="96" r="3.6" fill="var(--surface)"/>
+            <rect x="180" y="140" width="52" height="8" rx="4" fill="var(--line-strong)"/>
+          </g>
+
+          <!-- decor 1: question bubble -->
+          <g id="ov1" class="decor">
+            <circle cx="150" cy="52" r="5" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
+            <circle cx="160" cy="42" r="7" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
+            <rect x="148" y="8" width="64" height="30" rx="14" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
+            <text x="180" y="30" text-anchor="middle" font-family="var(--font-display)" font-weight="700" font-size="20" fill="var(--muted)">?</text>
+          </g>
+
+          <!-- decor 3: wrong bubble -->
+          <g id="ov3" class="decor">
+            <circle cx="150" cy="52" r="5" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
+            <circle cx="160" cy="42" r="7" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
+            <rect x="140" y="4" width="86" height="34" rx="16" fill="var(--surface)" stroke="var(--bad)" stroke-width="2"/>
+            <text x="173" y="27" text-anchor="middle" font-family="var(--font-display)" font-weight="700" font-size="12" fill="var(--muted)">way off</text>
+            <circle cx="216" cy="14" r="11" fill="var(--bad)"/>
+            <path d="M212 10 L220 18 M220 10 L212 18" stroke="white" stroke-width="2.4" stroke-linecap="round"/>
+          </g>
+
+          <!-- decor 4: adjusting -->
+          <g id="ov4" class="decor">
+            <circle cx="150" cy="52" r="5" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
+            <circle cx="160" cy="42" r="7" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
+            <rect x="148" y="8" width="64" height="30" rx="14" fill="var(--surface)" stroke="var(--c)" stroke-width="2"/>
+            <path d="M168 30 L176 14 L184 24 L192 10" fill="none" stroke="var(--c)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="1 4"/>
+          </g>
+
+          <!-- decor 5: right bubble -->
+          <g id="ov5" class="decor">
+            <circle cx="150" cy="52" r="5" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
+            <circle cx="160" cy="42" r="7" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
+            <rect x="140" y="4" width="86" height="34" rx="16" fill="var(--surface)" stroke="var(--good)" stroke-width="2"/>
+            <text x="173" y="27" text-anchor="middle" font-family="var(--font-display)" font-weight="700" font-size="12" fill="var(--ink)">good fit!</text>
+            <circle cx="216" cy="14" r="11" fill="var(--good)"/>
+            <path d="M211 14 L215 18 L222 10" fill="none" stroke="white" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+          </g>
+
+          <!-- decor 6: mastery sparkles -->
+          <g id="ov6" class="decor">
+            <circle cx="206" cy="102" r="38" fill="none" stroke="var(--good)" stroke-width="2" opacity="0.55"/>
+            <path d="M120 40 l4 10 10 4 -10 4 -4 10 -4 -10 -10 -4 10 -4 z" fill="var(--c)"/>
+          </g>
+        </g>
+      </svg>
+    </div>
+
+    <div class="step-meta">
+      <span id="stepLabel">Step 1 of 6</span>
+      <span id="playLabel">▶ playing</span>
+    </div>
+    <div class="caption" id="captionText">Pixel is asked how high a ball will bounce — not yes or no.</div>
+
+    <div class="controls">
+      <div class="nav-btns">
+        <button type="button" class="icon" id="prevBtn" aria-label="Previous step">‹</button>
+        <button type="button" class="icon" id="nextBtn" aria-label="Next step">›</button>
+        <button type="button" class="ghost" id="playPauseBtn">⏸ Pause</button>
+      </div>
+      <div class="dots" id="dots"></div>
+    </div>
+  </div>
+  </div>
+
+  <div class="learn-col-vocab">
+  <div class="section-head">
+    <h2>Now you know the grown-up words</h2>
+    <div class="sub">Tap one to see what it means.</div>
+  </div>
+
+  <div class="vocab">
+    <details class="chip">
+      <summary>Linear regression <span class="plus">+</span></summary>
+      <div class="def">What Pixel is doing this whole time: instead of sorting something into a category like Chapter 1's "C" or not-C, it's predicting an actual number — how high the ball bounces — by fitting a straight line through examples, as it does by <button type="button" class="step-ref" data-step="5">step 5</button>. Predicting a number this way, by fitting a line, is called linear regression.</div>
+    </details>
+    <details class="chip">
+      <summary>Line of best fit <span class="plus">+</span></summary>
+      <div class="def">The specific straight line Pixel ends up with in <button type="button" class="step-ref" data-step="5">step 5</button> — the one sitting as close as possible to every dot at once, not just matching one or two perfectly. That closest-overall line is called the line of best fit.</div>
+    </details>
+    <details class="chip">
+      <summary>Residual <span class="plus">+</span></summary>
+      <div class="def">The gap between where a dot actually sits and where Pixel's line says it should sit — huge in <button type="button" class="step-ref" data-step="3">step 3</button>, shrinking by <button type="button" class="step-ref" data-step="4">step 4</button>. Each one of those individual gaps is called a residual.</div>
+    </details>
+    <details class="chip">
+      <summary>Continuous prediction <span class="plus">+</span></summary>
+      <div class="def">Chapter 1's Pixel could only answer "C" or "not C" — a small, fixed set of choices. This Pixel, by <button type="button" class="step-ref" data-step="6">step 6</button>, answers with any number at all along a scale — 4 centimeters, 4.5, 12.7. Predicting a number like this, instead of picking from fixed categories, is called continuous prediction (regression, for short).</div>
+    </details>
+  </div>
+  </div>
+  </div>
+
+  <div class="next">
+    <div>
+      <div class="label">Coming next</div>
+      <p>You've seen how Pixel learns — now see how it actually gets built and shipped.</p>
+    </div>
+    <a class="tag" href="/ai-story/chapters/14-pixel-opens-for-business/">Bonus · Pixel Opens for Business</a>
+  </div>
+
+  <footer class="page-foot">The Pixel Story</footer>
+</div>
+
+<script src="/ai-story/assets/js/stepper.js"></script>
+<script>
+(function () {
+  var FRAMES = [
+    { caption: "Pixel is asked how high a ball will bounce — not yes or no.", ov: "ov1", pupilX: 206, line: false, lineColor: null, lineCoords: null, predict: false },
+    { caption: "It looks at a few example drops and their bounce heights.", ov: "ov1", pupilX: 196, line: false, lineColor: null, lineCoords: null, predict: false },
+    { caption: "Its first guess line is way off from the dots.", ov: "ov3", pupilX: 214, line: true, lineColor: "var(--bad)", lineCoords: [30, 60, 280, 175], predict: false },
+    { caption: "So Pixel tilts and shifts the line closer to every dot.", ov: "ov4", pupilX: 196, line: true, lineColor: "var(--c)", lineCoords: [30, 140, 280, 55], predict: false },
+    { caption: "Now the line passes right through the middle of them all.", ov: "ov5", pupilX: 200, line: true, lineColor: "var(--good)", lineCoords: [30, 164, 280, 46], predict: false },
+    { caption: "Pixel can now guess the bounce height for a brand-new drop.", ov: "ov6", pupilX: 206, line: true, lineColor: "var(--good)", lineCoords: [30, 164, 280, 46], predict: true }
+  ];
+
+  var fitLine = document.getElementById("fitLine");
+  var predictPoint = document.getElementById("predictPoint");
+
+  function applyFrame(f) {
+    if (f.line) {
+      fitLine.setAttribute("opacity", "1");
+      fitLine.setAttribute("stroke", f.lineColor);
+      fitLine.setAttribute("x1", f.lineCoords[0]);
+      fitLine.setAttribute("y1", f.lineCoords[1]);
+      fitLine.setAttribute("x2", f.lineCoords[2]);
+      fitLine.setAttribute("y2", f.lineCoords[3]);
+    } else {
+      fitLine.setAttribute("opacity", "0");
+    }
+    predictPoint.classList.toggle("show", f.predict);
+  }
+
+  window.PixelStepper({ frames: FRAMES, applyFrame: applyFrame });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Atkinson+Hyperlegible:wght@400;700&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<title>Meet Pixel — The Pixel Story</title>
+<link rel="stylesheet" href="/ai-story/assets/css/tokens.css">
+<link rel="stylesheet" href="/ai-story/assets/css/base.css">
+<style>
+  #cardGroup { opacity: 0; transition: opacity 0.35s ease; }
+  #cardGroup.show { opacity: 1; }
+  @media (prefers-reduced-motion: reduce) {
+    #cardGroup { transition: none; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+  <a class="back-link" href="/ai-story/">&larr; All chapters</a>
+
+  <div class="eyebrow"><span class="dot"></span> Chapter 1 of 8 &nbsp;&middot;&nbsp; The Pixel Story</div>
+
+  <div class="hero">
+    <h1>Meet Pixel.</h1>
+    <p class="dek">Pixel doesn't know anything yet. Watch, step by step, how it learns to recognize a shape — the same way the very first thinking machine learned, back in 1957.</p>
+  </div>
+
+  <div class="learn-grid">
+  <div class="learn-col-strip">
+  <div class="section-head">
+    <h2>How Pixel learns</h2>
+    <div class="sub">Six steps. Watch it play, or use the arrows to go at your own pace.</div>
+  </div>
+
+  <div class="strip">
+    <div class="stage">
+      <svg viewBox="0 0 320 220" role="img" aria-label="Illustration of Pixel learning">
+        <!-- card held up to Pixel -->
+        <g id="cardGroup">
+          <rect x="26" y="70" width="70" height="86" rx="10" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
+          <text x="61" y="124" text-anchor="middle" font-family="var(--font-display)" font-weight="700" font-size="40" fill="var(--ink)">C</text>
+          <rect x="40" y="150" width="42" height="16" rx="8" fill="var(--line-strong)"/>
+        </g>
+
+        <!-- Pixel base figure -->
+        <g id="pixelBase">
+          <ellipse cx="205" cy="196" rx="46" ry="7" fill="var(--ink)" opacity="0.07"/>
+          <rect x="163" y="34" width="7" height="24" rx="3.5" fill="var(--line-strong)"/>
+          <circle cx="166.5" cy="34" r="6.5" fill="var(--c)"/>
+          <rect x="150" y="58" width="112" height="94" rx="26" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
+          <circle cx="206" cy="102" r="32" fill="var(--surface-2)" stroke="var(--line-strong)" stroke-width="2"/>
+          <circle id="facePupil" cx="206" cy="102" r="14" fill="var(--ink)"/>
+          <circle cx="200" cy="96" r="3.6" fill="var(--surface)"/>
+          <rect x="180" y="140" width="52" height="8" rx="4" fill="var(--line-strong)"/>
+        </g>
+
+        <!-- decor 1: question bubble -->
+        <g id="ov1" class="decor">
+          <circle cx="150" cy="52" r="5" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
+          <circle cx="160" cy="42" r="7" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
+          <rect x="148" y="8" width="64" height="30" rx="14" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
+          <text x="180" y="30" text-anchor="middle" font-family="var(--font-display)" font-weight="700" font-size="20" fill="var(--muted)">?</text>
+        </g>
+
+        <!-- decor 2: attention pulse ring around card -->
+        <g id="ov2" class="decor">
+          <rect x="20" y="64" width="82" height="98" rx="14" fill="none" stroke="var(--c)" stroke-width="2.5" opacity="0.6"/>
+        </g>
+
+        <!-- decor 3: wrong bubble -->
+        <g id="ov3" class="decor">
+          <circle cx="150" cy="52" r="5" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
+          <circle cx="160" cy="42" r="7" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
+          <rect x="140" y="4" width="86" height="34" rx="16" fill="var(--surface)" stroke="var(--bad)" stroke-width="2"/>
+          <text x="173" y="27" text-anchor="middle" font-family="var(--font-display)" font-weight="700" font-size="18" fill="var(--muted)">D?</text>
+          <circle cx="216" cy="14" r="11" fill="var(--bad)"/>
+          <path d="M212 10 L220 18 M220 10 L212 18" stroke="white" stroke-width="2.4" stroke-linecap="round"/>
+        </g>
+
+        <!-- decor 4: knob nudge -->
+        <g id="ov4" class="decor">
+          <circle cx="248" cy="86" r="13" fill="var(--surface)" stroke="var(--c)" stroke-width="2.5"/>
+          <line x1="248" y1="86" x2="248" y2="76" stroke="var(--c)" stroke-width="2.5" stroke-linecap="round"/>
+          <circle cx="248" cy="116" r="13" fill="var(--surface)" stroke="var(--c)" stroke-width="2.5"/>
+          <line x1="248" y1="116" x2="256" y2="110" stroke="var(--c)" stroke-width="2.5" stroke-linecap="round"/>
+          <path d="M264 78 q10 8 0 16" fill="none" stroke="var(--muted)" stroke-width="2" stroke-linecap="round"/>
+        </g>
+
+        <!-- decor 5: right bubble -->
+        <g id="ov5" class="decor">
+          <circle cx="150" cy="52" r="5" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
+          <circle cx="160" cy="42" r="7" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
+          <rect x="140" y="4" width="86" height="34" rx="16" fill="var(--surface)" stroke="var(--good)" stroke-width="2"/>
+          <text x="173" y="27" text-anchor="middle" font-family="var(--font-display)" font-weight="700" font-size="18" fill="var(--ink)">C!</text>
+          <circle cx="216" cy="14" r="11" fill="var(--good)"/>
+          <path d="M211 14 L215 18 L222 10" fill="none" stroke="white" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+        </g>
+
+        <!-- decor 6: mastered sparkles -->
+        <g id="ov6" class="decor">
+          <circle cx="206" cy="102" r="38" fill="none" stroke="var(--good)" stroke-width="2" opacity="0.55"/>
+          <path d="M120 40 l4 10 10 4 -10 4 -4 10 -4 -10 -10 -4 10 -4 z" fill="var(--c)"/>
+          <path d="M270 150 l3 7 7 3 -7 3 -3 7 -3 -7 -7 -3 7 -3 z" fill="var(--good)"/>
+          <path d="M96 150 l3 7 7 3 -7 3 -3 7 -3 -7 -7 -3 7 -3 z" fill="var(--good)"/>
+        </g>
+      </svg>
+    </div>
+
+    <div class="step-meta">
+      <span id="stepLabel">Step 1 of 6</span>
+      <span id="playLabel">▶ playing</span>
+    </div>
+    <div class="caption" id="captionText">Pixel doesn't know anything yet.</div>
+
+    <div class="controls">
+      <div class="nav-btns">
+        <button type="button" class="icon" id="prevBtn" aria-label="Previous step">‹</button>
+        <button type="button" class="icon" id="nextBtn" aria-label="Next step">›</button>
+        <button type="button" class="ghost" id="playPauseBtn">⏸ Pause</button>
+      </div>
+      <div class="dots" id="dots"></div>
+    </div>
+  </div>
+  </div>
+
+  <div class="learn-col-vocab">
+  <div class="section-head">
+    <h2>Now you know the grown-up words</h2>
+    <div class="sub">Tap one to see what it means.</div>
+  </div>
+
+  <div class="vocab">
+    <details class="chip">
+      <summary>Neuron <span class="plus">+</span></summary>
+      <div class="def">Pixel, start to finish, in this exact story: a card comes in (<button type="button" class="step-ref" data-step="2">step 2</button>), a few knobs act on it (<button type="button" class="step-ref" data-step="4">step 4</button>), and one answer comes out the other side (<button type="button" class="step-ref" data-step="5">step 5</button>). That whole loop — inputs in, weighing, one answer out — is what's called a neuron. Right now, Pixel is one.</div>
+    </details>
+    <details class="chip">
+      <summary>Weight <span class="plus">+</span></summary>
+      <div class="def">The knobs you saw turn in <button type="button" class="step-ref" data-step="4">step 4</button>. Each knob controls how much one clue pushes Pixel's answer toward "C" or away from it — turn it up, that clue matters more; turn it down, Pixel starts ignoring it.</div>
+    </details>
+    <details class="chip">
+      <summary>Threshold <span class="plus">+</span></summary>
+      <div class="def">Pixel doesn't blurt out "C" the instant it sees the card — it adds up how much all its knobs are pushing it toward "C," and only answers once that total crosses a line. That line is the threshold. <button type="button" class="step-ref" data-step="3">Step 3</button> happens because the total didn't cross it yet; <button type="button" class="step-ref" data-step="5">step 5</button> happens because, after the knobs got nudged, it finally did.</div>
+    </details>
+    <details class="chip">
+      <summary>Perceptron <span class="plus">+</span></summary>
+      <div class="def">The name for the entire card-in → knobs-adjust → answer-out machine you just watched. It's not just a teaching metaphor — this exact design was built for real in 1957, with physical, turnable knobs instead of the on-screen ones Pixel has.</div>
+    </details>
+    <details class="chip">
+      <summary>Supervised learning <span class="plus">+</span></summary>
+      <div class="def">What's actually happening in <button type="button" class="step-ref" data-step="3">steps 3</button> and <button type="button" class="step-ref" data-step="5">5</button>: someone always tells Pixel the correct answer ("No — it's a C!"), and Pixel adjusts based on being told, rather than figuring it out alone. Training where you're always handed the right answer first is what gets called "supervised."</div>
+    </details>
+    <details class="chip">
+      <summary>Classification <span class="plus">+</span></summary>
+      <div class="def">What Pixel is doing this entire story: sorting the card into one of a small number of known categories — "C" or not — rather than inventing a brand-new kind of answer from scratch. Sorting something into one of a set of known categories like this is called classification.</div>
+    </details>
+  </div>
+  </div>
+  </div>
+
+  <div class="next">
+    <div>
+      <div class="label">Coming next</div>
+      <p>Pixel misses a basketball hoop — and learns to work backward to fix its aim.</p>
+    </div>
+    <a class="tag" href="/ai-story/chapters/02-pixel-takes-a-shot/">Chapter 2 · Backpropagation</a>
+  </div>
+
+  <footer class="page-foot">The Pixel Story</footer>
+</div>
+
+<script src="/ai-story/assets/js/stepper.js"></script>
+<script>
+(function () {
+  var FRAMES = [
+    { caption: "Pixel doesn't know anything yet.", card: false, ov: "ov1", pupilX: 206 },
+    { caption: "Someone shows Pixel a shape.", card: true, ov: "ov2", pupilX: 196 },
+    { caption: "Pixel guesses — and gets it wrong.", card: true, ov: "ov3", pupilX: 200 },
+    { caption: "So a few tiny knobs inside get nudged.", card: true, ov: "ov4", pupilX: 214 },
+    { caption: "Next time, Pixel gets it right!", card: true, ov: "ov5", pupilX: 196 },
+    { caption: "After lots of practice, Pixel is really good at this.", card: true, ov: "ov6", pupilX: 206 }
+  ];
+
+  var cardGroup = document.getElementById("cardGroup");
+
+  function applyFrame(f) {
+    cardGroup.classList.toggle("show", f.card);
+  }
+
+  window.PixelStepper({ frames: FRAMES, applyFrame: applyFrame });
+})();
+</script>
+</body>
+</html>
