@@ -36,6 +36,11 @@
   }
   .chapter-card .body h3 { font-family: var(--font-display); font-weight: 600; font-size: 1.05rem; margin: 0; }
   .chapter-card .body p { margin: 4px 0 0; color: var(--muted); font-size: 0.92rem; line-height: 1.4; }
+  .topic-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 9px; }
+  .topic-tag {
+    font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0.02em; color: var(--muted);
+    border: 1px solid var(--line-strong); border-radius: 999px; padding: 3px 10px; white-space: nowrap;
+  }
 </style>
 </head>
 <body>
@@ -59,63 +64,63 @@
   <div class="chapter-list">
     <a class="chapter-card" href="/ai-story/chapters/01-meet-pixel/">
       <span class="num">01</span>
-      <span class="body"><h3>Meet Pixel</h3><p>Pixel doesn't know anything yet — watch it learn to recognize a shape, the way the very first thinking machine did in 1957.</p></span>
+      <span class="body"><h3>Meet Pixel</h3><p>Pixel doesn't know anything yet — watch it learn to recognize a shape, the way the very first thinking machine did in 1957.</p><span class="topic-tags"><span class="topic-tag">Neuron</span><span class="topic-tag">Weight</span><span class="topic-tag">Classification</span></span></span>
     </a>
     <a class="chapter-card" href="/ai-story/chapters/13-pixel-guesses-a-number/">
       <span class="num">02</span>
-      <span class="body"><h3>Pixel Guesses a Number</h3><p>Instead of sorting a card into a category, Pixel fits a line through dots to predict how high a ball bounces.</p></span>
+      <span class="body"><h3>Pixel Guesses a Number</h3><p>Instead of sorting a card into a category, Pixel fits a line through dots to predict how high a ball bounces.</p><span class="topic-tags"><span class="topic-tag">Linear regression</span><span class="topic-tag">Line of best fit</span></span></span>
     </a>
     <a class="chapter-card" href="/ai-story/chapters/02-pixel-takes-a-shot/">
       <span class="num">03</span>
-      <span class="body"><h3>Pixel Takes a Shot</h3><p>A missed basketball hoop turns into a whole new way of learning — working backward from a mistake to fix it.</p></span>
+      <span class="body"><h3>Pixel Takes a Shot</h3><p>A missed basketball hoop turns into a whole new way of learning — working backward from a mistake to fix it.</p><span class="topic-tags"><span class="topic-tag">Backpropagation</span><span class="topic-tag">Gradient descent</span></span></span>
     </a>
     <a class="chapter-card" href="/ai-story/chapters/03-pixel-learns-to-see/">
       <span class="num">04</span>
-      <span class="body"><h3>Pixel Learns to See</h3><p>A photo is too much to take in at once — until Pixel learns to look at it one small patch at a time.</p></span>
+      <span class="body"><h3>Pixel Learns to See</h3><p>A photo is too much to take in at once — until Pixel learns to look at it one small patch at a time.</p><span class="topic-tags"><span class="topic-tag">Convolution</span><span class="topic-tag">Computer vision</span></span></span>
     </a>
     <a class="chapter-card" href="/ai-story/chapters/04-pixel-reads-a-torn-up-book/">
       <span class="num">05</span>
-      <span class="body"><h3>Pixel Reads a Torn-Up Book</h3><p>Nobody's around to teach grammar rules — guessing the missing words in a torn book turns out to be enough.</p></span>
+      <span class="body"><h3>Pixel Reads a Torn-Up Book</h3><p>Nobody's around to teach grammar rules — guessing the missing words in a torn book turns out to be enough.</p><span class="topic-tags"><span class="topic-tag">Self-supervised learning</span><span class="topic-tag">Pretraining</span></span></span>
     </a>
     <a class="chapter-card" href="/ai-story/chapters/05-pixel-learns-to-listen-to-everyone/">
       <span class="num">06</span>
-      <span class="body"><h3>Pixel Learns to Listen to Everyone at Once</h3><p>A tricky sentence clears up once Pixel weighs every word at the same time, not just the one right next to it.</p></span>
+      <span class="body"><h3>Pixel Learns to Listen to Everyone at Once</h3><p>A tricky sentence clears up once Pixel weighs every word at the same time, not just the one right next to it.</p><span class="topic-tags"><span class="topic-tag">Attention</span><span class="topic-tag">Transformers</span></span></span>
     </a>
     <a class="chapter-card" href="/ai-story/chapters/06-pixel-becomes-a-know-it-all/">
       <span class="num">07</span>
-      <span class="body"><h3>Pixel Becomes a Know-It-All</h3><p>Pixel tries writing for the first time — one small piece at a time, each one built on everything said before it.</p></span>
+      <span class="body"><h3>Pixel Becomes a Know-It-All</h3><p>Pixel tries writing for the first time — one small piece at a time, each one built on everything said before it.</p><span class="topic-tags"><span class="topic-tag">Tokens</span><span class="topic-tag">LLMs</span><span class="topic-tag">Fine-tuning</span></span></span>
     </a>
     <a class="chapter-card" href="/ai-story/chapters/14-pixel-opens-for-business/">
       <span class="num">08</span>
-      <span class="body"><h3>Pixel Opens for Business</h3><p>Trainee chef to open restaurant: how an AI actually goes from raw knowledge to something you can use.</p></span>
+      <span class="body"><h3>Pixel Opens for Business</h3><p>Trainee chef to open restaurant: how an AI actually goes from raw knowledge to something you can use.</p><span class="topic-tags"><span class="topic-tag">Base model</span><span class="topic-tag">RLHF</span><span class="topic-tag">Deployment</span></span></span>
     </a>
     <a class="chapter-card" href="/ai-story/chapters/11-pixel-needs-a-bigger-brain/">
       <span class="num">09</span>
-      <span class="body"><h3>Pixel Needs a Bigger Brain</h3><p>Thinking faster takes real machines and real electricity — and someone has to pay for it.</p></span>
+      <span class="body"><h3>Pixel Needs a Bigger Brain</h3><p>Thinking faster takes real machines and real electricity — and someone has to pay for it.</p><span class="topic-tags"><span class="topic-tag">Compute</span><span class="topic-tag">GPUs</span><span class="topic-tag">Data centers</span></span></span>
     </a>
     <a class="chapter-card" href="/ai-story/chapters/07-pixel-embarrasses-itself/">
       <span class="num">10</span>
-      <span class="body"><h3>Pixel Embarrasses Itself</h3><p>Reading about a kitchen isn't the same as living in one — Pixel gets a dropped glass confidently wrong.</p></span>
+      <span class="body"><h3>Pixel Embarrasses Itself</h3><p>Reading about a kitchen isn't the same as living in one — Pixel gets a dropped glass confidently wrong.</p><span class="topic-tags"><span class="topic-tag">Hallucination</span><span class="topic-tag">Chain of thought</span></span></span>
     </a>
     <a class="chapter-card" href="/ai-story/chapters/10-pixel-meets-a-robot-who-lies/">
       <span class="num">11</span>
-      <span class="body"><h3>Pixel Meets a Robot Who Lies</h3><p>A classmate AI always sounds confident — even when it's quietly, unfairly wrong every time.</p></span>
+      <span class="body"><h3>Pixel Meets a Robot Who Lies</h3><p>A classmate AI always sounds confident — even when it's quietly, unfairly wrong every time.</p><span class="topic-tags"><span class="topic-tag">Bias</span><span class="topic-tag">AI safety</span></span></span>
     </a>
     <a class="chapter-card" href="/ai-story/chapters/08-pixel-starts-watching/">
       <span class="num">12</span>
-      <span class="body"><h3>Pixel Starts Watching, Not Just Reading</h3><p>Watching a ball roll toward a ramp teaches Pixel to predict what happens next, not just guess the next word.</p></span>
+      <span class="body"><h3>Pixel Starts Watching, Not Just Reading</h3><p>Watching a ball roll toward a ramp teaches Pixel to predict what happens next, not just guess the next word.</p><span class="topic-tags"><span class="topic-tag">World models</span><span class="topic-tag">JEPA</span></span></span>
     </a>
     <a class="chapter-card" href="/ai-story/chapters/15-pixel-gets-to-work/">
       <span class="num">13</span>
-      <span class="body"><h3>Pixel Gets to Work</h3><p>Watering a wilting plant means checking, acting, and checking again until the job's actually done.</p></span>
+      <span class="body"><h3>Pixel Gets to Work</h3><p>Watering a wilting plant means checking, acting, and checking again until the job's actually done.</p><span class="topic-tags"><span class="topic-tag">Agentic AI</span><span class="topic-tag">Tool use</span></span></span>
     </a>
     <a class="chapter-card" href="/ai-story/chapters/09-pixel-visits-the-hospital/">
       <span class="num">14</span>
-      <span class="body"><h3>Pixel Visits the Hospital</h3><p>The same skills — seeing, listening, predicting — put to work in a hospital, a classroom, and a bank.</p></span>
+      <span class="body"><h3>Pixel Visits the Hospital</h3><p>The same skills — seeing, listening, predicting — put to work in a hospital, a classroom, and a bank.</p><span class="topic-tags"><span class="topic-tag">Applied AI</span><span class="topic-tag">Domain data</span></span></span>
     </a>
     <a class="chapter-card" href="/ai-story/chapters/12-what-pixel-means-for-you/">
       <span class="num">15</span>
-      <span class="body"><h3>What Pixel Means for You</h3><p>Pixel's whole journey, in six steps — and why the same path is wide open for you, too.</p></span>
+      <span class="body"><h3>What Pixel Means for You</h3><p>Pixel's whole journey, in six steps — and why the same path is wide open for you, too.</p><span class="topic-tags"><span class="topic-tag">Closing</span></span></span>
     </a>
   </div>
 
