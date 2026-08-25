@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Atkinson+Hyperlegible:wght@400;700&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<title>Binary Classification with a Perceptron</title>
+<link rel="stylesheet" href="/ai-story/assets/css/tokens.css">
+<link rel="stylesheet" href="/ai-story/assets/css/base.css">
+<style>
+  .back-link {
+    font-family: var(--font-mono); font-size: 0.78rem; color: var(--muted); text-decoration: none;
+    display: inline-flex; align-items: center; gap: 6px; margin-bottom: 18px;
+  }
+  .back-link:hover { color: var(--c); }
+
+  .companion-note {
+    display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
+    background: var(--surface-2); border: 1px dashed var(--line-strong); border-radius: var(--radius-l);
+    padding: 16px 18px; margin: 26px 0 8px;
+  }
+  .companion-note .label { font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+  .companion-note p { margin: 4px 0 0; font-size: 0.98rem; }
+  .companion-note a.tag {
+    font-family: var(--font-mono); font-size: 0.78rem; color: var(--muted); text-decoration: none;
+    border: 1px solid var(--line-strong); border-radius: 999px; padding: 6px 12px; white-space: nowrap;
+  }
+  .companion-note a.tag:hover { color: var(--c); border-color: var(--c); }
+
+  article { max-width: 74ch; }
+  article h2 {
+    font-size: 1.3rem; margin: 44px 0 12px; padding-top: 4px; border-top: 1px solid var(--line);
+    padding-top: 24px;
+  }
+  article h2:first-of-type { border-top: none; padding-top: 0; margin-top: 36px; }
+  article p { line-height: 1.65; margin: 0 0 14px; }
+  article ul, article ol { line-height: 1.65; margin: 0 0 14px; padding-left: 1.4em; }
+  article li { margin-bottom: 4px; }
+  article strong { font-weight: 700; }
+  code {
+    font-family: var(--font-mono); font-size: 0.88em; background: var(--surface-2);
+    border: 1px solid var(--line); border-radius: 4px; padding: 1px 6px;
+  }
+  pre {
+    background: var(--surface-2); border: 1px solid var(--line); border-radius: var(--radius-m);
+    padding: 16px 18px; overflow-x: auto; margin: 0 0 18px;
+  }
+  pre code { background: none; border: none; padding: 0; font-size: 0.86rem; line-height: 1.6; }
+  .formula {
+    font-family: var(--font-mono); font-size: 0.98rem; background: var(--surface-2);
+    border: 1px solid var(--line); border-radius: var(--radius-m); padding: 14px 18px; margin: 0 0 18px;
+  }
+  table { border-collapse: collapse; width: 100%; margin: 0 0 18px; font-size: 0.92rem; }
+  th, td { border: 1px solid var(--line); padding: 7px 10px; text-align: left; }
+  th { background: var(--surface-2); font-family: var(--font-mono); font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.03em; color: var(--muted); }
+  .callout {
+    background: var(--surface); border: 1px solid var(--line); border-left: 3px solid var(--c);
+    border-radius: var(--radius-s); padding: 12px 16px; margin: 0 0 18px; font-size: 0.94rem;
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <a class="back-link" href="/ai-story/technical/">← All technical companions</a>
+
+  <div class="eyebrow"><span class="dot"></span> Technical companion 01 &nbsp;·&nbsp; The Pixel Story</div>
+
+  <div class="hero">
+    <h1>Binary Classification with a Perceptron.</h1>
+    <p class="dek">Chapter 1 teaches this through Pixel guessing "C" on a card. Here's the same idea — a neuron, its weights, a threshold, trained by supervised learning — as you'd actually build it: a spam filter, the math, and working code.</p>
+  </div>
+
+  <div class="companion-note">
+    <div>
+      <div class="label">Story version</div>
+      <p>Prefer the illustrated walkthrough? Chapter 1 teaches the exact same concepts through Pixel and a shape-guessing card.</p>
+    </div>
+    <a class="tag" href="/ai-story/chapters/01-meet-pixel/">Read "Meet Pixel" →</a>
+  </div>
+
+  <article>
+
+    <h2>The use case: filtering spam</h2>
+    <p>Say you're building the simplest possible spam filter. Every incoming email gets reduced to a handful of numeric features — no NLP, no embeddings, just counts:</p>
+    <table>
+      <tr><th>Feature</th><th>Meaning</th></tr>
+      <tr><td><code>x1</code></td><td>Number of exclamation marks in the subject line</td></tr>
+      <tr><td><code>x2</code></td><td>Contains the word "free" (1 or 0)</td></tr>
+      <tr><td><code>x3</code></td><td>Ratio of capital letters in the subject (0–10 scale)</td></tr>
+      <tr><td><code>x4</code></td><td>Number of links in the email body</td></tr>
+    </table>
+    <p>Each email becomes a feature vector <code>x = [x1, x2, x3, x4]</code>, and you want a function that maps that vector to a label: <code>1</code> for spam, <code>0</code> for not-spam. That mapping — a fixed set of input numbers to one of a small number of known output categories — is <strong>classification</strong>.</p>
+
+    <h2>The model: one neuron</h2>
+    <p>The smallest thing that can do this job is a single artificial <strong>neuron</strong>: it multiplies every input by its own tunable number (a <strong>weight</strong>), sums the results, and compares that sum against a cutoff (the <strong>threshold</strong>).</p>
+    <div class="formula">
+      z&nbsp;=&nbsp;w₁x₁ + w₂x₂ + w₃x₃ + w₄x₄ + b<br>
+      ŷ&nbsp;=&nbsp;1 if z ≥ 0, else 0
+    </div>
+    <p>Here <code>b</code> (the bias) is just the threshold folded into the same equation, moved to the other side — instead of asking "does the weighted sum cross this line," you ask "is the shifted sum ≥ 0." Same mechanism, one line of algebra apart. This exact architecture — weighted sum, threshold, one output — is the <strong>Perceptron</strong>, introduced by Frank Rosenblatt in 1957 (the same historical fact Chapter 1's story leans on).</p>
+
+    <h2>Training: the perceptron learning rule</h2>
+    <p>You don't hand-pick the weights. You show the model labeled examples — emails you already know are spam or not — and let it correct itself. This is <strong>supervised learning</strong>: every training example comes with the right answer attached.</p>
+    <p>After each prediction, the weights shift by how wrong the guess was:</p>
+    <div class="formula">
+      error&nbsp;=&nbsp;y − ŷ<br>
+      w&nbsp;←&nbsp;w + η · error · x<br>
+      b&nbsp;←&nbsp;b + η · error
+    </div>
+    <p>If the model guessed <code>0</code> on a true spam email, <code>error = 1</code>, and every weight nudges up in proportion to that feature's value — features that were "on" for this email get pushed to matter more next time. Guess right, <code>error = 0</code>, nothing moves. <code>η</code> (eta) is the learning rate, controlling how big each nudge is.</p>
+
+    <h2>Code: training it from scratch</h2>
+    <p>No frameworks needed — this is ~15 lines of NumPy:</p>
+    <pre><code>import numpy as np
+
+# feature vectors: [exclamations, has_free, caps_ratio, num_links]
+X = np.array([
+    [5, 1, 8, 3],   # spam
+    [0, 0, 1, 0],   # not spam
+    [3, 1, 6, 2],   # spam
+    [1, 0, 2, 1],   # not spam
+    [4, 1, 7, 4],   # spam
+    [0, 0, 0, 0],   # not spam
+])
+y = np.array([1, 0, 1, 0, 1, 0])
+
+w = np.zeros(X.shape[1])
+b = 0.0
+lr = 0.1
+
+for epoch in range(20):
+    for xi, yi in zip(X, y):
+        z = np.dot(w, xi) + b
+        y_hat = 1 if z >= 0 else 0
+        error = yi - y_hat
+        w += lr * error * xi
+        b += lr * error
+
+print("weights:", w)
+print("bias:", b)
+
+def predict(email_features):
+    z = np.dot(w, email_features) + b
+    return 1 if z >= 0 else 0
+
+# a new email: lots of exclamation marks, says "free", high caps ratio
+print(predict([6, 1, 9, 5]))  # → 1 (spam)</code></pre>
+
+    <div class="callout">
+      <strong>Where this breaks down.</strong> A single perceptron can only draw a straight-line (linear) decision boundary through feature space. If spam and not-spam aren't linearly separable — which real spam is not, once you use realistic features — no amount of training converges to a correct answer. That limitation is exactly what motivates stacking neurons into layers and training with backpropagation, covered in <a href="/ai-story/chapters/02-pixel-takes-a-shot/">Chapter 3, "Pixel Takes a Shot."</a>
+    </div>
+
+    <h2>Mapping back to the story</h2>
+    <table>
+      <tr><th>Story term (Chapter 1)</th><th>What it is here</th></tr>
+      <tr><td>Neuron</td><td>The <code>z = w·x + b</code> computation itself</td></tr>
+      <tr><td>Weight</td><td>Each entry of the <code>w</code> array</td></tr>
+      <tr><td>Threshold</td><td>The <code>z ≥ 0</code> decision cutoff (equivalently, the bias <code>b</code>)</td></tr>
+      <tr><td>Perceptron</td><td>The whole trained unit: <code>w</code>, <code>b</code>, and the step function together</td></tr>
+      <tr><td>Supervised learning</td><td>Training against the known-correct <code>y</code> labels</td></tr>
+      <tr><td>Classification</td><td>The task itself: mapping a feature vector to a fixed category (spam / not-spam)</td></tr>
+    </table>
+
+  </article>
+
+  <div class="companion-note">
+    <div>
+      <div class="label">Next</div>
+      <p>Chapter 2 walks the same idea forward: fitting a line to predict a number instead of a category.</p>
+    </div>
+    <a class="tag" href="/ai-story/chapters/13-pixel-guesses-a-number/">Chapter 2 · Linear regression →</a>
+  </div>
+
+  <footer class="page-foot">The Pixel Story &nbsp;&middot;&nbsp; <a href="/ai-story/">Home</a> &nbsp;&middot;&nbsp; <a href="/ai-story/technical/">Technical companions</a></footer>
+</div>
+</body>
+</html>

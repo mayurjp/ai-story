@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Atkinson+Hyperlegible:wght@400;700&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<title>The Pixel Story — For Technical Readers</title>
+<link rel="stylesheet" href="/ai-story/assets/css/tokens.css">
+<link rel="stylesheet" href="/ai-story/assets/css/base.css">
+<style>
+  .chapter-list { display: grid; gap: 10px; }
+  .chapter-card {
+    display: flex; align-items: baseline; gap: 14px;
+    background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-m);
+    box-shadow: var(--shadow); padding: 14px 16px; text-decoration: none; color: inherit;
+  }
+  .chapter-card:hover { border-color: var(--c); }
+  .chapter-card .num {
+    font-family: var(--font-mono); font-size: 0.78rem; color: var(--muted);
+    min-width: 2.4em; flex-shrink: 0;
+  }
+  .chapter-card .body h3 { font-family: var(--font-display); font-weight: 600; font-size: 1.05rem; margin: 0; }
+  .chapter-card .body p { margin: 4px 0 0; color: var(--muted); font-size: 0.92rem; line-height: 1.4; }
+  .topic-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 9px; }
+  .topic-tag {
+    font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0.02em; color: var(--muted);
+    border: 1px solid var(--line-strong); border-radius: 999px; padding: 3px 10px; white-space: nowrap;
+  }
+  .coming-soon {
+    display: flex; align-items: center; gap: 14px;
+    border: 1px dashed var(--line-strong); border-radius: var(--radius-m);
+    padding: 14px 16px; color: var(--muted); font-size: 0.92rem;
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="eyebrow"><span class="dot"></span> The Pixel Story &nbsp;·&nbsp; For technical readers</div>
+
+  <div class="hero">
+    <h1>Same concepts. Real scenarios, real math, real code.</h1>
+    <p class="dek">Each story chapter has a technical companion here — same underlying idea Pixel learns, worked through the way you'd actually explain it to an engineer: a concrete use case, the formulas, and runnable code.</p>
+    <div class="cta-row" style="margin-top:22px;">
+      <a class="cta-secondary" style="font-family:var(--font-mono);font-size:0.82rem;color:var(--muted);text-decoration:none;border:1px solid var(--line-strong);border-radius:var(--radius-m);padding:12px 18px;" href="/ai-story/">← Back to the story</a>
+    </div>
+  </div>
+
+  <div class="section-head">
+    <h2>Technical companions</h2>
+    <div class="sub">Numbered to match the story chapters they pair with.</div>
+  </div>
+  <div class="chapter-list">
+    <a class="chapter-card" href="/ai-story/technical/01-perceptron-classification/">
+      <span class="num">01</span>
+      <span class="body">
+        <h3>Binary Classification with a Perceptron</h3>
+        <p>Companion to Chapter 1 (Meet Pixel). A real spam-filter feature vector, the perceptron update rule, and a from-scratch NumPy implementation.</p>
+        <span class="topic-tags"><span class="topic-tag">Perceptron</span><span class="topic-tag">Decision boundary</span><span class="topic-tag">NumPy</span></span>
+      </span>
+    </a>
+  </div>
+
+  <div class="coming-soon">More technical companions are being added as the story chapters get their write-ups — check back.</div>
+
+  <footer class="page-foot">The Pixel Story &nbsp;&middot;&nbsp; <a href="/ai-story/">Home</a> &nbsp;&middot;&nbsp; <a href="/ai-story/about/">About this project</a></footer>
+</div>
+</body>
+</html>
