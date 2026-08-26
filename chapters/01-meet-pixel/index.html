@@ -343,6 +343,15 @@
     color: var(--muted);
     line-height: 1.45;
   }
+
+  /* Mobile fix: the Cookie card + Pixel bubble were overflowing the
+     viewport side-by-side on narrow screens. Stack them instead. */
+  @media (max-width: 560px) {
+    .scene-row { flex-direction: column; gap: 18px; }
+    .pixel-bubble { white-space: normal; max-width: 220px; text-align: center; }
+    .dashboard-row { flex-direction: column; align-items: stretch; gap: 14px; }
+    .meter-container { width: 100%; }
+  }
 </style>
 </head>
 <body>

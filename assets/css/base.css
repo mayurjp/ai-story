@@ -2,6 +2,12 @@
 * { box-sizing: border-box; }
 html { color-scheme: light dark; }
 
+/* Safety net: several per-chapter interactive widgets use fixed-content
+   flex rows without a wrap fallback; this stops them from forcing a
+   horizontal scrollbar on narrow/mobile viewports if one is missed. */
+html, body { max-width: 100%; overflow-x: hidden; }
+img, svg { max-width: 100%; }
+
 body {
   margin: 0;
   background: var(--bg);
