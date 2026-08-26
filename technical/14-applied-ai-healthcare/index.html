@@ -1,0 +1,306 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Atkinson+Hyperlegible:wght@400;700&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<title>Technical Track 14: Clinical AI & Domain Triage — The Pixel Story</title>
+<link rel="stylesheet" href="/ai-story/assets/css/tokens.css">
+<link rel="stylesheet" href="/ai-story/assets/css/base.css">
+<style>
+  .tech-container { max-width: 680px; margin: 0 auto; }
+  .mode-switch-row {
+    display: flex; justify-content: space-between; align-items: center;
+    background: var(--surface); border: 1px solid var(--line-strong);
+    border-radius: var(--radius-m); padding: 10px 16px; margin: 18px 0 24px;
+    box-shadow: var(--shadow); flex-wrap: wrap; gap: 10px;
+  }
+  .mode-badge-tech {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-family: var(--font-mono); font-size: 0.8rem; font-weight: 700;
+    color: var(--c); background: rgba(255, 107, 69, 0.1); padding: 4px 10px; border-radius: 999px;
+  }
+  .switch-btn {
+    font-family: var(--font-display); font-size: 0.88rem; font-weight: 600; color: var(--ink);
+    text-decoration: none; padding: 6px 14px; border: 1px solid var(--line-strong);
+    border-radius: var(--radius-s); background: var(--surface-2); transition: all 0.2s ease;
+  }
+  .switch-btn:hover { border-color: var(--c); color: var(--c); }
+
+  .story-card {
+    background: var(--surface); border: 2px solid var(--line); border-radius: var(--radius-l);
+    box-shadow: 0 8px 30px rgba(42, 38, 34, 0.08); overflow: hidden; margin: 24px 0;
+  }
+  .story-stage {
+    background: var(--bg); border-bottom: 2px solid var(--line);
+    padding: 24px 20px 16px; display: flex; flex-direction: column;
+    align-items: center; justify-content: center; min-height: 270px; user-select: none;
+  }
+  .stage-svg-wrap { width: 100%; max-width: 480px; height: 200px; position: relative; }
+  
+  .pixel-bubble-row { display: flex; align-items: center; justify-content: center; gap: 12px; margin-top: 10px; }
+  .bubble-badge {
+    background: var(--surface); border: 2px solid var(--line-strong); padding: 6px 16px;
+    border-radius: 999px; font-family: var(--font-display); font-weight: 700; font-size: 1rem;
+    color: var(--ink); box-shadow: var(--shadow);
+  }
+  .bubble-badge.good { border-color: var(--good); color: var(--good); background: #F0FDF4; }
+
+  .story-body { padding: 28px 24px; }
+  .step-eyebrow {
+    font-family: var(--font-mono); font-size: 0.8rem; color: var(--c);
+    text-transform: uppercase; letter-spacing: 0.08em; font-weight: 600; margin-bottom: 8px;
+  }
+  .step-heading {
+    font-family: var(--font-display); font-size: 1.45rem; font-weight: 700;
+    margin: 0 0 12px; color: var(--ink); line-height: 1.3;
+  }
+  .step-text { font-size: 1.05rem; line-height: 1.6; color: var(--ink); margin: 0 0 24px; }
+  
+  .story-nav-row {
+    display: flex; justify-content: space-between; align-items: center;
+    padding-top: 18px; border-top: 1px solid var(--line); flex-wrap: wrap; gap: 12px;
+  }
+  .btn-story {
+    font-family: var(--font-display); font-weight: 600; font-size: 1rem;
+    padding: 12px 24px; border-radius: var(--radius-m); border: none; cursor: pointer;
+    display: inline-flex; align-items: center; gap: 8px;
+  }
+  .btn-story:hover { transform: translateY(-1px); opacity: 0.92; }
+  .btn-primary { background: var(--c); color: var(--c-ink); box-shadow: var(--shadow); }
+  .btn-secondary { background: var(--surface-2); color: var(--ink); border: 1px solid var(--line-strong); }
+  .step-dots { display: flex; gap: 8px; }
+  .step-dot {
+    width: 10px; height: 10px; border-radius: 50%; background: var(--line-strong);
+    transition: all 0.2s ease; cursor: pointer;
+  }
+  .step-dot.active { background: var(--c); transform: scale(1.3); }
+
+  .concept-cards-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 20px; }
+  @media (max-width: 600px) { .concept-cards-grid { grid-template-columns: 1fr; } }
+  .concept-card { background: var(--surface-2); border: 1px solid var(--line-strong); border-radius: var(--radius-m); padding: 16px; }
+  .concept-card h4 { margin: 0 0 6px; font-family: var(--font-display); font-size: 1.05rem; color: var(--ink); }
+  .concept-card p { margin: 0; font-size: 0.92rem; color: var(--muted); line-height: 1.45; }
+
+  pre { background: #1E293B; color: #F8FAFC; border-radius: var(--radius-m); padding: 18px 20px; overflow-x: auto; font-family: var(--font-mono); font-size: 0.86rem; line-height: 1.6; margin: 20px 0; }
+  code { font-family: var(--font-mono); }
+</style>
+</head>
+<body>
+<div class="page tech-container">
+  <a class="back-link" href="/ai-story/technical/">&larr; All Technical Companions</a>
+
+  <div class="mode-switch-row">
+    <span class="mode-badge-tech">⚡ Technical Mastery Track · Module 14</span>
+    <a href="/ai-story/technical/" class="switch-btn">← All Technical Modules</a>
+  </div>
+
+  <div class="hero">
+    <h1>Clinical AI & Domain Triage</h1>
+    <p class="dek">Clinical decision support and medical scan triage: Asymmetric clinical error costs, Sensitivity vs. Specificity calibration, ROC-AUC curve optimization, DICOM scan pipelines, and Human-in-the-Loop workflows.</p>
+  </div>
+
+  <div class="story-card">
+    <div class="story-stage">
+      <div class="stage-svg-wrap">
+        <svg viewBox="0 0 460 200" width="100%" height="100%" aria-label="Clinical AI ROC AUC and confusion matrix diagram">
+          <g transform="translate(40, 25)">
+            <rect x="0" y="0" width="380" height="150" rx="8" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
+            <text x="190" y="24" text-anchor="middle" font-family="var(--font-mono)" font-size="9" font-weight="700" fill="var(--c)">
+              CLINICAL EVALUATION MATRIX (99% SENSITIVITY TARGET)
+            </text>
+            <line x1="15" y1="34" x2="365" y2="34" stroke="var(--line)" stroke-width="1"/>
+
+            <!-- Metric 1: Sensitivity (Recall) -->
+            <g transform="translate(20, 48)">
+              <rect x="0" y="0" width="160" height="85" rx="6" fill="#DCFCE7" stroke="var(--good)" stroke-width="1.5"/>
+              <text x="15" y="22" font-family="var(--font-mono)" font-size="8" fill="var(--good)">SENSITIVITY (RECALL):</text>
+              <text id="sensVal" x="15" y="48" font-family="var(--font-mono)" font-size="14" font-weight="700" fill="var(--good)">98.4% (TP / (TP+FN))</text>
+              <text x="15" y="72" font-family="var(--font-mono)" font-size="8" fill="var(--muted)">Zero false negatives target</text>
+            </g>
+
+            <!-- Metric 2: Specificity & ROC-AUC -->
+            <g transform="translate(200, 48)">
+              <rect x="0" y="0" width="160" height="85" rx="6" fill="var(--surface-2)" stroke="var(--line-strong)" stroke-width="1"/>
+              <text x="15" y="22" font-family="var(--font-mono)" font-size="8" fill="var(--muted)">ROC-AUC SCORE:</text>
+              <text id="aucVal" x="15" y="48" font-family="var(--font-mono)" font-size="14" font-weight="700" fill="var(--ink)">AUC = 0.978</text>
+              <text x="15" y="72" font-family="var(--font-mono)" font-size="8" fill="var(--muted)">Radiologist Human-in-Loop</text>
+            </g>
+          </g>
+        </svg>
+      </div>
+
+      <div class="pixel-bubble-row">
+        <span style="font-size:1.4rem;">🩺</span>
+        <div class="bubble-badge good" id="stageBubbleBadge">
+          "Clinical Threshold: Sensitivity calibrated to 98.4% (Catching all true infections)"
+        </div>
+      </div>
+    </div>
+
+    <div class="story-body">
+      <div class="step-eyebrow" id="stepCounter">Step 1 of 5</div>
+      <h2 class="step-heading" id="stepTitle">The Asymmetric Cost of Medical Errors</h2>
+      <div class="step-text" id="stepDescription">
+        In standard AI, false positives and false negatives have equal penalty. In healthcare, a <strong>False Negative</strong> (missing a malignant tumor) is fatal, while a False Positive only requires a follow-up test. Clinical models calibrate decision thresholds for maximum <strong>Sensitivity (Recall)</strong>.
+      </div>
+
+      <div class="story-nav-row">
+        <button type="button" class="btn-story btn-secondary" id="prevStepBtn" style="visibility:hidden;">← Back</button>
+        <div class="step-dots" id="stepDotsWrap">
+          <span class="step-dot active"></span>
+          <span class="step-dot"></span>
+          <span class="step-dot"></span>
+          <span class="step-dot"></span>
+          <span class="step-dot"></span>
+        </div>
+        <button type="button" class="btn-story btn-primary" id="nextStepBtn">Next Step →</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-head" style="margin-top: 36px;">
+    <h2>Mathematical Architecture</h2>
+    <div class="sub">Clinical validation metrics and decision boundaries:</div>
+  </div>
+
+  <div class="concept-cards-grid">
+    <div class="concept-card">
+      <h4>🎯 Sensitivity (Recall)</h4>
+      <p><code>Sensitivity = TP / (TP + FN)</code>. Proportion of actual sick patients correctly identified.</p>
+    </div>
+    <div class="concept-card">
+      <h4>🛡️ Specificity</h4>
+      <p><code>Specificity = TN / (TN + FP)</code>. Proportion of healthy patients correctly identified as healthy.</p>
+    </div>
+    <div class="concept-card">
+      <h4>📈 ROC-AUC Curve</h4>
+      <p>Area Under the Receiver Operating Characteristic curve plotting True Positive Rate vs. False Positive Rate.</p>
+    </div>
+    <div class="concept-card">
+      <h4>👩‍⚕️ Human-in-the-Loop Triage</h4>
+      <p>AI acts as an anomaly priority filter; board-certified physicians retain clinical authority and sign-off.</p>
+    </div>
+  </div>
+
+  <h3 style="font-family:var(--font-display); font-size:1.25rem; margin:32px 0 12px; color:var(--ink);">
+    Python Clinical Threshold Calibration Script
+  </h3>
+  <pre><code>import numpy as np
+from sklearn.metrics import roc_auc_score, recall_score, confusion_matrix
+
+def calibrate_clinical_threshold(y_true, y_probs, target_sensitivity=0.98):
+    """
+    Finds the optimal decision threshold to achieve target clinical sensitivity
+    """
+    thresholds = np.linspace(0.01, 0.99, 100)
+    best_threshold = 0.5
+    
+    for th in thresholds:
+        y_pred = (y_probs >= th).astype(int)
+        sensitivity = recall_score(y_true, y_pred)
+        if sensitivity >= target_sensitivity:
+            best_threshold = th
+            
+    # Evaluate calibrated model
+    y_final = (y_probs >= best_threshold).astype(int)
+    tn, fp, fn, tp = confusion_matrix(y_true, y_final).ravel()
+    
+    return {
+        "ROC-AUC": f"{roc_auc_score(y_true, y_probs):.3f}",
+        "Calibrated Threshold": f"{best_threshold:.2f}",
+        "Sensitivity (Recall)": f"{tp / (tp + fn) * 100:.1f}%",
+        "False Negatives (Missed)": fn
+    }
+
+# Synthetic clinical dataset: 1 = Pneumonia, 0 = Healthy
+y_true = np.array([1, 1, 1, 1, 1, 0, 0, 0, 0, 0])
+y_probs = np.array([0.95, 0.88, 0.72, 0.65, 0.40, 0.15, 0.08, 0.22, 0.05, 0.12])
+
+audit = calibrate_clinical_threshold(y_true, y_probs, target_sensitivity=0.98)
+for k, v in audit.items():
+    print(f"{k}: {v}")</code></pre>
+
+  <div class="next" style="margin-top:28px;">
+    <div>
+      <div class="label">Next Technical Companion</div>
+      <p>Diffusion Models, Score-Based SDEs & Denoising.</p>
+    </div>
+    <a class="tag" href="/ai-story/technical/15-diffusion-models/">Module 15 · Diffusion Models & Image Synthesis →</a>
+  </div>
+
+  <footer class="page-foot">The Pixel Story — Technical Track</footer>
+</div>
+
+<script>
+(function() {
+  var currentStep = 0;
+  var STEPS = [
+    {
+      title: "Step 1: Ingesting DICOM Scans",
+      text: "500 high-resolution lung X-rays arrive in DICOM format. A Vision Transformer extracts spatial patch embeddings in 2.1 seconds.",
+      bubble: "Ingesting 500 DICOM scans in 2.1 seconds ⚡",
+      sens: "98.4%", auc: "AUC = 0.978"
+    },
+    {
+      title: "Step 2: Calibrating Sensitivity Cutoff (0.35)",
+      text: "Instead of a default 0.50 threshold, engineers lower the threshold to 0.35 to guarantee a <strong>98.4% Sensitivity</strong>, ensuring zero early pneumonias are missed.",
+      bubble: "Threshold adjusted to 0.35 to eliminate false negatives 🎯",
+      sens: "98.4% (Zero missed)", auc: "AUC = 0.978"
+    },
+    {
+      title: "Step 3: Anomaly Heatmap Localization",
+      text: "Grad-CAM saliency maps highlight the exact coordinates of early infiltration in the right lower lung lobe for radiological review.",
+      bubble: "Generating Grad-CAM localization heatmap 🔍",
+      sens: "Localization: Patch #42", auc: "AUC = 0.978"
+    },
+    {
+      title: "Step 4: Real-time PACS Worklist Triage",
+      text: "The PACS workflow queue automatically re-orders: Scan #42 is prioritized to the top of Dr. Sarah's emergency reading list.",
+      bubble: "Prioritized urgent scan to top of radiologist worklist 🚨",
+      sens: "Queue Delay: Reduced 80%", auc: "Priority: Urgent"
+    },
+    {
+      title: "Step 5: Human-in-the-Loop Diagnosis 🎉",
+      text: "Dr. Sarah confirms pneumonia and signs the prescription. AI + Human collaboration achieves higher clinical accuracy than either working alone!",
+      bubble: "Early diagnosis verified! Human-in-the-Loop clinical success 🤝✨",
+      sens: "Sensitivity: 98.4% ✅", auc: "Status: Verified"
+    }
+  ];
+
+  var stepCounter = document.getElementById("stepCounter");
+  var stepTitle = document.getElementById("stepTitle");
+  var stepDescription = document.getElementById("stepDescription");
+  var stageBubbleBadge = document.getElementById("stageBubbleBadge");
+  var prevBtn = document.getElementById("prevStepBtn");
+  var nextBtn = document.getElementById("nextStepBtn");
+  var dots = document.querySelectorAll(".step-dot");
+
+  function renderStep() {
+    var s = STEPS[currentStep];
+    stepCounter.textContent = "Step " + (currentStep + 1) + " of " + STEPS.length;
+    stepTitle.textContent = s.title;
+    stepDescription.innerHTML = s.text;
+    stageBubbleBadge.textContent = s.bubble;
+
+    prevBtn.style.visibility = currentStep === 0 ? "hidden" : "visible";
+    nextBtn.textContent = currentStep === STEPS.length - 1 ? "Start Over ↺" : "Next Step →";
+    dots.forEach(function(d, i) { d.classList.toggle("active", i === currentStep); });
+  }
+
+  nextBtn.addEventListener("click", function() {
+    currentStep = (currentStep + 1) % STEPS.length;
+    renderStep();
+  });
+  prevBtn.addEventListener("click", function() {
+    if (currentStep > 0) { currentStep--; renderStep(); }
+  });
+  dots.forEach(function(dot, idx) {
+    dot.addEventListener("click", function() { currentStep = idx; renderStep(); });
+  });
+
+  renderStep();
+})();
+</script>
+</body>
+</html>

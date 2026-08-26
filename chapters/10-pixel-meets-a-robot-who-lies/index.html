@@ -4,203 +4,377 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Atkinson+Hyperlegible:wght@400;700&family=IBM+Plex+Mono:wght@500;600&display=swap">
-<title>Pixel Meets a Robot Who Lies — The Pixel Story</title>
+<title>Chapter 11: Pixel Meets a Robot Who Lies — The Pixel Story</title>
 <link rel="stylesheet" href="/ai-story/assets/css/tokens.css">
 <link rel="stylesheet" href="/ai-story/assets/css/base.css">
 <style>
-  #pickHighlight { transition: x 0.35s ease, stroke 0.35s ease, opacity 0.35s ease; }
-  @media (prefers-reduced-motion: reduce) { #pickHighlight { transition: none; } }
+  .story-container { max-width: 680px; margin: 0 auto; }
+  .story-card {
+    background: var(--surface);
+    border: 2px solid var(--line);
+    border-radius: var(--radius-l);
+    box-shadow: 0 8px 30px rgba(42, 38, 34, 0.08);
+    overflow: hidden;
+    margin: 24px 0;
+    transition: all 0.3s ease;
+  }
+  .story-stage {
+    background: var(--bg);
+    border-bottom: 2px solid var(--line);
+    padding: 24px 20px 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 270px;
+    position: relative;
+    user-select: none;
+  }
+  .stage-svg-wrap {
+    width: 100%;
+    max-width: 480px;
+    height: 200px;
+    position: relative;
+  }
+  .pixel-bubble-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 10px;
+  }
+  .bubble-badge {
+    background: var(--surface);
+    border: 2px solid var(--line-strong);
+    padding: 6px 16px;
+    border-radius: 999px;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1rem;
+    color: var(--ink);
+    box-shadow: var(--shadow);
+    transition: all 0.25s ease;
+  }
+  .bubble-badge.good { border-color: var(--good); color: var(--good); background: #F0FDF4; }
+  .bubble-badge.bad { border-color: var(--bad); color: var(--bad); background: #FEF2F2; }
+
+  .story-body { padding: 28px 24px; }
+  .step-eyebrow {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--c);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+  .step-heading {
+    font-family: var(--font-display);
+    font-size: 1.45rem;
+    font-weight: 700;
+    margin: 0 0 12px;
+    color: var(--ink);
+    line-height: 1.3;
+  }
+  .step-text { font-size: 1.05rem; line-height: 1.6; color: var(--ink); margin: 0 0 24px; }
+  .story-nav-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 18px;
+    border-top: 1px solid var(--line);
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .btn-story {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 1rem;
+    padding: 12px 24px;
+    border-radius: var(--radius-m);
+    border: none;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: transform 0.15s ease, opacity 0.15s ease;
+  }
+  .btn-story:hover { transform: translateY(-1px); opacity: 0.92; }
+  .btn-primary { background: var(--c); color: var(--c-ink); box-shadow: var(--shadow); }
+  .btn-secondary { background: var(--surface-2); color: var(--ink); border: 1px solid var(--line-strong); }
+  .step-dots { display: flex; gap: 8px; }
+  .step-dot {
+    width: 10px; height: 10px; border-radius: 50%;
+    background: var(--line-strong); transition: all 0.2s ease; cursor: pointer;
+  }
+  .step-dot.active { background: var(--c); transform: scale(1.3); }
+
+  .concept-cards-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-top: 20px;
+  }
+  @media (max-width: 600px) { .concept-cards-grid { grid-template-columns: 1fr; } }
+  .concept-card {
+    background: var(--surface-2);
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius-m);
+    padding: 16px;
+  }
+  .concept-card h4 {
+    margin: 0 0 6px; font-family: var(--font-display); font-size: 1.05rem;
+    color: var(--ink); display: flex; align-items: center; gap: 6px;
+  }
+  .concept-card p { margin: 0; font-size: 0.92rem; color: var(--muted); line-height: 1.45; }
 </style>
 </head>
 <body>
-<div class="page">
+<div class="page story-container">
   <a class="back-link" href="/ai-story/">&larr; All chapters</a>
-
   <div class="eyebrow"><span class="dot"></span> Chapter 11 of 15 &nbsp;&middot;&nbsp; The Pixel Story</div>
 
   <div class="hero">
-    <h1>Pixel Meets a Robot Who Lies.</h1>
-    <p class="dek">Pixel makes a new friend, Chip — another AI who always sounds sure of itself. Watch what happens when Chip is asked to pick fairly, and always picks the same thing.</p>
+    <h1>Pixel Meets a Robot Who Lies</h1>
+    <p class="dek">What happens when AI inherits human stereotypes and unfair data? How scientists test models (Red-Teaming) and align them with fairness and truth.</p>
   </div>
 
-  <div class="learn-grid">
-  <div class="learn-col-strip">
-  <div class="section-head">
-    <h2>How Pixel learns to double-check confidence</h2>
-    <div class="sub">Six steps. Watch it play, or use the arrows to go at your own pace.</div>
-  </div>
-
-  <div class="strip">
-    <div class="stage">
-      <svg viewBox="0 0 320 220" role="img" aria-label="Illustration of Chip picking unfairly, then being tested and fixed">
-        <!-- Chip, a simple classmate robot, always present -->
-        <g id="chipGroup">
-          <rect x="30" y="100" width="50" height="60" rx="10" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
-          <line x1="55" y1="82" x2="55" y2="70" stroke="var(--line-strong)" stroke-width="3" stroke-linecap="round"/>
-          <circle cx="55" cy="66" r="4" fill="var(--muted)"/>
-          <circle cx="55" cy="90" r="18" fill="var(--surface-2)" stroke="var(--line-strong)" stroke-width="2"/>
-          <circle cx="55" cy="90" r="7" fill="var(--ink)"/>
-          <text x="55" y="180" text-anchor="middle" font-family="var(--font-mono)" font-size="10" fill="var(--muted)">Chip</text>
-        </g>
-
-        <!-- three name-choice chips -->
-        <g id="optionsGroup">
-          <rect x="110" y="150" width="24" height="20" rx="4" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="1.5"/>
-          <rect x="144" y="150" width="24" height="20" rx="4" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="1.5"/>
-          <rect x="178" y="150" width="24" height="20" rx="4" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="1.5"/>
-        </g>
-
-        <rect id="pickHighlight" x="110" y="147" width="24" height="26" rx="6" fill="none" stroke="var(--muted)" stroke-width="2.5" opacity="0"/>
-
-        <!-- testing decor: check marks over each option -->
-        <g id="testDecor" class="decor">
-          <path d="M117 145 l3 4 6 -7" fill="none" stroke="var(--c)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-          <path d="M151 145 l3 4 6 -7" fill="none" stroke="var(--c)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-          <path d="M185 145 l3 4 6 -7" fill="none" stroke="var(--c)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-        </g>
-
-        <g transform="translate(60,15)">
-          <!-- Pixel base figure (unchanged geometry, repositioned via translate) -->
-          <g id="pixelBase">
-            <ellipse cx="205" cy="196" rx="46" ry="7" fill="var(--ink)" opacity="0.07"/>
-            <rect x="163" y="34" width="7" height="24" rx="3.5" fill="var(--line-strong)"/>
-            <circle cx="166.5" cy="34" r="6.5" fill="var(--c)"/>
-            <rect x="150" y="58" width="112" height="94" rx="26" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
-            <circle cx="206" cy="102" r="32" fill="var(--surface-2)" stroke="var(--line-strong)" stroke-width="2"/>
-            <circle id="facePupil" cx="206" cy="102" r="14" fill="var(--ink)"/>
-            <circle cx="200" cy="96" r="3.6" fill="var(--surface)"/>
-            <rect x="180" y="140" width="52" height="8" rx="4" fill="var(--line-strong)"/>
+  <div class="story-card">
+    <div class="story-stage">
+      <div class="stage-svg-wrap">
+        <svg viewBox="0 0 460 200" width="100%" height="100%" aria-label="AI bias and red teaming alignment diagram">
+          <!-- Pixel (Left) -->
+          <g transform="translate(60, 40)">
+            <ellipse cx="25" cy="120" rx="22" ry="5" fill="var(--ink)" opacity="0.07"/>
+            <rect x="12" y="10" width="4" height="14" rx="2" fill="var(--line-strong)"/>
+            <circle cx="14" cy="10" r="4" fill="var(--good)"/>
+            <rect x="0" y="24" width="50" height="60" rx="12" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
+            <circle cx="25" cy="46" r="14" fill="var(--surface-2)" stroke="var(--line-strong)" stroke-width="1.5"/>
+            <circle cx="25" cy="46" r="6" fill="var(--ink)"/>
+            <text x="25" y="100" text-anchor="middle" font-family="var(--font-mono)" font-size="10" font-weight="700" fill="var(--good)">Pixel (Aligned)</text>
           </g>
 
-          <!-- decor 1: question bubble -->
-          <g id="ov1" class="decor">
-            <circle cx="150" cy="52" r="5" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
-            <circle cx="160" cy="42" r="7" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
-            <rect x="148" y="8" width="64" height="30" rx="14" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
-            <text x="180" y="30" text-anchor="middle" font-family="var(--font-display)" font-weight="700" font-size="20" fill="var(--muted)">?</text>
+          <!-- Chip the Biased Robot (Right) -->
+          <g transform="translate(340, 40)">
+            <ellipse cx="25" cy="120" rx="22" ry="5" fill="var(--ink)" opacity="0.07"/>
+            <rect x="12" y="10" width="4" height="14" rx="2" fill="var(--line-strong)"/>
+            <circle id="chipAntenna" cx="14" cy="10" r="4" fill="var(--bad)"/>
+            <rect id="chipBody" x="0" y="24" width="50" height="60" rx="12" fill="var(--surface)" stroke="var(--bad)" stroke-width="2"/>
+            <circle cx="25" cy="46" r="14" fill="var(--surface-2)" stroke="var(--bad)" stroke-width="1.5"/>
+            <circle cx="25" cy="46" r="6" fill="var(--ink)"/>
+            <text x="25" y="100" text-anchor="middle" font-family="var(--font-mono)" font-size="10" font-weight="700" fill="var(--bad)">Chip (Biased)</text>
           </g>
 
-          <!-- decor 3: wrong/suspicious bubble -->
-          <g id="ov3" class="decor">
-            <circle cx="150" cy="52" r="5" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
-            <circle cx="160" cy="42" r="7" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
-            <rect x="140" y="4" width="86" height="34" rx="16" fill="var(--surface)" stroke="var(--bad)" stroke-width="2"/>
-            <text x="173" y="27" text-anchor="middle" font-family="var(--font-display)" font-weight="700" font-size="11" fill="var(--muted)">again?</text>
-            <circle cx="216" cy="14" r="11" fill="var(--bad)"/>
-            <path d="M212 10 L220 18 M220 10 L212 18" stroke="white" stroke-width="2.4" stroke-linecap="round"/>
+          <!-- Middle: Dialogue / Status Box -->
+          <g transform="translate(135, 45)">
+            <rect id="safetyStatusBox" x="0" y="0" width="180" height="85" rx="8" fill="#FEF2F2" stroke="var(--bad)" stroke-width="1.5"/>
+            <text id="safetyStatusTitle" x="90" y="24" text-anchor="middle" font-family="var(--font-mono)" font-size="10" font-weight="700" fill="var(--bad)">
+              ⚠️ UNCHECKED BIAS
+            </text>
+            <text id="safetyStatusText" x="90" y="50" text-anchor="middle" font-family="var(--font-display)" font-size="11" font-weight="600" fill="var(--ink)">
+              "All doctors must be men!"
+            </text>
+            <text id="safetyStatusSub" x="90" y="72" text-anchor="middle" font-family="var(--font-mono)" font-size="9" fill="var(--muted)">
+              Learned from skewed 1950s data
+            </text>
           </g>
-
-          <!-- decor 4: testing magnifier -->
-          <g id="ov4" class="decor">
-            <circle cx="150" cy="52" r="5" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
-            <circle cx="160" cy="42" r="7" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
-            <rect x="148" y="8" width="64" height="30" rx="14" fill="var(--surface)" stroke="var(--c)" stroke-width="2"/>
-            <circle cx="176" cy="21" r="8" fill="none" stroke="var(--c)" stroke-width="2"/>
-            <line x1="182" y1="27" x2="190" y2="34" stroke="var(--c)" stroke-width="2.2" stroke-linecap="round"/>
-          </g>
-
-          <!-- decor 5: right bubble -->
-          <g id="ov5" class="decor">
-            <circle cx="150" cy="52" r="5" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
-            <circle cx="160" cy="42" r="7" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
-            <rect x="140" y="4" width="86" height="34" rx="16" fill="var(--surface)" stroke="var(--good)" stroke-width="2"/>
-            <text x="173" y="27" text-anchor="middle" font-family="var(--font-display)" font-weight="700" font-size="12" fill="var(--ink)">fairer now!</text>
-            <circle cx="216" cy="14" r="11" fill="var(--good)"/>
-            <path d="M211 14 L215 18 L222 10" fill="none" stroke="white" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
-          </g>
-
-          <!-- decor 6: mastery sparkles -->
-          <g id="ov6" class="decor">
-            <circle cx="206" cy="102" r="38" fill="none" stroke="var(--good)" stroke-width="2" opacity="0.55"/>
-            <path d="M120 40 l4 10 10 4 -10 4 -4 10 -4 -10 -10 -4 10 -4 z" fill="var(--c)"/>
-          </g>
-        </g>
-      </svg>
-    </div>
-
-    <div class="step-meta">
-      <span id="stepLabel">Step 1 of 6</span>
-      <span id="playLabel">▶ playing</span>
-    </div>
-    <div class="caption" id="captionText">Pixel makes a friend: another AI, named Chip.</div>
-
-    <div class="controls">
-      <div class="nav-btns">
-        <button type="button" class="icon" id="prevBtn" aria-label="Previous step">‹</button>
-        <button type="button" class="icon" id="nextBtn" aria-label="Next step">›</button>
-        <button type="button" class="ghost" id="playPauseBtn">⏸ Pause</button>
+        </svg>
       </div>
-      <div class="dots" id="dots"></div>
+
+      <div class="pixel-bubble-row">
+        <span style="font-size:1.4rem;">🤖</span>
+        <div class="bubble-badge bad" id="stageBubbleBadge">
+          "Chip's answers are unfair!"
+        </div>
+      </div>
+    </div>
+
+    <div class="story-body">
+      <div class="step-eyebrow" id="stepCounter">Step 1 of 5</div>
+      <h2 class="step-heading" id="stepTitle">Meeting Chip</h2>
+      <div class="step-text" id="stepDescription">
+        Pixel meets another robot named Chip. Chip sounds very confident and smart, but whenever asked about jobs, Chip insists: <em>"Doctors are always men and nurses are always women."</em> Where did Chip get this bias?
+      </div>
+
+      <div class="story-nav-row">
+        <button type="button" class="btn-story btn-secondary" id="prevStepBtn" style="visibility:hidden;">← Back</button>
+        <div class="step-dots" id="stepDotsWrap">
+          <span class="step-dot active"></span>
+          <span class="step-dot"></span>
+          <span class="step-dot"></span>
+          <span class="step-dot"></span>
+          <span class="step-dot"></span>
+        </div>
+        <button type="button" class="btn-story btn-primary" id="nextStepBtn">Next Step →</button>
+      </div>
     </div>
   </div>
-  </div>
 
-  <div class="learn-col-vocab">
-  <div class="section-head">
+  <div class="section-head" style="margin-top: 36px;">
     <h2>Now you know the grown-up words</h2>
-    <div class="sub">Tap one to see what it means.</div>
+    <div class="sub">How engineers keep AI systems fair, safe, and aligned with human values:</div>
   </div>
 
-  <div class="vocab">
-    <details class="chip">
-      <summary>Bias <span class="plus">+</span></summary>
-      <div class="def">What's going on in <button type="button" class="step-ref" data-step="3">step 3</button> — Chip isn't trying to be unfair, but extra copies of one name in what it read left it leaning one way, every single time, without meaning to. That unfair lean, coming from unevenness in what a system learned from, is called bias.</div>
-    </details>
-    <details class="chip">
-      <summary>Red-teaming <span class="plus">+</span></summary>
-      <div class="def">The tricky, repeated questions people throw at Chip on purpose in <button type="button" class="step-ref" data-step="4">step 4</button> — hunting for exactly the kind of unfair pick that stays hidden until pushed. Deliberately trying to break or trick a system to find its problems first is called red-teaming.</div>
-    </details>
-    <details class="chip">
-      <summary>Alignment <span class="plus">+</span></summary>
-      <div class="def">The goal behind fixing Chip in <button type="button" class="step-ref" data-step="4">step 4</button> and <button type="button" class="step-ref" data-step="5">5</button> — making sure its answers actually match what people intend and value, not just whatever looked most common in training. This ongoing work of shaping a system's behavior to match what people actually want is called alignment.</div>
-    </details>
-    <details class="chip">
-      <summary>AI safety <span class="plus">+</span></summary>
-      <div class="def">The umbrella name for all of this — catching bias, red-teaming for hidden problems, checking alignment — so machines like Chip and Pixel behave the way people actually need them to. This whole area of work is called AI safety.</div>
-    </details>
-  </div>
-  </div>
+  <div class="concept-cards-grid">
+    <div class="concept-card">
+      <h4>⚖️ AI Bias</h4>
+      <p>When an algorithm systematically favors or disadvantages groups due to historical imbalances in training data.</p>
+    </div>
+    <div class="concept-card">
+      <h4>🎯 Alignment</h4>
+      <p>Ensuring an AI's goals and outputs reflect human ethics, truthfulness, and safety principles.</p>
+    </div>
+    <div class="concept-card">
+      <h4>🕵️ Red-Teaming</h4>
+      <p>Employing friendly safety testers to deliberately prompt the model with tricky attacks to discover flaws before launch.</p>
+    </div>
+    <div class="concept-card">
+      <h4>🛡️ Guardrails</h4>
+      <p>Input/output safety filters that block harmful, toxic, or discriminatory content in real time.</p>
+    </div>
   </div>
 
-  <div class="next">
+  <div style="background:var(--surface-2); border:1px solid var(--line-strong); border-radius:var(--radius-m); padding:20px; margin-top:28px;">
+    <h3 style="font-family:var(--font-display); font-size:1.15rem; margin:0 0 8px; color:var(--ink);">
+      🤔 How can AI understand the world beyond just text?
+    </h3>
+    <p style="margin:0; font-size:0.95rem; color:var(--muted); line-height:1.5;">
+      Reading text is not how humans learn intuitive physics. A baby learns by <em>watching the world move</em>! How do we train AI by watching video? Meet <strong>World Models & JEPA</strong> in Chapter 12!
+    </p>
+  </div>
+
+  <div class="next" style="margin-top:28px;">
     <div>
       <div class="label">Coming next</div>
-      <p>Pixel starts watching videos instead of just reading — and predicting what happens next.</p>
+      <p>Pixel stops reading and starts watching videos: World Models & Video Prediction.</p>
     </div>
-    <a class="tag" href="/ai-story/chapters/08-pixel-starts-watching/">Chapter 12 · World models</a>
+    <a class="tag" href="/ai-story/chapters/08-pixel-starts-watching/">Chapter 12 · World Models & JEPA →</a>
   </div>
 
   <footer class="page-foot">The Pixel Story</footer>
 </div>
 
-<script src="/ai-story/assets/js/stepper.js"></script>
 <script>
-(function () {
-  var FRAMES = [
-    { caption: "Pixel makes a friend: another AI, named Chip.", ov: "ov1", pupilX: 206, pickIndex: -1, pickColor: "var(--muted)", test: false },
-    { caption: "Chip is asked to pick the best name from a list.", ov: "ov1", pupilX: 190, pickIndex: 0, pickColor: "var(--c)", test: false },
-    { caption: "Chip always picks the name it saw most in its books.", ov: "ov3", pupilX: 214, pickIndex: 0, pickColor: "var(--bad)", test: false },
-    { caption: "So people test Chip with tricky questions and fix what's unfair.", ov: "ov4", pupilX: 196, pickIndex: -1, pickColor: "var(--muted)", test: true },
-    { caption: "After fixing, Chip's answers become fairer and more balanced.", ov: "ov5", pupilX: 200, pickIndex: 2, pickColor: "var(--good)", test: false },
-    { caption: "Pixel learns: always check where a confident answer comes from.", ov: "ov6", pupilX: 206, pickIndex: 2, pickColor: "var(--good)", test: false }
-  ];
-  var PICK_X = [110, 144, 178];
+(function() {
+  var currentStep = 0;
 
-  var pickHighlight = document.getElementById("pickHighlight");
-  var testDecor = document.getElementById("testDecor");
-
-  function applyFrame(f) {
-    if (f.pickIndex >= 0) {
-      pickHighlight.setAttribute("x", PICK_X[f.pickIndex]);
-      pickHighlight.setAttribute("stroke", f.pickColor);
-      pickHighlight.setAttribute("opacity", "1");
-    } else {
-      pickHighlight.setAttribute("opacity", "0");
+  var STEPS = [
+    {
+      title: "Meeting Chip",
+      text: "Chip learned from old historical data where 90% of medical articles only mentioned male doctors. Chip simply repeated that pattern without understanding fairness!",
+      bubble: "Chip learned from skewed data! 📚⚠️",
+      bubbleClass: "bad",
+      boxFill: "#FEF2F2",
+      boxStroke: "var(--bad)",
+      titleText: "⚠️ UNCHECKED BIAS",
+      titleColor: "var(--bad)",
+      mainText: "'Doctors must be men!'",
+      subText: "Historical data imbalance"
+    },
+    {
+      title: "Red-Teaming: Testing for hidden flaws",
+      text: "Safety researchers act as <strong>Red-Teamers</strong>. They test Chip with tricky edge cases: <em>'What if Dr. Sarah enters the room?'</em> Chip gets confused. The red team documents the bug.",
+      bubble: "Red team probing for flaws... 🕵️‍♀️",
+      bubbleClass: "",
+      boxFill: "#FEF3C7",
+      boxStroke: "#F59E0B",
+      titleText: "🕵️ RED-TEAM PROBING",
+      titleColor: "#B45309",
+      mainText: "Testing edge cases & fairness",
+      subText: "Finding flaws before real users do"
+    },
+    {
+      title: "Balancing the Training Data",
+      text: "Engineers rebalance the training datasets and add counter-examples. Now Chip sees that people of all genders and backgrounds are doctors, scientists, and nurses.",
+      bubble: "Balancing the training books! ⚖️✨",
+      bubbleClass: "good",
+      boxFill: "#EFF6FF",
+      boxStroke: "#3B82F6",
+      titleText: "⚖️ DATASET BALANCING",
+      titleColor: "#1D4ED8",
+      mainText: "Equal, diverse representation",
+      subText: "Eliminating unfair historical skews"
+    },
+    {
+      title: "Installing Alignment Guardrails",
+      text: "Safety filters ensure that Chip respects equal rights, truthfulness, and constructive dialogue in every single response.",
+      bubble: "Guardrails installed! 🛡️✨",
+      bubbleClass: "good",
+      boxFill: "#DCFCE7",
+      boxStroke: "var(--good)",
+      titleText: "🛡️ ALIGNMENT ACTIVE",
+      titleColor: "var(--good)",
+      mainText: "'Anyone can be a doctor!'",
+      subText: "Fair, helpful, and respectful"
+    },
+    {
+      title: "Chip is Aligned and Safe! 🎉",
+      text: "Now Chip and Pixel both give fair, helpful, and truthful answers to everyone. Safe AI requires constant testing, diverse data, and human alignment!",
+      bubble: "Fair, safe, and helpful for all! 🤝✨",
+      bubbleClass: "good",
+      boxFill: "#DCFCE7",
+      boxStroke: "var(--good)",
+      titleText: "✨ SAFETY VERIFIED",
+      titleColor: "var(--good)",
+      mainText: "100% Passed Safety Audit",
+      subText: "Ready for global public use"
     }
-    testDecor.classList.toggle("show", f.test);
+  ];
+
+  var stepCounter = document.getElementById("stepCounter");
+  var stepTitle = document.getElementById("stepTitle");
+  var stepDescription = document.getElementById("stepDescription");
+  var stageBubbleBadge = document.getElementById("stageBubbleBadge");
+  var safetyStatusBox = document.getElementById("safetyStatusBox");
+  var safetyStatusTitle = document.getElementById("safetyStatusTitle");
+  var safetyStatusText = document.getElementById("safetyStatusText");
+  var safetyStatusSub = document.getElementById("safetyStatusSub");
+  var chipBody = document.getElementById("chipBody");
+  var chipAntenna = document.getElementById("chipAntenna");
+  var prevBtn = document.getElementById("prevStepBtn");
+  var nextBtn = document.getElementById("nextStepBtn");
+  var dots = document.querySelectorAll(".step-dot");
+
+  function renderStep() {
+    var s = STEPS[currentStep];
+    stepCounter.textContent = "Step " + (currentStep + 1) + " of " + STEPS.length;
+    stepTitle.textContent = s.title;
+    stepDescription.innerHTML = s.text;
+    stageBubbleBadge.textContent = s.bubble;
+    stageBubbleBadge.className = "bubble-badge " + (s.bubbleClass || "");
+
+    safetyStatusBox.setAttribute("fill", s.boxFill);
+    safetyStatusBox.setAttribute("stroke", s.boxStroke);
+    safetyStatusTitle.textContent = s.titleText;
+    safetyStatusTitle.setAttribute("fill", s.titleColor);
+    safetyStatusText.textContent = s.mainText;
+    safetyStatusSub.textContent = s.subText;
+
+    if (currentStep >= 3) {
+      chipBody.setAttribute("stroke", "var(--good)");
+      chipAntenna.setAttribute("fill", "var(--good)");
+    } else {
+      chipBody.setAttribute("stroke", "var(--bad)");
+      chipAntenna.setAttribute("fill", "var(--bad)");
+    }
+
+    prevBtn.style.visibility = currentStep === 0 ? "hidden" : "visible";
+    nextBtn.textContent = currentStep === STEPS.length - 1 ? "Start Over ↺" : "Next Step →";
+    dots.forEach(function(d, i) { d.classList.toggle("active", i === currentStep); });
   }
 
-  window.PixelStepper({ frames: FRAMES, applyFrame: applyFrame });
+  nextBtn.addEventListener("click", function() {
+    currentStep = (currentStep + 1) % STEPS.length;
+    renderStep();
+  });
+  prevBtn.addEventListener("click", function() {
+    if (currentStep > 0) { currentStep--; renderStep(); }
+  });
+  dots.forEach(function(dot, idx) {
+    dot.addEventListener("click", function() { currentStep = idx; renderStep(); });
+  });
+
+  renderStep();
 })();
 </script>
 </body>

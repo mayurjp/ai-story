@@ -1,0 +1,310 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Atkinson+Hyperlegible:wght@400;700&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<title>Technical Track 16: RAG & Vector Databases — The Pixel Story</title>
+<link rel="stylesheet" href="/ai-story/assets/css/tokens.css">
+<link rel="stylesheet" href="/ai-story/assets/css/base.css">
+<style>
+  .tech-container { max-width: 680px; margin: 0 auto; }
+  .mode-switch-row {
+    display: flex; justify-content: space-between; align-items: center;
+    background: var(--surface); border: 1px solid var(--line-strong);
+    border-radius: var(--radius-m); padding: 10px 16px; margin: 18px 0 24px;
+    box-shadow: var(--shadow); flex-wrap: wrap; gap: 10px;
+  }
+  .mode-badge-tech {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-family: var(--font-mono); font-size: 0.8rem; font-weight: 700;
+    color: var(--c); background: rgba(255, 107, 69, 0.1); padding: 4px 10px; border-radius: 999px;
+  }
+  .switch-btn {
+    font-family: var(--font-display); font-size: 0.88rem; font-weight: 600; color: var(--ink);
+    text-decoration: none; padding: 6px 14px; border: 1px solid var(--line-strong);
+    border-radius: var(--radius-s); background: var(--surface-2); transition: all 0.2s ease;
+  }
+  .switch-btn:hover { border-color: var(--c); color: var(--c); }
+
+  .story-card {
+    background: var(--surface); border: 2px solid var(--line); border-radius: var(--radius-l);
+    box-shadow: 0 8px 30px rgba(42, 38, 34, 0.08); overflow: hidden; margin: 24px 0;
+  }
+  .story-stage {
+    background: var(--bg); border-bottom: 2px solid var(--line);
+    padding: 24px 20px 16px; display: flex; flex-direction: column;
+    align-items: center; justify-content: center; min-height: 270px; user-select: none;
+  }
+  .stage-svg-wrap { width: 100%; max-width: 480px; height: 200px; position: relative; }
+  
+  .pixel-bubble-row { display: flex; align-items: center; justify-content: center; gap: 12px; margin-top: 10px; }
+  .bubble-badge {
+    background: var(--surface); border: 2px solid var(--line-strong); padding: 6px 16px;
+    border-radius: 999px; font-family: var(--font-display); font-weight: 700; font-size: 1rem;
+    color: var(--ink); box-shadow: var(--shadow);
+  }
+  .bubble-badge.good { border-color: var(--good); color: var(--good); background: #F0FDF4; }
+
+  .story-body { padding: 28px 24px; }
+  .step-eyebrow {
+    font-family: var(--font-mono); font-size: 0.8rem; color: var(--c);
+    text-transform: uppercase; letter-spacing: 0.08em; font-weight: 600; margin-bottom: 8px;
+  }
+  .step-heading {
+    font-family: var(--font-display); font-size: 1.45rem; font-weight: 700;
+    margin: 0 0 12px; color: var(--ink); line-height: 1.3;
+  }
+  .step-text { font-size: 1.05rem; line-height: 1.6; color: var(--ink); margin: 0 0 24px; }
+  
+  .story-nav-row {
+    display: flex; justify-content: space-between; align-items: center;
+    padding-top: 18px; border-top: 1px solid var(--line); flex-wrap: wrap; gap: 12px;
+  }
+  .btn-story {
+    font-family: var(--font-display); font-weight: 600; font-size: 1rem;
+    padding: 12px 24px; border-radius: var(--radius-m); border: none; cursor: pointer;
+    display: inline-flex; align-items: center; gap: 8px;
+  }
+  .btn-story:hover { transform: translateY(-1px); opacity: 0.92; }
+  .btn-primary { background: var(--c); color: var(--c-ink); box-shadow: var(--shadow); }
+  .btn-secondary { background: var(--surface-2); color: var(--ink); border: 1px solid var(--line-strong); }
+  .step-dots { display: flex; gap: 8px; }
+  .step-dot {
+    width: 10px; height: 10px; border-radius: 50%; background: var(--line-strong);
+    transition: all 0.2s ease; cursor: pointer;
+  }
+  .step-dot.active { background: var(--c); transform: scale(1.3); }
+
+  .concept-cards-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 20px; }
+  @media (max-width: 600px) { .concept-cards-grid { grid-template-columns: 1fr; } }
+  .concept-card { background: var(--surface-2); border: 1px solid var(--line-strong); border-radius: var(--radius-m); padding: 16px; }
+  .concept-card h4 { margin: 0 0 6px; font-family: var(--font-display); font-size: 1.05rem; color: var(--ink); }
+  .concept-card p { margin: 0; font-size: 0.92rem; color: var(--muted); line-height: 1.45; }
+
+  pre { background: #1E293B; color: #F8FAFC; border-radius: var(--radius-m); padding: 18px 20px; overflow-x: auto; font-family: var(--font-mono); font-size: 0.86rem; line-height: 1.6; margin: 20px 0; }
+  code { font-family: var(--font-mono); }
+</style>
+</head>
+<body>
+<div class="page tech-container">
+  <a class="back-link" href="/ai-story/technical/">&larr; All Technical Companions</a>
+
+  <div class="mode-switch-row">
+    <span class="mode-badge-tech">⚡ Technical Mastery Track · Module 16</span>
+    <a href="/ai-story/technical/" class="switch-btn">← All Technical Modules</a>
+  </div>
+
+  <div class="hero">
+    <h1>RAG & Vector Database Systems</h1>
+    <p class="dek">Dynamic open-book context retrieval: Dense passage embeddings, Cosine similarity, sub-millisecond Approximate Nearest Neighbor search via HNSW graphs, document chunking, and grounded generation.</p>
+  </div>
+
+  <div class="story-card">
+    <div class="story-stage">
+      <div class="stage-svg-wrap">
+        <svg viewBox="0 0 460 200" width="100%" height="100%" aria-label="RAG Vector database search architecture diagram">
+          <g transform="translate(30, 20)">
+            <rect x="0" y="0" width="400" height="155" rx="8" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
+            <text x="200" y="24" text-anchor="middle" font-family="var(--font-mono)" font-size="9" font-weight="700" fill="var(--c)">
+              RAG PIPELINE: EMBED → VECTOR SEARCH (HNSW) → AUGMENT PROMPT → GENERATE
+            </text>
+            <line x1="15" y1="34" x2="385" y2="34" stroke="var(--line)" stroke-width="1"/>
+
+            <!-- 1. Query Embedding -->
+            <g transform="translate(20, 50)">
+              <rect x="0" y="0" width="100" height="85" rx="6" fill="var(--surface-2)" stroke="var(--line-strong)" stroke-width="1"/>
+              <text x="50" y="22" text-anchor="middle" font-family="var(--font-mono)" font-size="8" font-weight="700" fill="var(--c)">1. QUERY</text>
+              <text x="50" y="42" text-anchor="middle" font-family="var(--font-mono)" font-size="8" fill="var(--muted)">"Q3 Revenue?"</text>
+              <text x="50" y="65" text-anchor="middle" font-family="var(--font-mono)" font-size="9" font-weight="700" fill="var(--ink)">e_q ∈ R^1536</text>
+            </g>
+
+            <path d="M 125 90 L 150 90" stroke="var(--c)" stroke-width="2"/>
+
+            <!-- 2. Vector DB (Top-k Similarity) -->
+            <g transform="translate(150, 50)">
+              <rect x="0" y="0" width="115" height="85" rx="6" fill="#FFF7ED" stroke="var(--c)" stroke-width="1.5"/>
+              <text x="57" y="22" text-anchor="middle" font-family="var(--font-mono)" font-size="8" font-weight="700" fill="var(--c)">2. VECTOR DB</text>
+              <text x="57" y="42" text-anchor="middle" font-family="var(--font-mono)" font-size="8" fill="var(--muted)">Cosine Similarity</text>
+              <text x="57" y="65" text-anchor="middle" font-family="var(--font-mono)" font-size="10" font-weight="700" fill="var(--good)">sim = 0.942</text>
+            </g>
+
+            <path d="M 270 90 L 295 90" stroke="var(--good)" stroke-width="2"/>
+
+            <!-- 3. Grounded Generator -->
+            <g transform="translate(295, 50)">
+              <rect x="0" y="0" width="90" height="85" rx="6" fill="#DCFCE7" stroke="var(--good)" stroke-width="2"/>
+              <text x="45" y="22" text-anchor="middle" font-family="var(--font-mono)" font-size="8" font-weight="700" fill="var(--good)">3. LLM ANSWER</text>
+              <text x="45" y="48" text-anchor="middle" font-family="var(--font-display)" font-size="10" font-weight="700" fill="var(--ink)">"$4.2 Billion"</text>
+              <text x="45" y="70" text-anchor="middle" font-family="var(--font-mono)" font-size="7" fill="var(--good)">[Source: 10-Q]</text>
+            </g>
+          </g>
+        </svg>
+      </div>
+
+      <div class="pixel-bubble-row">
+        <span style="font-size:1.4rem;">📚</span>
+        <div class="bubble-badge good" id="stageBubbleBadge">
+          "RAG: Dense Vector Search (sim = 0.942) retrieves exact 10-Q filing chunk"
+        </div>
+      </div>
+    </div>
+
+    <div class="story-body">
+      <div class="step-eyebrow" id="stepCounter">Step 1 of 5</div>
+      <h2 class="step-heading" id="stepTitle">The Static Knowledge Problem</h2>
+      <div class="step-text" id="stepDescription">
+        LLM weights are frozen upon training completion. Fine-tuning for every new internal PDF or yesterday's news is prohibitively expensive. <strong>RAG</strong> solves this by retrieving relevant context dynamically at query time.
+      </div>
+
+      <div class="story-nav-row">
+        <button type="button" class="btn-story btn-secondary" id="prevStepBtn" style="visibility:hidden;">← Back</button>
+        <div class="step-dots" id="stepDotsWrap">
+          <span class="step-dot active"></span>
+          <span class="step-dot"></span>
+          <span class="step-dot"></span>
+          <span class="step-dot"></span>
+          <span class="step-dot"></span>
+        </div>
+        <button type="button" class="btn-story btn-primary" id="nextStepBtn">Next Step →</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-head" style="margin-top: 36px;">
+    <h2>Mathematical Architecture</h2>
+    <div class="sub">Vector similarity search and context injection:</div>
+  </div>
+
+  <div class="concept-cards-grid">
+    <div class="concept-card">
+      <h4>🌌 Vector Embedding Model</h4>
+      <p>Maps text chunks into dense continuous space <code>e ∈ R¹⁵³⁶</code> (e.g. OpenAI <code>text-embedding-3</code>).</p>
+    </div>
+    <div class="concept-card">
+      <h4>📐 Cosine Similarity</h4>
+      <p><code>sim(u, v) = (u · v) / (||u|| ||v||)</code>. Geometric angle similarity between query and document vectors.</p>
+    </div>
+    <div class="concept-card">
+      <h4>⚡ HNSW Indexing</h4>
+      <p>Hierarchical Navigable Small World graphs enable sub-millisecond approximate nearest neighbor (ANN) search over billions of vectors.</p>
+    </div>
+    <div class="concept-card">
+      <h4>✂️ Chunking & Re-ranking</h4>
+      <p>Splitting documents into 512-token chunks with 10% overlap, followed by a Cross-Encoder reranker for precision.</p>
+    </div>
+  </div>
+
+  <h3 style="font-family:var(--font-display); font-size:1.25rem; margin:32px 0 12px; color:var(--ink);">
+    Python In-Memory Vector Search (Cosine Similarity)
+  </h3>
+  <pre><code>import numpy as np
+
+def cosine_similarity(a, b):
+    return np.dot(a, b) / (np.linalg.norm(a) * np.linalg.norm(b))
+
+# Simulated Document Corpus Embeddings (dim = 4)
+corpus = {
+    "doc_1": ("Q3 Revenue was $4.2B, up 15% YoY.", np.array([0.92, 0.12, 0.05, 0.31])),
+    "doc_2": ("Our offices will be closed on Thanksgiving.", np.array([0.05, 0.88, 0.45, 0.10])),
+    "doc_3": ("Server downtime maintenance on Sunday.", np.array([0.15, 0.20, 0.90, 0.12]))
+}
+
+# User Query: "What was our quarterly revenue?"
+query_vec = np.array([0.95, 0.08, 0.02, 0.28])
+
+# Top-1 Retrieval Search
+best_doc, best_score = None, -1.0
+for doc_id, (text, vec) in corpus.items():
+    score = cosine_similarity(query_vec, vec)
+    if score > best_score:
+        best_score = score
+        best_doc = (doc_id, text)
+
+print(f"Retrieved: {best_doc[0]} (Similarity: {best_score:.3f})")
+print(f"Content: '{best_doc[1]}'")</code></pre>
+
+  <div class="next" style="margin-top:28px;">
+    <div>
+      <div class="label">Next Technical Companion</div>
+      <p>Native Multimodal Omni Architecture & Real-Time Voice.</p>
+    </div>
+    <a class="tag" href="/ai-story/technical/17-multimodal-omni/">Module 17 · Native Multimodal Omni Architecture →</a>
+  </div>
+
+  <footer class="page-foot">The Pixel Story — Technical Track</footer>
+</div>
+
+<script>
+(function() {
+  var currentStep = 0;
+  var STEPS = [
+    {
+      title: "Step 1: Document Ingestion & Chunking",
+      text: "A 50-page financial PDF is split into 512-token chunks with 50-token overlap. Each chunk is embedded via a bi-encoder into vector space <code>R¹⁵³⁶</code>.",
+      bubble: "Ingested PDF: Generated 120 vector embeddings 📄",
+      bubbleClass: ""
+    },
+    {
+      title: "Step 2: User Query Vectorization",
+      text: "User asks: <em>'What was our Q3 revenue?'</em>. The query is converted into query vector <code>e_q</code> using the exact same embedding model.",
+      bubble: "Query mapped to embedding vector e_q 🗺️",
+      bubbleClass: ""
+    },
+    {
+      title: "Step 3: Approximate Nearest Neighbor Search (HNSW)",
+      text: "The Vector DB navigates the HNSW graph in 2.3ms, computing cosine similarity and retrieving the top chunk: <code>sim = 0.942</code>.",
+      bubble: "HNSW search found matching chunk (sim = 0.942) in 2.3ms ⚡",
+      bubbleClass: "good"
+    },
+    {
+      title: "Step 4: Dynamic Prompt Augmentation",
+      text: "The retrieved chunk is prepended to the user's prompt: <code>Context: [Q3 revenue was $4.2B]. Question: [What was Q3 revenue?]</code>.",
+      bubble: "Injecting verified source chunk into LLM context window 💉",
+      bubbleClass: "good"
+    },
+    {
+      title: "Step 5: Grounded Answer with Citations 🎉",
+      text: "The LLM reads the fresh document and responds: <em>'Q3 Revenue was $4.2 Billion (Source: 10-Q, Page 14)'</em>. 100% verified, zero hallucinations!",
+      bubble: "Grounded output with source citations generated! 📚✨",
+      bubbleClass: "good"
+    }
+  ];
+
+  var stepCounter = document.getElementById("stepCounter");
+  var stepTitle = document.getElementById("stepTitle");
+  var stepDescription = document.getElementById("stepDescription");
+  var stageBubbleBadge = document.getElementById("stageBubbleBadge");
+  var prevBtn = document.getElementById("prevStepBtn");
+  var nextBtn = document.getElementById("nextStepBtn");
+  var dots = document.querySelectorAll(".step-dot");
+
+  function renderStep() {
+    var s = STEPS[currentStep];
+    stepCounter.textContent = "Step " + (currentStep + 1) + " of " + STEPS.length;
+    stepTitle.textContent = s.title;
+    stepDescription.innerHTML = s.text;
+    stageBubbleBadge.textContent = s.bubble;
+    stageBubbleBadge.className = "bubble-badge " + (s.bubbleClass || "");
+
+    prevBtn.style.visibility = currentStep === 0 ? "hidden" : "visible";
+    nextBtn.textContent = currentStep === STEPS.length - 1 ? "Start Over ↺" : "Next Step →";
+    dots.forEach(function(d, i) { d.classList.toggle("active", i === currentStep); });
+  }
+
+  nextBtn.addEventListener("click", function() {
+    currentStep = (currentStep + 1) % STEPS.length;
+    renderStep();
+  });
+  prevBtn.addEventListener("click", function() {
+    if (currentStep > 0) { currentStep--; renderStep(); }
+  });
+  dots.forEach(function(dot, idx) {
+    dot.addEventListener("click", function() { currentStep = idx; renderStep(); });
+  });
+
+  renderStep();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,355 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Atkinson+Hyperlegible:wght@400;700&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<title>Technical Track 04: CNNs & Computer Vision — The Pixel Story</title>
+<link rel="stylesheet" href="/ai-story/assets/css/tokens.css">
+<link rel="stylesheet" href="/ai-story/assets/css/base.css">
+<style>
+  .tech-container { max-width: 680px; margin: 0 auto; }
+  .mode-switch-row {
+    display: flex; justify-content: space-between; align-items: center;
+    background: var(--surface); border: 1px solid var(--line-strong);
+    border-radius: var(--radius-m); padding: 10px 16px; margin: 18px 0 24px;
+    box-shadow: var(--shadow); flex-wrap: wrap; gap: 10px;
+  }
+  .mode-badge-tech {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-family: var(--font-mono); font-size: 0.8rem; font-weight: 700;
+    color: var(--c); background: rgba(255, 107, 69, 0.1); padding: 4px 10px; border-radius: 999px;
+  }
+  .switch-btn {
+    font-family: var(--font-display); font-size: 0.88rem; font-weight: 600; color: var(--ink);
+    text-decoration: none; padding: 6px 14px; border: 1px solid var(--line-strong);
+    border-radius: var(--radius-s); background: var(--surface-2); transition: all 0.2s ease;
+  }
+  .switch-btn:hover { border-color: var(--c); color: var(--c); }
+
+  .story-card {
+    background: var(--surface); border: 2px solid var(--line); border-radius: var(--radius-l);
+    box-shadow: 0 8px 30px rgba(42, 38, 34, 0.08); overflow: hidden; margin: 24px 0;
+  }
+  .story-stage {
+    background: var(--bg); border-bottom: 2px solid var(--line);
+    padding: 24px 20px 16px; display: flex; flex-direction: column;
+    align-items: center; justify-content: center; min-height: 270px; user-select: none;
+  }
+  .stage-svg-wrap { width: 100%; max-width: 480px; height: 200px; position: relative; }
+  
+  .pixel-bubble-row { display: flex; align-items: center; justify-content: center; gap: 12px; margin-top: 10px; }
+  .bubble-badge {
+    background: var(--surface); border: 2px solid var(--line-strong); padding: 6px 16px;
+    border-radius: 999px; font-family: var(--font-display); font-weight: 700; font-size: 1rem;
+    color: var(--ink); box-shadow: var(--shadow);
+  }
+  .bubble-badge.good { border-color: var(--good); color: var(--good); background: #F0FDF4; }
+
+  #filterWindow { transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1); }
+
+  .story-body { padding: 28px 24px; }
+  .step-eyebrow {
+    font-family: var(--font-mono); font-size: 0.8rem; color: var(--c);
+    text-transform: uppercase; letter-spacing: 0.08em; font-weight: 600; margin-bottom: 8px;
+  }
+  .step-heading {
+    font-family: var(--font-display); font-size: 1.45rem; font-weight: 700;
+    margin: 0 0 12px; color: var(--ink); line-height: 1.3;
+  }
+  .step-text { font-size: 1.05rem; line-height: 1.6; color: var(--ink); margin: 0 0 24px; }
+  
+  .story-nav-row {
+    display: flex; justify-content: space-between; align-items: center;
+    padding-top: 18px; border-top: 1px solid var(--line); flex-wrap: wrap; gap: 12px;
+  }
+  .btn-story {
+    font-family: var(--font-display); font-weight: 600; font-size: 1rem;
+    padding: 12px 24px; border-radius: var(--radius-m); border: none; cursor: pointer;
+    display: inline-flex; align-items: center; gap: 8px;
+  }
+  .btn-story:hover { transform: translateY(-1px); opacity: 0.92; }
+  .btn-primary { background: var(--c); color: var(--c-ink); box-shadow: var(--shadow); }
+  .btn-secondary { background: var(--surface-2); color: var(--ink); border: 1px solid var(--line-strong); }
+  .step-dots { display: flex; gap: 8px; }
+  .step-dot {
+    width: 10px; height: 10px; border-radius: 50%; background: var(--line-strong);
+    transition: all 0.2s ease; cursor: pointer;
+  }
+  .step-dot.active { background: var(--c); transform: scale(1.3); }
+
+  .concept-cards-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 20px; }
+  @media (max-width: 600px) { .concept-cards-grid { grid-template-columns: 1fr; } }
+  .concept-card { background: var(--surface-2); border: 1px solid var(--line-strong); border-radius: var(--radius-m); padding: 16px; }
+  .concept-card h4 { margin: 0 0 6px; font-family: var(--font-display); font-size: 1.05rem; color: var(--ink); }
+  .concept-card p { margin: 0; font-size: 0.92rem; color: var(--muted); line-height: 1.45; }
+
+  pre { background: #1E293B; color: #F8FAFC; border-radius: var(--radius-m); padding: 18px 20px; overflow-x: auto; font-family: var(--font-mono); font-size: 0.86rem; line-height: 1.6; margin: 20px 0; }
+  code { font-family: var(--font-mono); }
+</style>
+</head>
+<body>
+<div class="page tech-container">
+  <a class="back-link" href="/ai-story/technical/">&larr; All Technical Companions</a>
+
+  <div class="mode-switch-row">
+    <span class="mode-badge-tech">⚡ Technical Mastery Track · Module 04</span>
+    <a href="/ai-story/technical/" class="switch-btn">← All Technical Modules</a>
+  </div>
+
+  <div class="hero">
+    <h1>Convolutional Neural Networks & Feature Kernels</h1>
+    <p class="dek">Spatial representation learning in Computer Vision: 2D matrix convolution filter kernels (Sobel/Edge), Stride, Max Pooling downsampling, and spatial translation invariance.</p>
+  </div>
+
+  <div class="story-card">
+    <div class="story-stage">
+      <div class="stage-svg-wrap">
+        <svg viewBox="0 0 460 200" width="100%" height="100%" aria-label="2D Convolution sliding kernel matrix diagram">
+          <!-- 6x6 Input Image Matrix (Left) -->
+          <g transform="translate(40, 20)">
+            <rect x="0" y="0" width="144" height="144" rx="4" fill="var(--surface-2)" stroke="var(--line-strong)" stroke-width="1.5"/>
+            <!-- 6x6 Grid Lines -->
+            <line x1="24" y1="0" x2="24" y2="144" stroke="var(--line)" stroke-width="1"/>
+            <line x1="48" y1="0" x2="48" y2="144" stroke="var(--line)" stroke-width="1"/>
+            <line x1="72" y1="0" x2="72" y2="144" stroke="var(--line)" stroke-width="1"/>
+            <line x1="96" y1="0" x2="96" y2="144" stroke="var(--line)" stroke-width="1"/>
+            <line x1="120" y1="0" x2="120" y2="144" stroke="var(--line)" stroke-width="1"/>
+
+            <line x1="0" y1="24" x2="144" y2="24" stroke="var(--line)" stroke-width="1"/>
+            <line x1="0" y1="48" x2="144" y2="48" stroke="var(--line)" stroke-width="1"/>
+            <line x1="0" y1="72" x2="144" y2="72" stroke="var(--line)" stroke-width="1"/>
+            <line x1="0" y1="96" x2="144" y2="96" stroke="var(--line)" stroke-width="1"/>
+            <line x1="0" y1="120" x2="144" y2="120" stroke="var(--line)" stroke-width="1"/>
+
+            <text x="72" y="160" text-anchor="middle" font-family="var(--font-mono)" font-size="9" fill="var(--muted)">Input Matrix (6×6)</text>
+
+            <!-- 3x3 Sliding Filter Kernel Box -->
+            <g id="filterWindow" transform="translate(0, 0)">
+              <rect x="0" y="0" width="72" height="72" rx="4" fill="rgba(255, 107, 69, 0.2)" stroke="var(--c)" stroke-width="2.5"/>
+              <text x="36" y="42" text-anchor="middle" font-family="var(--font-mono)" font-size="10" font-weight="700" fill="var(--c)">Kernel 3×3</text>
+            </g>
+          </g>
+
+          <!-- Convolution Operation Indicator -->
+          <g transform="translate(205, 80)">
+            <text x="15" y="10" text-anchor="middle" font-family="var(--font-mono)" font-size="14" font-weight="700" fill="var(--c)">⊛</text>
+            <text x="15" y="24" text-anchor="middle" font-family="var(--font-mono)" font-size="8" fill="var(--muted)">Conv2D</text>
+          </g>
+
+          <!-- 4x4 Output Feature Map (Right) -->
+          <g transform="translate(255, 30)">
+            <rect x="0" y="0" width="128" height="128" rx="6" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
+            <line x1="32" y1="0" x2="32" y2="128" stroke="var(--line)" stroke-width="1"/>
+            <line x1="64" y1="0" x2="64" y2="128" stroke="var(--line)" stroke-width="1"/>
+            <line x1="96" y1="0" x2="96" y2="128" stroke="var(--line)" stroke-width="1"/>
+
+            <line x1="0" y1="32" x2="128" y2="32" stroke="var(--line)" stroke-width="1"/>
+            <line x1="0" y1="64" x2="128" y2="64" stroke="var(--line)" stroke-width="1"/>
+            <line x1="0" y1="96" x2="128" y2="96" stroke="var(--line)" stroke-width="1"/>
+
+            <rect id="activeCell" x="0" y="0" width="32" height="32" fill="#DCFCE7" stroke="var(--good)" stroke-width="2"/>
+            <text id="activeCellVal" x="16" y="20" text-anchor="middle" font-family="var(--font-mono)" font-size="10" font-weight="700" fill="var(--good)">+4.2</text>
+
+            <text x="64" y="148" text-anchor="middle" font-family="var(--font-mono)" font-size="9" fill="var(--muted)">Feature Map (4×4)</text>
+          </g>
+        </svg>
+      </div>
+
+      <div class="pixel-bubble-row">
+        <span style="font-size:1.4rem;">🔍</span>
+        <div class="bubble-badge good" id="stageBubbleBadge">
+          "Kernel patch (0,0) convolved: Feature output = +4.2"
+        </div>
+      </div>
+    </div>
+
+    <div class="story-body">
+      <div class="step-eyebrow" id="stepCounter">Step 1 of 5</div>
+      <h2 class="step-heading" id="stepTitle">The Curse of Image Dimensionality</h2>
+      <div class="step-text" id="stepDescription">
+        Feeding a 1000×1000 pixel image directly into a standard dense network creates <strong>3,000,000 weights per neuron</strong>! Convolutions solve this with <strong>Weight Sharing</strong> and local receptive fields.
+      </div>
+
+      <div class="story-nav-row">
+        <button type="button" class="btn-story btn-secondary" id="prevStepBtn" style="visibility:hidden;">← Back</button>
+        <div class="step-dots" id="stepDotsWrap">
+          <span class="step-dot active"></span>
+          <span class="step-dot"></span>
+          <span class="step-dot"></span>
+          <span class="step-dot"></span>
+          <span class="step-dot"></span>
+        </div>
+        <button type="button" class="btn-story btn-primary" id="nextStepBtn">Next Step →</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-head" style="margin-top: 36px;">
+    <h2>Mathematical Architecture</h2>
+    <div class="sub">How CNNs extract hierarchical features:</div>
+  </div>
+
+  <div class="concept-cards-grid">
+    <div class="concept-card">
+      <h4>🎛️ Convolution Kernel (K)</h4>
+      <p>A small learnable matrix (e.g. 3×3) that computes element-wise dot products across every local image patch.</p>
+    </div>
+    <div class="concept-card">
+      <h4>🗺️ Feature Map</h4>
+      <p><code>S(i, j) = (I * K)(i, j) = Σ Σ I(i-m, j-n) K(m, n)</code>. The resulting activated spatial representation.</p>
+    </div>
+    <div class="concept-card">
+      <h4>📏 Stride & Padding</h4>
+      <p><strong>Stride:</strong> Step size of filter slide. <strong>Padding (Same):</strong> Zero-borders to maintain dimension.</p>
+    </div>
+    <div class="concept-card">
+      <h4>📉 Max Pooling</h4>
+      <p>Extracting the maximum activation in each 2×2 window to reduce resolution and achieve translation invariance.</p>
+    </div>
+  </div>
+
+  <h3 style="font-family:var(--font-display); font-size:1.25rem; margin:32px 0 12px; color:var(--ink);">
+    From-Scratch 2D Matrix Convolution in Python / NumPy
+  </h3>
+  <pre><code>import numpy as np
+
+def conv2d(image, kernel, stride=1):
+    H, W = image.shape
+    kH, kW = kernel.shape
+    out_H = (H - kH) // stride + 1
+    out_W = (W - kW) // stride + 1
+    feature_map = np.zeros((out_H, out_W))
+
+    for i in range(0, out_H):
+        for j in range(0, out_W):
+            patch = image[i*stride : i*stride + kH, j*stride : j*stride + kW]
+            feature_map[i, j] = np.sum(patch * kernel)
+
+    return feature_map
+
+# 6x6 Synthetic Image (with a vertical bright edge)
+img = np.array([
+    [10, 10, 10, 0, 0, 0],
+    [10, 10, 10, 0, 0, 0],
+    [10, 10, 10, 0, 0, 0],
+    [10, 10, 10, 0, 0, 0],
+    [10, 10, 10, 0, 0, 0],
+    [10, 10, 10, 0, 0, 0]
+], dtype=float)
+
+# Sobel Vertical Edge Detection Kernel
+sobel_v = np.array([
+    [ 1, 0, -1],
+    [ 2, 0, -2],
+    [ 1, 0, -1]
+], dtype=float)
+
+# Compute Convolution
+edge_map = conv2d(img, sobel_v)
+print("Detected Vertical Edge Feature Map:")
+print(edge_map)</code></pre>
+
+  <div class="next" style="margin-top:28px;">
+    <div>
+      <div class="label">Next Technical Companion</div>
+      <p>Masked Language Modeling & Self-Supervised Learning.</p>
+    </div>
+    <a class="tag" href="/ai-story/technical/05-self-supervised-masking/">Module 05 · Self-Supervised Masking & Pretraining →</a>
+  </div>
+
+  <footer class="page-foot">The Pixel Story — Technical Track</footer>
+</div>
+
+<script>
+(function() {
+  var currentStep = 0;
+  var STEPS = [
+    {
+      title: "Step 1: Sliding Kernel over Top-Left Patch",
+      text: "The 3×3 edge filter kernel aligns with pixels <code>[0:3, 0:3]</code>. It performs element-wise multiplication and sums the result into Feature Map coordinate <code>(0,0)</code>.",
+      bubble: "Patch (0,0) convolved: Output = +4.2 🔍",
+      filterPos: [0, 0],
+      cellPos: [0, 0],
+      cellVal: "+4.2"
+    },
+    {
+      title: "Step 2: Stride = 1 Across the Row",
+      text: "The kernel slides 1 pixel to the right: <code>[0:3, 1:4]</code>. Since it passes directly over the bright vertical contrast edge, the activation spikes to <strong>+8.5</strong>!",
+      bubble: "Strong Edge Detected! Activation = +8.5 ⚡",
+      filterPos: [24, 0],
+      cellPos: [32, 0],
+      cellVal: "+8.5"
+    },
+    {
+      title: "Step 3: Sliding Down the Column",
+      text: "The kernel strides down to row 2: <code>[1:4, 1:4]</code>. The exact same 9 weights detect edges regardless of where they appear on the screen (<strong>Translation Invariance</strong>).",
+      bubble: "Translation Invariance: Same weights work anywhere! 🗺️",
+      filterPos: [24, 24],
+      cellPos: [32, 32],
+      cellVal: "+8.5"
+    },
+    {
+      title: "Step 4: Max Pooling Layer (Downsampling)",
+      text: "A 2×2 Max Pooling operation takes each block and keeps only the highest activation value, cutting the memory footprint by 75% while keeping core features.",
+      bubble: "Max Pooling: Preserving key edges while shrinking size 📉",
+      filterPos: [48, 48],
+      cellPos: [64, 64],
+      cellVal: "+7.1"
+    },
+    {
+      title: "Step 5: Hierarchical Deep Feature Stacking 🎉",
+      text: "Layer 1 finds edges → Layer 2 combines edges into eyes/noses → Layer 3 detects complete objects. That is modern Computer Vision!",
+      bubble: "Hierarchical Vision complete! Ready for classification 🐱✨",
+      filterPos: [0, 0],
+      cellPos: [0, 0],
+      cellVal: "Done"
+    }
+  ];
+
+  var stepCounter = document.getElementById("stepCounter");
+  var stepTitle = document.getElementById("stepTitle");
+  var stepDescription = document.getElementById("stepDescription");
+  var stageBubbleBadge = document.getElementById("stageBubbleBadge");
+  var filterWindow = document.getElementById("filterWindow");
+  var activeCell = document.getElementById("activeCell");
+  var activeCellVal = document.getElementById("activeCellVal");
+  var prevBtn = document.getElementById("prevStepBtn");
+  var nextBtn = document.getElementById("nextStepBtn");
+  var dots = document.querySelectorAll(".step-dot");
+
+  function renderStep() {
+    var s = STEPS[currentStep];
+    stepCounter.textContent = "Step " + (currentStep + 1) + " of " + STEPS.length;
+    stepTitle.textContent = s.title;
+    stepDescription.innerHTML = s.text;
+    stageBubbleBadge.textContent = s.bubble;
+
+    filterWindow.style.transform = "translate(" + s.filterPos[0] + "px, " + s.filterPos[1] + "px)";
+    activeCell.setAttribute("x", s.cellPos[0]);
+    activeCell.setAttribute("y", s.cellPos[1]);
+    activeCellVal.setAttribute("x", s.cellPos[0] + 16);
+    activeCellVal.setAttribute("y", s.cellPos[1] + 20);
+    activeCellVal.textContent = s.cellVal;
+
+    prevBtn.style.visibility = currentStep === 0 ? "hidden" : "visible";
+    nextBtn.textContent = currentStep === STEPS.length - 1 ? "Start Over ↺" : "Next Step →";
+    dots.forEach(function(d, i) { d.classList.toggle("active", i === currentStep); });
+  }
+
+  nextBtn.addEventListener("click", function() {
+    currentStep = (currentStep + 1) % STEPS.length;
+    renderStep();
+  });
+  prevBtn.addEventListener("click", function() {
+    if (currentStep > 0) { currentStep--; renderStep(); }
+  });
+  dots.forEach(function(dot, idx) {
+    dot.addEventListener("click", function() { currentStep = idx; renderStep(); });
+  });
+
+  renderStep();
+})();
+</script>
+</body>
+</html>

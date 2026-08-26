@@ -1,0 +1,323 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Atkinson+Hyperlegible:wght@400;700&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<title>Technical Track 05: Self-Supervised Masking & Pretraining — The Pixel Story</title>
+<link rel="stylesheet" href="/ai-story/assets/css/tokens.css">
+<link rel="stylesheet" href="/ai-story/assets/css/base.css">
+<style>
+  .tech-container { max-width: 680px; margin: 0 auto; }
+  .mode-switch-row {
+    display: flex; justify-content: space-between; align-items: center;
+    background: var(--surface); border: 1px solid var(--line-strong);
+    border-radius: var(--radius-m); padding: 10px 16px; margin: 18px 0 24px;
+    box-shadow: var(--shadow); flex-wrap: wrap; gap: 10px;
+  }
+  .mode-badge-tech {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-family: var(--font-mono); font-size: 0.8rem; font-weight: 700;
+    color: var(--c); background: rgba(255, 107, 69, 0.1); padding: 4px 10px; border-radius: 999px;
+  }
+  .switch-btn {
+    font-family: var(--font-display); font-size: 0.88rem; font-weight: 600; color: var(--ink);
+    text-decoration: none; padding: 6px 14px; border: 1px solid var(--line-strong);
+    border-radius: var(--radius-s); background: var(--surface-2); transition: all 0.2s ease;
+  }
+  .switch-btn:hover { border-color: var(--c); color: var(--c); }
+
+  .story-card {
+    background: var(--surface); border: 2px solid var(--line); border-radius: var(--radius-l);
+    box-shadow: 0 8px 30px rgba(42, 38, 34, 0.08); overflow: hidden; margin: 24px 0;
+  }
+  .story-stage {
+    background: var(--bg); border-bottom: 2px solid var(--line);
+    padding: 24px 20px 16px; display: flex; flex-direction: column;
+    align-items: center; justify-content: center; min-height: 270px; user-select: none;
+  }
+  .stage-svg-wrap { width: 100%; max-width: 480px; height: 200px; position: relative; }
+  
+  .pixel-bubble-row { display: flex; align-items: center; justify-content: center; gap: 12px; margin-top: 10px; }
+  .bubble-badge {
+    background: var(--surface); border: 2px solid var(--line-strong); padding: 6px 16px;
+    border-radius: 999px; font-family: var(--font-display); font-weight: 700; font-size: 1rem;
+    color: var(--ink); box-shadow: var(--shadow);
+  }
+  .bubble-badge.good { border-color: var(--good); color: var(--good); background: #F0FDF4; }
+
+  .story-body { padding: 28px 24px; }
+  .step-eyebrow {
+    font-family: var(--font-mono); font-size: 0.8rem; color: var(--c);
+    text-transform: uppercase; letter-spacing: 0.08em; font-weight: 600; margin-bottom: 8px;
+  }
+  .step-heading {
+    font-family: var(--font-display); font-size: 1.45rem; font-weight: 700;
+    margin: 0 0 12px; color: var(--ink); line-height: 1.3;
+  }
+  .step-text { font-size: 1.05rem; line-height: 1.6; color: var(--ink); margin: 0 0 24px; }
+  
+  .story-nav-row {
+    display: flex; justify-content: space-between; align-items: center;
+    padding-top: 18px; border-top: 1px solid var(--line); flex-wrap: wrap; gap: 12px;
+  }
+  .btn-story {
+    font-family: var(--font-display); font-weight: 600; font-size: 1rem;
+    padding: 12px 24px; border-radius: var(--radius-m); border: none; cursor: pointer;
+    display: inline-flex; align-items: center; gap: 8px;
+  }
+  .btn-story:hover { transform: translateY(-1px); opacity: 0.92; }
+  .btn-primary { background: var(--c); color: var(--c-ink); box-shadow: var(--shadow); }
+  .btn-secondary { background: var(--surface-2); color: var(--ink); border: 1px solid var(--line-strong); }
+  .step-dots { display: flex; gap: 8px; }
+  .step-dot {
+    width: 10px; height: 10px; border-radius: 50%; background: var(--line-strong);
+    transition: all 0.2s ease; cursor: pointer;
+  }
+  .step-dot.active { background: var(--c); transform: scale(1.3); }
+
+  .concept-cards-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 20px; }
+  @media (max-width: 600px) { .concept-cards-grid { grid-template-columns: 1fr; } }
+  .concept-card { background: var(--surface-2); border: 1px solid var(--line-strong); border-radius: var(--radius-m); padding: 16px; }
+  .concept-card h4 { margin: 0 0 6px; font-family: var(--font-display); font-size: 1.05rem; color: var(--ink); }
+  .concept-card p { margin: 0; font-size: 0.92rem; color: var(--muted); line-height: 1.45; }
+
+  pre { background: #1E293B; color: #F8FAFC; border-radius: var(--radius-m); padding: 18px 20px; overflow-x: auto; font-family: var(--font-mono); font-size: 0.86rem; line-height: 1.6; margin: 20px 0; }
+  code { font-family: var(--font-mono); }
+</style>
+</head>
+<body>
+<div class="page tech-container">
+  <a class="back-link" href="/ai-story/technical/">&larr; All Technical Companions</a>
+
+  <div class="mode-switch-row">
+    <span class="mode-badge-tech">⚡ Technical Mastery Track · Module 05</span>
+    <a href="/ai-story/technical/" class="switch-btn">← All Technical Modules</a>
+  </div>
+
+  <div class="hero">
+    <h1>Self-Supervised Masking & Pretraining</h1>
+    <p class="dek">Unsupervised language representation learning: Masked Language Modeling (MLM / BERT), Vocabulary Softmax probability distributions, Cross-Entropy loss, and web-scale pretraining.</p>
+  </div>
+
+  <div class="story-card">
+    <div class="story-stage">
+      <div class="stage-svg-wrap">
+        <svg viewBox="0 0 460 200" width="100%" height="100%" aria-label="Masked Language Modeling pretraining diagram">
+          <!-- Input Tokens with [MASK] -->
+          <g transform="translate(30, 25)">
+            <rect x="0" y="0" width="70" height="40" rx="6" fill="var(--surface-2)" stroke="var(--line-strong)" stroke-width="1.5"/>
+            <text x="35" y="24" text-anchor="middle" font-family="var(--font-mono)" font-size="11" font-weight="600">The</text>
+
+            <!-- MASK Token (Target) -->
+            <rect id="maskTokenBox" x="80" y="0" width="80" height="40" rx="6" fill="#FEF3C7" stroke="#F59E0B" stroke-width="2"/>
+            <text id="maskTokenText" x="120" y="24" text-anchor="middle" font-family="var(--font-mono)" font-size="11" font-weight="700" fill="#B45309">[MASK]</text>
+
+            <rect x="170" y="0" width="65" height="40" rx="6" fill="var(--surface-2)" stroke="var(--line-strong)" stroke-width="1.5"/>
+            <text x="202" y="24" text-anchor="middle" font-family="var(--font-mono)" font-size="11" font-weight="600">sat</text>
+
+            <rect x="245" y="0" width="60" height="40" rx="6" fill="var(--surface-2)" stroke="var(--line-strong)" stroke-width="1.5"/>
+            <text x="275" y="24" text-anchor="middle" font-family="var(--font-mono)" font-size="11" font-weight="600">on</text>
+
+            <rect x="315" y="0" width="70" height="40" rx="6" fill="var(--surface-2)" stroke="var(--line-strong)" stroke-width="1.5"/>
+            <text x="350" y="24" text-anchor="middle" font-family="var(--font-mono)" font-size="11" font-weight="600">mat</text>
+          </g>
+
+          <!-- Transformer Encoder Layer -->
+          <g transform="translate(30, 80)">
+            <rect x="0" y="0" width="355" height="35" rx="6" fill="var(--surface)" stroke="var(--c)" stroke-width="1.5"/>
+            <text x="177" y="22" text-anchor="middle" font-family="var(--font-mono)" font-size="10" font-weight="700" fill="var(--c)">
+              Bidirectional Transformer Encoder (Context Pooling)
+            </text>
+          </g>
+
+          <!-- Vocabulary Softmax Probabilities (Target: "cat") -->
+          <g transform="translate(30, 130)">
+            <!-- Top Candidates -->
+            <rect id="pred1" x="80" y="0" width="100" height="24" rx="4" fill="#DCFCE7" stroke="var(--good)" stroke-width="1.5"/>
+            <text id="pred1Text" x="130" y="16" text-anchor="middle" font-family="var(--font-mono)" font-size="9" font-weight="700" fill="var(--good)">"cat": 84.5%</text>
+
+            <rect id="pred2" x="190" y="0" width="95" height="24" rx="4" fill="var(--surface-2)" stroke="var(--line)" stroke-width="1"/>
+            <text id="pred2Text" x="237" y="16" text-anchor="middle" font-family="var(--font-mono)" font-size="9" fill="var(--muted)">"dog": 11.2%</text>
+
+            <rect id="pred3" x="295" y="0" width="90" height="24" rx="4" fill="var(--surface-2)" stroke="var(--line)" stroke-width="1"/>
+            <text id="pred3Text" x="340" y="16" text-anchor="middle" font-family="var(--font-mono)" font-size="9" fill="var(--muted)">"car": 0.4%</text>
+          </g>
+        </svg>
+      </div>
+
+      <div class="pixel-bubble-row">
+        <span style="font-size:1.4rem;">📖</span>
+        <div class="bubble-badge good" id="stageBubbleBadge">
+          "Predicting masked token from context: p('cat') = 84.5%"
+        </div>
+      </div>
+    </div>
+
+    <div class="story-body">
+      <div class="step-eyebrow" id="stepCounter">Step 1 of 5</div>
+      <h2 class="step-heading" id="stepTitle">The Supervised Data Bottleneck</h2>
+      <div class="step-text" id="stepDescription">
+        Hiring humans to label millions of images or text files is expensive and slow. <strong>Self-Supervised Learning</strong> creates infinite labels for free: take raw text, hide random words with <code>[MASK]</code>, and train the model to guess the blanks!
+      </div>
+
+      <div class="story-nav-row">
+        <button type="button" class="btn-story btn-secondary" id="prevStepBtn" style="visibility:hidden;">← Back</button>
+        <div class="step-dots" id="stepDotsWrap">
+          <span class="step-dot active"></span>
+          <span class="step-dot"></span>
+          <span class="step-dot"></span>
+          <span class="step-dot"></span>
+          <span class="step-dot"></span>
+        </div>
+        <button type="button" class="btn-story btn-primary" id="nextStepBtn">Next Step →</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-head" style="margin-top: 36px;">
+    <h2>Mathematical Architecture</h2>
+    <div class="sub">How Masked Language Modeling learns syntax and semantics:</div>
+  </div>
+
+  <div class="concept-cards-grid">
+    <div class="concept-card">
+      <h4>🎭 15% Random Masking</h4>
+      <p>In BERT training, 15% of all tokens are selected: 80% replaced with <code>[MASK]</code>, 10% random word, 10% unchanged.</p>
+    </div>
+    <div class="concept-card">
+      <h4>📊 Softmax over Vocabulary</h4>
+      <p><code>p(w | context) = exp(z_w) / Σ exp(z_v)</code> across the full 30,000+ token vocabulary.</p>
+    </div>
+    <div class="concept-card">
+      <h4>📉 Cross-Entropy Loss</h4>
+      <p><code>L = -log(p(w_true | context))</code>. Error forces the model to encode rich grammar and world knowledge.</p>
+    </div>
+    <div class="concept-card">
+      <h4>🚀 Foundation Pretraining</h4>
+      <p>Training on billions of unlabelled tokens builds a foundation model ready for fine-tuning on any downstream task.</p>
+    </div>
+  </div>
+
+  <h3 style="font-family:var(--font-display); font-size:1.25rem; margin:32px 0 12px; color:var(--ink);">
+    PyTorch Masked Language Modeling Loss Example
+  </h3>
+  <pre><code>import torch
+import torch.nn as nn
+import torch.nn.functional as F
+
+# Vocabulary: 0: [PAD], 1: [MASK], 2: The, 3: cat, 4: dog, 5: sat, 6: on, 7: mat
+vocab_size = 8
+
+# Ground truth token ID for "cat" is 3
+target_token = torch.tensor([3])
+
+# Model output logits for the [MASK] position (raw unnormalized scores)
+mask_logits = torch.tensor([[ -2.1, -5.0, 0.5, 4.2, 2.1, -1.0, -2.5, 0.1 ]])
+
+# 1. Compute Probabilities via Softmax
+probs = F.softmax(mask_logits, dim=-1)
+print(f"p('cat'): {probs[0, 3].item():.4f}")  # ~ 0.845 (84.5%)
+print(f"p('dog'): {probs[0, 4].item():.4f}")  # ~ 0.112 (11.2%)
+
+# 2. Compute Cross-Entropy Loss
+loss_fn = nn.CrossEntropyLoss()
+loss = loss_fn(mask_logits, target_token)
+print(f"Pretraining MLM Loss: {loss.item():.4f}")</code></pre>
+
+  <div class="next" style="margin-top:28px;">
+    <div>
+      <div class="label">Next Technical Companion</div>
+      <p>Query, Key, Value Matrices & Scaled Dot-Product Attention.</p>
+    </div>
+    <a class="tag" href="/ai-story/technical/06-attention-transformers/">Module 06 · Scaled Dot-Product Self-Attention →</a>
+  </div>
+
+  <footer class="page-foot">The Pixel Story — Technical Track</footer>
+</div>
+
+<script>
+(function() {
+  var currentStep = 0;
+  var STEPS = [
+    {
+      title: "Step 1: Random Token Masking",
+      text: "We take raw text: <em>'The cat sat on the mat'</em>. The token <code>'cat'</code> is replaced with <code>[MASK]</code>. The target label <code>y = 'cat'</code> is automatically saved from the original sentence!",
+      bubble: "15% Masking: Zero manual labeling required! 🎭",
+      maskText: "[MASK]",
+      p1: "'cat': 12.5%", p2: "'car': 10.1%", p3: "'the': 15.0%"
+    },
+    {
+      title: "Step 2: Bidirectional Context Encoding",
+      text: "The Transformer pools context from both sides (left: <em>'The'</em>, right: <em>'sat on mat'</em>). The hidden representation at <code>[MASK]</code> contains full context clues.",
+      bubble: "Pooling bidirectional context from left and right ↔️",
+      maskText: "[ENCODED]",
+      p1: "'cat': 45.0%", p2: "'dog': 32.0%", p3: "'mat': 5.0%"
+    },
+    {
+      title: "Step 3: Softmax over Vocabulary",
+      text: "The output projection layer computes logits for all 30,000 vocabulary words. Softmax converts raw logits into a valid probability distribution.",
+      bubble: "Computing vocabulary probabilities via Softmax 📊",
+      maskText: "[SOFTMAX]",
+      p1: "'cat': 84.5%", p2: "'dog': 11.2%", p3: "'car': 0.4%"
+    },
+    {
+      title: "Step 4: Cross-Entropy Loss & Optimization",
+      text: "Loss is calculated: <code>L = -log(0.845) = 0.168</code>. Error gradients flow back through the entire network, adjusting weights to understand syntax and grammar.",
+      bubble: "Cross-Entropy Loss = 0.168! Updating weights 📉",
+      maskText: "cat (85%)",
+      p1: "'cat': 84.5%", p2: "'dog': 11.2%", p3: "'car': 0.4%"
+    },
+    {
+      title: "Step 5: Pretrained Foundation Model Ready 🎉",
+      text: "After billions of masked sentence predictions, the model understands language structure, common sense, and context. That is the engine behind BERT and modern LLMs!",
+      bubble: "Pretraining Complete! Foundation model ready for fine-tuning 🚀",
+      maskText: "cat ✅",
+      p1: "'cat': 98.2%", p2: "'dog': 1.5%", p3: "'fox': 0.1%"
+    }
+  ];
+
+  var stepCounter = document.getElementById("stepCounter");
+  var stepTitle = document.getElementById("stepTitle");
+  var stepDescription = document.getElementById("stepDescription");
+  var stageBubbleBadge = document.getElementById("stageBubbleBadge");
+  var maskTokenText = document.getElementById("maskTokenText");
+  var pred1Text = document.getElementById("pred1Text");
+  var pred2Text = document.getElementById("pred2Text");
+  var pred3Text = document.getElementById("pred3Text");
+  var prevBtn = document.getElementById("prevStepBtn");
+  var nextBtn = document.getElementById("nextStepBtn");
+  var dots = document.querySelectorAll(".step-dot");
+
+  function renderStep() {
+    var s = STEPS[currentStep];
+    stepCounter.textContent = "Step " + (currentStep + 1) + " of " + STEPS.length;
+    stepTitle.textContent = s.title;
+    stepDescription.innerHTML = s.text;
+    stageBubbleBadge.textContent = s.bubble;
+    maskTokenText.textContent = s.maskText;
+    pred1Text.textContent = s.p1;
+    pred2Text.textContent = s.p2;
+    pred3Text.textContent = s.p3;
+
+    prevBtn.style.visibility = currentStep === 0 ? "hidden" : "visible";
+    nextBtn.textContent = currentStep === STEPS.length - 1 ? "Start Over ↺" : "Next Step →";
+    dots.forEach(function(d, i) { d.classList.toggle("active", i === currentStep); });
+  }
+
+  nextBtn.addEventListener("click", function() {
+    currentStep = (currentStep + 1) % STEPS.length;
+    renderStep();
+  });
+  prevBtn.addEventListener("click", function() {
+    if (currentStep > 0) { currentStep--; renderStep(); }
+  });
+  dots.forEach(function(dot, idx) {
+    dot.addEventListener("click", function() { currentStep = idx; renderStep(); });
+  });
+
+  renderStep();
+})();
+</script>
+</body>
+</html>

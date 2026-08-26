@@ -4,199 +4,364 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Atkinson+Hyperlegible:wght@400;700&family=IBM+Plex+Mono:wght@500;600&display=swap">
-<title>Pixel Visits the Hospital — The Pixel Story</title>
+<title>Chapter 14: Pixel Visits the Hospital — The Pixel Story</title>
 <link rel="stylesheet" href="/ai-story/assets/css/tokens.css">
 <link rel="stylesheet" href="/ai-story/assets/css/base.css">
 <style>
-  #shadowSpot { transition: stroke 0.35s ease, fill-opacity 0.35s ease; }
-  @media (prefers-reduced-motion: reduce) { #shadowSpot { transition: none; } }
+  .story-container { max-width: 680px; margin: 0 auto; }
+  .story-card {
+    background: var(--surface);
+    border: 2px solid var(--line);
+    border-radius: var(--radius-l);
+    box-shadow: 0 8px 30px rgba(42, 38, 34, 0.08);
+    overflow: hidden;
+    margin: 24px 0;
+    transition: all 0.3s ease;
+  }
+  .story-stage {
+    background: var(--bg);
+    border-bottom: 2px solid var(--line);
+    padding: 24px 20px 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 270px;
+    position: relative;
+    user-select: none;
+  }
+  .stage-svg-wrap {
+    width: 100%;
+    max-width: 480px;
+    height: 200px;
+    position: relative;
+  }
+  .pixel-bubble-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 10px;
+  }
+  .bubble-badge {
+    background: var(--surface);
+    border: 2px solid var(--line-strong);
+    padding: 6px 16px;
+    border-radius: 999px;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1rem;
+    color: var(--ink);
+    box-shadow: var(--shadow);
+    transition: all 0.25s ease;
+  }
+  .bubble-badge.good { border-color: var(--good); color: var(--good); background: #F0FDF4; }
+  .bubble-badge.bad { border-color: var(--bad); color: var(--bad); background: #FEF2F2; }
+
+  /* Anomaly Highlight Box in X-Ray */
+  #xrayHighlight { transition: opacity 0.4s ease, transform 0.4s ease; }
+
+  .story-body { padding: 28px 24px; }
+  .step-eyebrow {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--c);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+  .step-heading {
+    font-family: var(--font-display);
+    font-size: 1.45rem;
+    font-weight: 700;
+    margin: 0 0 12px;
+    color: var(--ink);
+    line-height: 1.3;
+  }
+  .step-text { font-size: 1.05rem; line-height: 1.6; color: var(--ink); margin: 0 0 24px; }
+  .story-nav-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 18px;
+    border-top: 1px solid var(--line);
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .btn-story {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 1rem;
+    padding: 12px 24px;
+    border-radius: var(--radius-m);
+    border: none;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: transform 0.15s ease, opacity 0.15s ease;
+  }
+  .btn-story:hover { transform: translateY(-1px); opacity: 0.92; }
+  .btn-primary { background: var(--c); color: var(--c-ink); box-shadow: var(--shadow); }
+  .btn-secondary { background: var(--surface-2); color: var(--ink); border: 1px solid var(--line-strong); }
+  .step-dots { display: flex; gap: 8px; }
+  .step-dot {
+    width: 10px; height: 10px; border-radius: 50%;
+    background: var(--line-strong); transition: all 0.2s ease; cursor: pointer;
+  }
+  .step-dot.active { background: var(--c); transform: scale(1.3); }
+
+  .concept-cards-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-top: 20px;
+  }
+  @media (max-width: 600px) { .concept-cards-grid { grid-template-columns: 1fr; } }
+  .concept-card {
+    background: var(--surface-2);
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius-m);
+    padding: 16px;
+  }
+  .concept-card h4 {
+    margin: 0 0 6px; font-family: var(--font-display); font-size: 1.05rem;
+    color: var(--ink); display: flex; align-items: center; gap: 6px;
+  }
+  .concept-card p { margin: 0; font-size: 0.92rem; color: var(--muted); line-height: 1.45; }
 </style>
 </head>
 <body>
-<div class="page">
+<div class="page story-container">
   <a class="back-link" href="/ai-story/">&larr; All chapters</a>
-
   <div class="eyebrow"><span class="dot"></span> Chapter 14 of 15 &nbsp;&middot;&nbsp; The Pixel Story</div>
 
   <div class="hero">
-    <h1>Pixel Visits the Hospital.</h1>
-    <p class="dek">Pixel has learned to see, listen, and predict. Now it puts those skills to work somewhere real — starting with a doctor squinting at an X-ray.</p>
+    <h1>Pixel Visits the Hospital</h1>
+    <p class="dek">How does AI save lives in the real world? Discover medical imaging triage, domain data specialization, and why human doctors stay in the loop.</p>
   </div>
 
-  <div class="learn-grid">
-  <div class="learn-col-strip">
-  <div class="section-head">
-    <h2>How Pixel helps out for real</h2>
-    <div class="sub">Six steps. Watch it play, or use the arrows to go at your own pace.</div>
-  </div>
+  <div class="story-card">
+    <div class="story-stage">
+      <div class="stage-svg-wrap">
+        <svg viewBox="0 0 460 200" width="100%" height="100%" aria-label="Medical AI scan triage and human in the loop diagram">
+          <!-- X-Ray Scan Lightbox (Left) -->
+          <g transform="translate(60, 25)">
+            <rect x="0" y="0" width="130" height="150" rx="8" fill="#1E293B" stroke="var(--ink)" stroke-width="2"/>
+            <!-- Ribs & Chest Silhouette in X-ray -->
+            <path d="M65 20 L65 130" stroke="#64748B" stroke-width="3"/>
+            <!-- Rib arcs -->
+            <path d="M30 45 Q 65 35, 100 45" stroke="#94A3B8" stroke-width="2.5" fill="none"/>
+            <path d="M25 65 Q 65 55, 105 65" stroke="#94A3B8" stroke-width="2.5" fill="none"/>
+            <path d="M25 85 Q 65 75, 105 85" stroke="#94A3B8" stroke-width="2.5" fill="none"/>
+            <path d="M30 105 Q 65 95, 100 105" stroke="#94A3B8" stroke-width="2.5" fill="none"/>
 
-  <div class="strip">
-    <div class="stage">
-      <svg viewBox="0 0 320 220" role="img" aria-label="Illustration of Pixel spotting a shadow on an X-ray">
-        <!-- x-ray screen, always present -->
-        <g id="xrayGroup">
-          <rect x="20" y="40" width="120" height="140" rx="8" fill="var(--surface-2)" stroke="var(--line-strong)" stroke-width="2"/>
-          <path d="M35 60 Q 80 50 125 60" fill="none" stroke="var(--line-strong)" stroke-width="2"/>
-          <path d="M32 78 Q 80 66 128 78" fill="none" stroke="var(--line-strong)" stroke-width="2"/>
-          <path d="M30 96 Q 80 82 130 96" fill="none" stroke="var(--line-strong)" stroke-width="2"/>
-          <path d="M32 114 Q 80 100 128 114" fill="none" stroke="var(--line-strong)" stroke-width="2"/>
-          <path d="M35 132 Q 80 120 125 132" fill="none" stroke="var(--line-strong)" stroke-width="2"/>
-          <circle id="shadowSpot" cx="100" cy="108" r="9" fill="var(--muted)" fill-opacity="0.35" stroke="none" stroke-width="2"/>
-        </g>
-
-        <!-- reference thumbnails (domain data) -->
-        <g id="refThumbs" class="decor">
-          <rect x="148" y="150" width="20" height="26" rx="3" fill="var(--surface)" stroke="var(--c)" stroke-width="1.3"/>
-          <rect x="172" y="150" width="20" height="26" rx="3" fill="var(--surface)" stroke="var(--c)" stroke-width="1.3"/>
-          <rect x="196" y="150" width="20" height="26" rx="3" fill="var(--surface)" stroke="var(--c)" stroke-width="1.3"/>
-        </g>
-
-        <!-- other-domain icons for mastery -->
-        <g id="domainIcons" class="decor">
-          <path d="M20 200 l6 -14 h14 l6 14 Z" fill="none" stroke="var(--good)" stroke-width="1.8" stroke-linejoin="round"/>
-          <circle cx="280" cy="195" r="9" fill="none" stroke="var(--good)" stroke-width="1.8"/>
-          <text x="280" y="199" text-anchor="middle" font-family="var(--font-mono)" font-weight="700" font-size="10" fill="var(--good)">$</text>
-        </g>
-
-        <g transform="translate(50,10)">
-          <!-- Pixel base figure (unchanged geometry, repositioned via translate) -->
-          <g id="pixelBase">
-            <ellipse cx="205" cy="196" rx="46" ry="7" fill="var(--ink)" opacity="0.07"/>
-            <rect x="163" y="34" width="7" height="24" rx="3.5" fill="var(--line-strong)"/>
-            <circle cx="166.5" cy="34" r="6.5" fill="var(--c)"/>
-            <rect x="150" y="58" width="112" height="94" rx="26" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
-            <circle cx="206" cy="102" r="32" fill="var(--surface-2)" stroke="var(--line-strong)" stroke-width="2"/>
-            <circle id="facePupil" cx="206" cy="102" r="14" fill="var(--ink)"/>
-            <circle cx="200" cy="96" r="3.6" fill="var(--surface)"/>
-            <rect x="180" y="140" width="52" height="8" rx="4" fill="var(--line-strong)"/>
+            <!-- Anomaly Target Box Highlight -->
+            <g id="xrayHighlight" transform="translate(75, 55)" opacity="0">
+              <rect x="0" y="0" width="35" height="35" rx="4" fill="none" stroke="#EF4444" stroke-width="2.5" stroke-dasharray="3,3"/>
+              <circle cx="17" cy="17" r="8" fill="rgba(239, 68, 68, 0.4)"/>
+            </g>
           </g>
 
-          <!-- decor 1: question bubble -->
-          <g id="ov1" class="decor">
-            <circle cx="150" cy="52" r="5" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
-            <circle cx="160" cy="42" r="7" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
-            <rect x="148" y="8" width="64" height="30" rx="14" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
-            <text x="180" y="30" text-anchor="middle" font-family="var(--font-display)" font-weight="700" font-size="20" fill="var(--muted)">?</text>
+          <!-- Middle Arrow: Scan Triage -->
+          <g transform="translate(205, 85)">
+            <path d="M0 10 L35 10" stroke="var(--c)" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="3,3"/>
+            <polygon points="35,10 27,5 27,15" fill="var(--c)"/>
+            <text x="18" y="26" text-anchor="middle" font-family="var(--font-mono)" font-size="8" fill="var(--muted)">Triage</text>
           </g>
 
-          <!-- decor 2: studying focus (magnifier) -->
-          <g id="ov2" class="decor">
-            <circle cx="150" cy="52" r="5" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
-            <circle cx="160" cy="42" r="7" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
-            <rect x="148" y="8" width="64" height="30" rx="14" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
-            <circle cx="176" cy="21" r="8" fill="none" stroke="var(--c)" stroke-width="2"/>
-            <line x1="182" y1="27" x2="190" y2="34" stroke="var(--c)" stroke-width="2.2" stroke-linecap="round"/>
+          <!-- Doctor Sarah + Pixel Team (Right) -->
+          <g transform="translate(255, 30)">
+            <rect x="0" y="0" width="150" height="140" rx="8" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
+            <text id="doctorDecisionTitle" x="75" y="25" text-anchor="middle" font-family="var(--font-mono)" font-size="10" font-weight="700" fill="var(--c)">
+              DOCTOR REVIEW
+            </text>
+            <text id="doctorDecisionMain" x="75" y="58" text-anchor="middle" font-family="var(--font-display)" font-size="12" font-weight="700" fill="var(--ink)">
+              👩‍⚕️ Dr. Sarah
+            </text>
+            <text id="doctorDecisionSub" x="75" y="85" text-anchor="middle" font-family="var(--font-mono)" font-size="9" fill="var(--good)">
+              "Flagged: Early Pneumonia"
+            </text>
+            <text x="75" y="115" text-anchor="middle" font-family="var(--font-mono)" font-size="9" fill="var(--muted)">
+              Human confirms & prescribes
+            </text>
           </g>
-
-          <!-- decor 3: unsure bubble -->
-          <g id="ov3" class="decor">
-            <circle cx="150" cy="52" r="5" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
-            <circle cx="160" cy="42" r="7" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
-            <rect x="140" y="4" width="86" height="34" rx="16" fill="var(--surface)" stroke="var(--bad)" stroke-width="2"/>
-            <text x="173" y="27" text-anchor="middle" font-family="var(--font-display)" font-weight="700" font-size="17" fill="var(--muted)">??</text>
-            <circle cx="216" cy="14" r="11" fill="var(--bad)"/>
-            <path d="M212 10 L220 18 M220 10 L212 18" stroke="white" stroke-width="2.4" stroke-linecap="round"/>
-          </g>
-
-          <!-- decor 5: right bubble -->
-          <g id="ov5" class="decor">
-            <circle cx="150" cy="52" r="5" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
-            <circle cx="160" cy="42" r="7" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
-            <rect x="140" y="4" width="86" height="34" rx="16" fill="var(--surface)" stroke="var(--good)" stroke-width="2"/>
-            <text x="173" y="27" text-anchor="middle" font-family="var(--font-display)" font-weight="700" font-size="12" fill="var(--ink)">found it!</text>
-            <circle cx="216" cy="14" r="11" fill="var(--good)"/>
-            <path d="M211 14 L215 18 L222 10" fill="none" stroke="white" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
-          </g>
-
-          <!-- decor 6: mastery sparkles -->
-          <g id="ov6" class="decor">
-            <circle cx="206" cy="102" r="38" fill="none" stroke="var(--good)" stroke-width="2" opacity="0.55"/>
-            <path d="M120 40 l4 10 10 4 -10 4 -4 10 -4 -10 -10 -4 10 -4 z" fill="var(--c)"/>
-          </g>
-        </g>
-      </svg>
-    </div>
-
-    <div class="step-meta">
-      <span id="stepLabel">Step 1 of 6</span>
-      <span id="playLabel">▶ playing</span>
-    </div>
-    <div class="caption" id="captionText">Pixel wonders what all this learning is actually good for.</div>
-
-    <div class="controls">
-      <div class="nav-btns">
-        <button type="button" class="icon" id="prevBtn" aria-label="Previous step">‹</button>
-        <button type="button" class="icon" id="nextBtn" aria-label="Next step">›</button>
-        <button type="button" class="ghost" id="playPauseBtn">⏸ Pause</button>
+        </svg>
       </div>
-      <div class="dots" id="dots"></div>
+
+      <div class="pixel-bubble-row">
+        <span style="font-size:1.4rem;">🩺</span>
+        <div class="bubble-badge" id="stageBubbleBadge">
+          "Scanning 500 X-rays to help the doctors!"
+        </div>
+      </div>
+    </div>
+
+    <div class="story-body">
+      <div class="step-eyebrow" id="stepCounter">Step 1 of 5</div>
+      <h2 class="step-heading" id="stepTitle">A crowded hospital emergency room</h2>
+      <div class="step-text" id="stepDescription">
+        Every day, doctors review hundreds of X-ray scans. When human doctors are tired, subtle early-stage infections are easy to miss. Pixel arrives to help with <strong>Medical Image Triage</strong>.
+      </div>
+
+      <div class="story-nav-row">
+        <button type="button" class="btn-story btn-secondary" id="prevStepBtn" style="visibility:hidden;">← Back</button>
+        <div class="step-dots" id="stepDotsWrap">
+          <span class="step-dot active"></span>
+          <span class="step-dot"></span>
+          <span class="step-dot"></span>
+          <span class="step-dot"></span>
+          <span class="step-dot"></span>
+        </div>
+        <button type="button" class="btn-story btn-primary" id="nextStepBtn">Next Step →</button>
+      </div>
     </div>
   </div>
-  </div>
 
-  <div class="learn-col-vocab">
-  <div class="section-head">
+  <div class="section-head" style="margin-top: 36px;">
     <h2>Now you know the grown-up words</h2>
-    <div class="sub">Tap one to see what it means.</div>
+    <div class="sub">How AI powers medicine, law, finance, and engineering:</div>
   </div>
 
-  <div class="vocab">
-    <details class="chip">
-      <summary>Applied AI <span class="plus">+</span></summary>
-      <div class="def">What's happening by <button type="button" class="step-ref" data-step="6">step 6</button>: the same underlying skills — seeing, listening, predicting — that Pixel learned earlier get pointed at real jobs, from reading scans to spotting shady bank transactions. Putting a trained system's skills to work on one specific real-world job like this is called applied AI.</div>
-    </details>
-    <details class="chip">
-      <summary>Domain data <span class="plus">+</span></summary>
-      <div class="def">The thousands of X-rays doctors already marked, that Pixel studies in <button type="button" class="step-ref" data-step="4">step 4</button>. Examples drawn from one specific field of work, used to sharpen a general skill for that one job, are called domain data.</div>
-    </details>
-    <details class="chip">
-      <summary>Human-in-the-loop <span class="plus">+</span></summary>
-      <div class="def">What's still true even after <button type="button" class="step-ref" data-step="5">step 5</button>: Pixel doesn't make the final call alone — it flags the shadow, and a real doctor still decides. Keeping a person checking or making the final decision alongside the machine is called human-in-the-loop.</div>
-    </details>
-    <details class="chip">
-      <summary>Computer-aided diagnosis <span class="plus">+</span></summary>
-      <div class="def">The specific name for what Pixel does in <button type="button" class="step-ref" data-step="5">step 5</button> — using a trained pattern-spotter to help doctors notice things in a scan they might otherwise miss. This exact use is called computer-aided diagnosis.</div>
-    </details>
-  </div>
-  </div>
+  <div class="concept-cards-grid">
+    <div class="concept-card">
+      <h4>🩺 Applied AI</h4>
+      <p>Customizing general AI skills (seeing, reading, predicting) for specialized fields like healthcare or finance.</p>
+    </div>
+    <div class="concept-card">
+      <h4>🚨 Triage & Anomaly Detection</h4>
+      <p>Instantly flagging the 5% of urgent cases that need immediate human doctor attention.</p>
+    </div>
+    <div class="concept-card">
+      <h4>👩‍⚕️ Human-in-the-Loop</h4>
+      <p>Keeping qualified human professionals in charge of all final decisions, diagnoses, and treatments.</p>
+    </div>
+    <div class="concept-card">
+      <h4>🔬 Domain Data</h4>
+      <p>Training models on verified medical journals and high-resolution clinical scans rather than random internet text.</p>
+    </div>
   </div>
 
-  <div class="next">
+  <div style="background:var(--surface-2); border:1px solid var(--line-strong); border-radius:var(--radius-m); padding:20px; margin-top:28px;">
+    <h3 style="font-family:var(--font-display); font-size:1.15rem; margin:0 0 8px; color:var(--ink);">
+      🎉 You've reached the final chapter!
+    </h3>
+    <p style="margin:0; font-size:0.95rem; color:var(--muted); line-height:1.5;">
+      You watched Pixel grow from a 1-knob cookie guesser in 1957 to a multimodal medical assistant. What does this mean for YOUR future and career? Let's talk in <strong>Chapter 15: What Pixel Means for You</strong>!
+    </p>
+  </div>
+
+  <div class="next" style="margin-top:28px;">
     <div>
       <div class="label">Coming next</div>
-      <p>Pixel looks back at everything it's learned — and talks directly to you.</p>
+      <p>The finale: Careers, creative projects, and what AI means for your future.</p>
     </div>
-    <a class="tag" href="/ai-story/chapters/12-what-pixel-means-for-you/">Chapter 15 · Closing</a>
+    <a class="tag" href="/ai-story/chapters/12-what-pixel-means-for-you/">Chapter 15 · What Pixel Means for You →</a>
   </div>
 
   <footer class="page-foot">The Pixel Story</footer>
 </div>
 
-<script src="/ai-story/assets/js/stepper.js"></script>
 <script>
-(function () {
-  var FRAMES = [
-    { caption: "Pixel wonders what all this learning is actually good for.", ov: "ov1", pupilX: 206, spotStroke: "none", refs: false, domains: false },
-    { caption: "It visits a hospital, where a doctor studies an X-ray.", ov: "ov2", pupilX: 196, spotStroke: "none", refs: false, domains: false },
-    { caption: "At first, Pixel isn't sure what it's even looking for.", ov: "ov3", pupilX: 214, spotStroke: "none", refs: false, domains: false },
-    { caption: "So it studies thousands of X-rays doctors already marked.", ov: null, pupilX: 196, spotStroke: "var(--c)", refs: true, domains: false },
-    { caption: "Now Pixel spots the same shadow the doctor was worried about.", ov: "ov5", pupilX: 200, spotStroke: "var(--good)", refs: true, domains: false },
-    { caption: "From checkups to classrooms to banks, the same trick helps everywhere.", ov: "ov6", pupilX: 206, spotStroke: "var(--good)", refs: false, domains: true }
+(function() {
+  var currentStep = 0;
+
+  var STEPS = [
+    {
+      title: "A crowded hospital emergency room",
+      text: "The hospital receives 500 lung X-rays. A human radiologist takes hours to carefully examine every scan. Pixel can scan all 500 in 2 seconds!",
+      bubble: "Scanning 500 scans in 2 seconds! ⚡",
+      bubbleClass: "",
+      showHighlight: false,
+      docTitle: "X-RAY INBOX",
+      docMain: "📥 500 Scans Queued",
+      docSub: "Awaiting triage review"
+    },
+    {
+      title: "Pixel detects a subtle shadow (Anomaly)",
+      text: "On scan #42, Pixel's computer vision filters spot a tiny faint cloud in the right lung—a very early sign of pneumonia!",
+      bubble: "Flagged anomaly in right lung! 🚨",
+      bubbleClass: "bad",
+      showHighlight: true,
+      docTitle: "ANOMALY DETECTED",
+      docMain: "⚠️ Scan #42 Flagged",
+      docSub: "Probability: 92% Infection"
+    },
+    {
+      title: "Human-in-the-Loop: Handing off to the Doctor",
+      text: "Pixel does NOT write a prescription on its own! It pops scan #42 to the top of Dr. Sarah's screen with a bright green box highlighting the exact spot.",
+      bubble: "Dr. Sarah, please review scan #42! 👩‍⚕️",
+      bubbleClass: "good",
+      showHighlight: true,
+      docTitle: "EXPERT REVIEW",
+      docMain: "👩‍⚕️ Dr. Sarah Checking",
+      docSub: "Inspecting highlighted patch"
+    },
+    {
+      title: "Doctor confirms and treats early",
+      text: "Dr. Sarah confirms the diagnosis: <em>'Spot on, Pixel! Caught 3 days before symptoms worsened.'</em> Dr. Sarah prescribes the right medicine.",
+      bubble: "Patient receives treatment early! 💊✨",
+      bubbleClass: "good",
+      showHighlight: true,
+      docTitle: "TREATMENT PRESCRIBED",
+      docMain: "✅ Verified by Doctor",
+      docSub: "Pneumonia caught in stage 1"
+    },
+    {
+      title: "AI as the Ultimate Super-Assistant 🎉",
+      text: "AI does not replace human doctors—it gives doctors superhuman vision and eliminates paperwork, so they can spend more time caring for patients!",
+      bubble: "Superhuman teamwork with humans! 🤝✨",
+      bubbleClass: "good",
+      showHighlight: true,
+      docTitle: "COLLABORATION",
+      docMain: "❤️ Saving Lives Together",
+      docSub: "AI + Human Doctors"
+    }
   ];
 
-  var shadowSpot = document.getElementById("shadowSpot");
-  var refThumbs = document.getElementById("refThumbs");
-  var domainIcons = document.getElementById("domainIcons");
+  var stepCounter = document.getElementById("stepCounter");
+  var stepTitle = document.getElementById("stepTitle");
+  var stepDescription = document.getElementById("stepDescription");
+  var stageBubbleBadge = document.getElementById("stageBubbleBadge");
+  var xrayHighlight = document.getElementById("xrayHighlight");
+  var doctorDecisionTitle = document.getElementById("doctorDecisionTitle");
+  var doctorDecisionMain = document.getElementById("doctorDecisionMain");
+  var doctorDecisionSub = document.getElementById("doctorDecisionSub");
+  var prevBtn = document.getElementById("prevStepBtn");
+  var nextBtn = document.getElementById("nextStepBtn");
+  var dots = document.querySelectorAll(".step-dot");
 
-  function applyFrame(f) {
-    shadowSpot.setAttribute("stroke", f.spotStroke);
-    shadowSpot.setAttribute("stroke-width", f.spotStroke === "none" ? "0" : "2.5");
-    shadowSpot.setAttribute("fill-opacity", f.spotStroke === "none" ? "0.35" : "0.6");
-    refThumbs.classList.toggle("show", f.refs);
-    domainIcons.classList.toggle("show", f.domains);
+  function renderStep() {
+    var s = STEPS[currentStep];
+    stepCounter.textContent = "Step " + (currentStep + 1) + " of " + STEPS.length;
+    stepTitle.textContent = s.title;
+    stepDescription.innerHTML = s.text;
+    stageBubbleBadge.textContent = s.bubble;
+    stageBubbleBadge.className = "bubble-badge " + (s.bubbleClass || "");
+
+    xrayHighlight.setAttribute("opacity", s.showHighlight ? "1" : "0");
+    doctorDecisionTitle.textContent = s.docTitle;
+    doctorDecisionMain.textContent = s.docMain;
+    doctorDecisionSub.textContent = s.docSub;
+
+    prevBtn.style.visibility = currentStep === 0 ? "hidden" : "visible";
+    nextBtn.textContent = currentStep === STEPS.length - 1 ? "Start Over ↺" : "Next Step →";
+    dots.forEach(function(d, i) { d.classList.toggle("active", i === currentStep); });
   }
 
-  window.PixelStepper({ frames: FRAMES, applyFrame: applyFrame });
+  nextBtn.addEventListener("click", function() {
+    currentStep = (currentStep + 1) % STEPS.length;
+    renderStep();
+  });
+  prevBtn.addEventListener("click", function() {
+    if (currentStep > 0) { currentStep--; renderStep(); }
+  });
+  dots.forEach(function(dot, idx) {
+    dot.addEventListener("click", function() { currentStep = idx; renderStep(); });
+  });
+
+  renderStep();
 })();
 </script>
 </body>

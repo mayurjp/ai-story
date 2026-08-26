@@ -1,0 +1,326 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Atkinson+Hyperlegible:wght@400;700&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<title>Technical Track 13: Agentic AI & Tool Use Loops — The Pixel Story</title>
+<link rel="stylesheet" href="/ai-story/assets/css/tokens.css">
+<link rel="stylesheet" href="/ai-story/assets/css/base.css">
+<style>
+  .tech-container { max-width: 680px; margin: 0 auto; }
+  .mode-switch-row {
+    display: flex; justify-content: space-between; align-items: center;
+    background: var(--surface); border: 1px solid var(--line-strong);
+    border-radius: var(--radius-m); padding: 10px 16px; margin: 18px 0 24px;
+    box-shadow: var(--shadow); flex-wrap: wrap; gap: 10px;
+  }
+  .mode-badge-tech {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-family: var(--font-mono); font-size: 0.8rem; font-weight: 700;
+    color: var(--c); background: rgba(255, 107, 69, 0.1); padding: 4px 10px; border-radius: 999px;
+  }
+  .switch-btn {
+    font-family: var(--font-display); font-size: 0.88rem; font-weight: 600; color: var(--ink);
+    text-decoration: none; padding: 6px 14px; border: 1px solid var(--line-strong);
+    border-radius: var(--radius-s); background: var(--surface-2); transition: all 0.2s ease;
+  }
+  .switch-btn:hover { border-color: var(--c); color: var(--c); }
+
+  .story-card {
+    background: var(--surface); border: 2px solid var(--line); border-radius: var(--radius-l);
+    box-shadow: 0 8px 30px rgba(42, 38, 34, 0.08); overflow: hidden; margin: 24px 0;
+  }
+  .story-stage {
+    background: var(--bg); border-bottom: 2px solid var(--line);
+    padding: 24px 20px 16px; display: flex; flex-direction: column;
+    align-items: center; justify-content: center; min-height: 270px; user-select: none;
+  }
+  .stage-svg-wrap { width: 100%; max-width: 480px; height: 200px; position: relative; }
+  
+  .pixel-bubble-row { display: flex; align-items: center; justify-content: center; gap: 12px; margin-top: 10px; }
+  .bubble-badge {
+    background: var(--surface); border: 2px solid var(--line-strong); padding: 6px 16px;
+    border-radius: 999px; font-family: var(--font-display); font-weight: 700; font-size: 1rem;
+    color: var(--ink); box-shadow: var(--shadow);
+  }
+  .bubble-badge.good { border-color: var(--good); color: var(--good); background: #F0FDF4; }
+
+  .story-body { padding: 28px 24px; }
+  .step-eyebrow {
+    font-family: var(--font-mono); font-size: 0.8rem; color: var(--c);
+    text-transform: uppercase; letter-spacing: 0.08em; font-weight: 600; margin-bottom: 8px;
+  }
+  .step-heading {
+    font-family: var(--font-display); font-size: 1.45rem; font-weight: 700;
+    margin: 0 0 12px; color: var(--ink); line-height: 1.3;
+  }
+  .step-text { font-size: 1.05rem; line-height: 1.6; color: var(--ink); margin: 0 0 24px; }
+  
+  .story-nav-row {
+    display: flex; justify-content: space-between; align-items: center;
+    padding-top: 18px; border-top: 1px solid var(--line); flex-wrap: wrap; gap: 12px;
+  }
+  .btn-story {
+    font-family: var(--font-display); font-weight: 600; font-size: 1rem;
+    padding: 12px 24px; border-radius: var(--radius-m); border: none; cursor: pointer;
+    display: inline-flex; align-items: center; gap: 8px;
+  }
+  .btn-story:hover { transform: translateY(-1px); opacity: 0.92; }
+  .btn-primary { background: var(--c); color: var(--c-ink); box-shadow: var(--shadow); }
+  .btn-secondary { background: var(--surface-2); color: var(--ink); border: 1px solid var(--line-strong); }
+  .step-dots { display: flex; gap: 8px; }
+  .step-dot {
+    width: 10px; height: 10px; border-radius: 50%; background: var(--line-strong);
+    transition: all 0.2s ease; cursor: pointer;
+  }
+  .step-dot.active { background: var(--c); transform: scale(1.3); }
+
+  .concept-cards-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 20px; }
+  @media (max-width: 600px) { .concept-cards-grid { grid-template-columns: 1fr; } }
+  .concept-card { background: var(--surface-2); border: 1px solid var(--line-strong); border-radius: var(--radius-m); padding: 16px; }
+  .concept-card h4 { margin: 0 0 6px; font-family: var(--font-display); font-size: 1.05rem; color: var(--ink); }
+  .concept-card p { margin: 0; font-size: 0.92rem; color: var(--muted); line-height: 1.45; }
+
+  pre { background: #1E293B; color: #F8FAFC; border-radius: var(--radius-m); padding: 18px 20px; overflow-x: auto; font-family: var(--font-mono); font-size: 0.86rem; line-height: 1.6; margin: 20px 0; }
+  code { font-family: var(--font-mono); }
+</style>
+</head>
+<body>
+<div class="page tech-container">
+  <a class="back-link" href="/ai-story/technical/">&larr; All Technical Companions</a>
+
+  <div class="mode-switch-row">
+    <span class="mode-badge-tech">⚡ Technical Mastery Track · Module 13</span>
+    <a href="/ai-story/technical/" class="switch-btn">← All Technical Modules</a>
+  </div>
+
+  <div class="hero">
+    <h1>Agentic AI, Tool Calling & Action Loops</h1>
+    <p class="dek">Autonomous agent architecture: The ReAct (Reason + Act) design pattern, schema-validated JSON function calling, tool execution environments, and autonomous stopping conditions.</p>
+  </div>
+
+  <div class="story-card">
+    <div class="story-stage">
+      <div class="stage-svg-wrap">
+        <svg viewBox="0 0 460 200" width="100%" height="100%" aria-label="ReAct agentic loop state machine diagram">
+          <!-- 4 State Machine Nodes in Circle -->
+          <!-- 1. THOUGHT -->
+          <g transform="translate(60, 20)">
+            <rect x="0" y="0" width="100" height="40" rx="8" fill="#FFF7ED" stroke="var(--c)" stroke-width="2"/>
+            <text x="50" y="24" text-anchor="middle" font-family="var(--font-mono)" font-size="10" font-weight="700" fill="var(--c)">1. THOUGHT</text>
+          </g>
+
+          <!-- 2. ACTION (TOOL CALL) -->
+          <g transform="translate(290, 20)">
+            <rect x="0" y="0" width="110" height="40" rx="8" fill="#EFF6FF" stroke="#3B82F6" stroke-width="2"/>
+            <text x="55" y="24" text-anchor="middle" font-family="var(--font-mono)" font-size="10" font-weight="700" fill="#1D4ED8">2. TOOL CALL</text>
+          </g>
+
+          <!-- 3. OBSERVATION -->
+          <g transform="translate(290, 110)">
+            <rect x="0" y="0" width="110" height="40" rx="8" fill="#FEF3C7" stroke="#F59E0B" stroke-width="2"/>
+            <text x="55" y="24" text-anchor="middle" font-family="var(--font-mono)" font-size="10" font-weight="700" fill="#B45309">3. OBSERVE</text>
+          </g>
+
+          <!-- 4. FINAL ANSWER (EXIT) -->
+          <g transform="translate(60, 110)">
+            <rect id="finishNode" x="0" y="0" width="100" height="40" rx="8" fill="var(--surface-2)" stroke="var(--line)" stroke-width="1.5"/>
+            <text id="finishText" x="50" y="24" text-anchor="middle" font-family="var(--font-mono)" font-size="10" font-weight="700" fill="var(--muted)">4. FINISH</text>
+          </g>
+
+          <!-- Directed Arrows -->
+          <path d="M 160 40 L 290 40" stroke="var(--line-strong)" stroke-width="2" marker-end="url(#arr)"/>
+          <path d="M 345 60 L 345 110" stroke="var(--line-strong)" stroke-width="2"/>
+          <path d="M 290 130 L 160 130" stroke="var(--line-strong)" stroke-width="2"/>
+          <path d="M 110 110 L 110 60" stroke="var(--line-strong)" stroke-width="2" stroke-dasharray="3,3"/>
+        </svg>
+      </div>
+
+      <div class="pixel-bubble-row">
+        <span style="font-size:1.4rem;">🤖</span>
+        <div class="bubble-badge good" id="stageBubbleBadge">
+          "ReAct Loop: Thought → Action(JSON) → Observation → Repeat"
+        </div>
+      </div>
+    </div>
+
+    <div class="story-body">
+      <div class="step-eyebrow" id="stepCounter">Step 1 of 5</div>
+      <h2 class="step-heading" id="stepTitle">From Passive Chatbots to Autonomous Agents</h2>
+      <div class="step-text" id="stepDescription">
+        Standard LLMs only generate text. <strong>Agentic Systems</strong> execute external tools (Python interpreters, bash terminals, SQL databases, REST APIs) in an iterative <strong>ReAct</strong> loop until a complex goal is accomplished.
+      </div>
+
+      <div class="story-nav-row">
+        <button type="button" class="btn-story btn-secondary" id="prevStepBtn" style="visibility:hidden;">← Back</button>
+        <div class="step-dots" id="stepDotsWrap">
+          <span class="step-dot active"></span>
+          <span class="step-dot"></span>
+          <span class="step-dot"></span>
+          <span class="step-dot"></span>
+          <span class="step-dot"></span>
+        </div>
+        <button type="button" class="btn-story btn-primary" id="nextStepBtn">Next Step →</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-head" style="margin-top: 36px;">
+    <h2>Mathematical Architecture</h2>
+    <div class="sub">The ReAct Framework (Yao et al., Princeton / Google 2022):</div>
+  </div>
+
+  <div class="concept-cards-grid">
+    <div class="concept-card">
+      <h4>💭 Thought Step</h4>
+      <p>The model reasons about current environmental state: <code>Thought_t = LLM(Context_{t-1})</code>.</p>
+    </div>
+    <div class="concept-card">
+      <h4>🛠️ Tool Call (Structured JSON)</h4>
+      <p>Emitting a schema-validated function payload: <code>{"name": "query_sql", "args": {"limit": 5}}</code>.</p>
+    </div>
+    <div class="concept-card">
+      <h4>👁️ Observation Step</h4>
+      <p>The external execution environment executes the tool and feeds stdout/results back as user prompt.</p>
+    </div>
+    <div class="concept-card">
+      <h4>🛑 Stopping Condition</h4>
+      <p>The agent detects goal completion and emits <code>Final Answer</code>, breaking the state machine loop.</p>
+    </div>
+  </div>
+
+  <h3 style="font-family:var(--font-display); font-size:1.25rem; margin:32px 0 12px; color:var(--ink);">
+    Python Autonomous ReAct Agent Loop
+  </h3>
+  <pre><code>import json
+
+# Simulated Environment Tools
+TOOLS = {
+    "run_sql": lambda q: "[{'error_count': 142, 'server': 'worker-04'}]",
+    "restart_server": lambda s: f"Successfully restarted {s}. Status: Healthy."
+}
+
+def agent_react_loop(goal, max_steps=5):
+    context = f"Goal: {goal}\n"
+    
+    for step in range(max_steps):
+        # 1. LLM Generates Thought + Tool Action
+        if step == 0:
+            thought = "Inspect database for failing servers."
+            action = {"tool": "run_sql", "arg": "SELECT server, count(*) FROM errors"}
+        elif step == 1:
+            thought = "worker-04 has 142 errors. Trigger server restart."
+            action = {"tool": "restart_server", "arg": "worker-04"}
+        else:
+            thought = "Server is healthy. Goal accomplished."
+            return f"FINAL ANSWER: Repaired worker-04. Goal complete."
+            
+        print(f"[{step+1}] THOUGHT: {thought}")
+        print(f"[{step+1}] ACTION: Calling {action['tool']}({action['arg']})")
+        
+        # 2. Execute Tool & Observe Result
+        tool_func = TOOLS[action['tool']]
+        observation = tool_func(action['arg'])
+        print(f"[{step+1}] OBSERVATION: {observation}\n")
+        
+        context += f"Thought: {thought}\nAction: {action}\nObservation: {observation}\n"
+
+# Run Agent
+agent_react_loop("Fix crashing worker nodes in production")</code></pre>
+
+  <div class="next" style="margin-top:28px;">
+    <div>
+      <div class="label">Next Technical Companion</div>
+      <p>Clinical Decision Support, ROC-AUC & Sensitivity/Specificity.</p>
+    </div>
+    <a class="tag" href="/ai-story/technical/14-applied-ai-healthcare/">Module 14 · Clinical AI & Domain Triage →</a>
+  </div>
+
+  <footer class="page-foot">The Pixel Story — Technical Track</footer>
+</div>
+
+<script>
+(function() {
+  var currentStep = 0;
+  var STEPS = [
+    {
+      title: "Step 1: Goal Initialization",
+      text: "User gives goal: <em>'Diagnose and fix crashing server worker nodes.'</em> Agent initializes scratchpad context.",
+      bubble: "Goal Received: Starting ReAct Loop 🤖",
+      finishActive: false
+    },
+    {
+      title: "Step 2: Thought & Tool Call 1 (SQL Query)",
+      text: "LLM emits structured JSON tool call: <code>run_sql('SELECT server, errors FROM logs')</code>. Python executes the query and returns server <code>worker-04</code> with 142 errors.",
+      bubble: "Tool Call 1: run_sql() -> Found worker-04 errors 🛠️",
+      finishActive: false
+    },
+    {
+      title: "Step 3: Observation & Re-Planning",
+      text: "Agent observes SQL output. Thought: <em>'worker-04 is failing health checks. Next action: restart_server(worker-04).'</em>",
+      bubble: "Observation parsed: Deciding corrective action 🧐",
+      finishActive: false
+    },
+    {
+      title: "Step 4: Tool Call 2 (Server Restart)",
+      text: "Agent calls <code>restart_server('worker-04')</code>. Environment returns: <em>'Status: 200 OK, Healthy.'</em>",
+      bubble: "Tool Call 2: restart_server('worker-04') -> Healthy ✅",
+      finishActive: false
+    },
+    {
+      title: "Step 5: Stopping Condition & Final Answer 🎉",
+      text: "Agent verifies goal completion. Emits <code>Final Answer: 'Server worker-04 recovered. Production is healthy.'</code> Agentic workflow terminates autonomously!",
+      bubble: "Task Complete! Autonomous agent loop exited successfully 🏆✨",
+      finishActive: true
+    }
+  ];
+
+  var stepCounter = document.getElementById("stepCounter");
+  var stepTitle = document.getElementById("stepTitle");
+  var stepDescription = document.getElementById("stepDescription");
+  var stageBubbleBadge = document.getElementById("stageBubbleBadge");
+  var finishNode = document.getElementById("finishNode");
+  var finishText = document.getElementById("finishText");
+  var prevBtn = document.getElementById("prevStepBtn");
+  var nextBtn = document.getElementById("nextStepBtn");
+  var dots = document.querySelectorAll(".step-dot");
+
+  function renderStep() {
+    var s = STEPS[currentStep];
+    stepCounter.textContent = "Step " + (currentStep + 1) + " of " + STEPS.length;
+    stepTitle.textContent = s.title;
+    stepDescription.innerHTML = s.text;
+    stageBubbleBadge.textContent = s.bubble;
+
+    if (s.finishActive) {
+      finishNode.setAttribute("fill", "#DCFCE7");
+      finishNode.setAttribute("stroke", "var(--good)");
+      finishText.setAttribute("fill", "var(--good)");
+    } else {
+      finishNode.setAttribute("fill", "var(--surface-2)");
+      finishNode.setAttribute("stroke", "var(--line)");
+      finishText.setAttribute("fill", "var(--muted)");
+    }
+
+    prevBtn.style.visibility = currentStep === 0 ? "hidden" : "visible";
+    nextBtn.textContent = currentStep === STEPS.length - 1 ? "Start Over ↺" : "Next Step →";
+    dots.forEach(function(d, i) { d.classList.toggle("active", i === currentStep); });
+  }
+
+  nextBtn.addEventListener("click", function() {
+    currentStep = (currentStep + 1) % STEPS.length;
+    renderStep();
+  });
+  prevBtn.addEventListener("click", function() {
+    if (currentStep > 0) { currentStep--; renderStep(); }
+  });
+  dots.forEach(function(dot, idx) {
+    dot.addEventListener("click", function() { currentStep = idx; renderStep(); });
+  });
+
+  renderStep();
+})();
+</script>
+</body>
+</html>

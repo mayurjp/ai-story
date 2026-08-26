@@ -4,199 +4,371 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Atkinson+Hyperlegible:wght@400;700&family=IBM+Plex+Mono:wght@500;600&display=swap">
-<title>Pixel Gets to Work — The Pixel Story</title>
+<title>Chapter 13: Pixel Gets to Work — The Pixel Story</title>
 <link rel="stylesheet" href="/ai-story/assets/css/tokens.css">
 <link rel="stylesheet" href="/ai-story/assets/css/base.css">
 <style>
-  #stem { transition: d 0.35s ease, stroke 0.35s ease; }
-  #canGroup { opacity: 0; transition: opacity 0.35s ease; }
-  #canGroup.show { opacity: 1; }
-  @media (prefers-reduced-motion: reduce) { #stem, #canGroup { transition: none; } }
+  .story-container { max-width: 680px; margin: 0 auto; }
+  .story-card {
+    background: var(--surface);
+    border: 2px solid var(--line);
+    border-radius: var(--radius-l);
+    box-shadow: 0 8px 30px rgba(42, 38, 34, 0.08);
+    overflow: hidden;
+    margin: 24px 0;
+    transition: all 0.3s ease;
+  }
+  .story-stage {
+    background: var(--bg);
+    border-bottom: 2px solid var(--line);
+    padding: 24px 20px 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 270px;
+    position: relative;
+    user-select: none;
+  }
+  .stage-svg-wrap {
+    width: 100%;
+    max-width: 480px;
+    height: 200px;
+    position: relative;
+  }
+  .pixel-bubble-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 10px;
+  }
+  .bubble-badge {
+    background: var(--surface);
+    border: 2px solid var(--line-strong);
+    padding: 6px 16px;
+    border-radius: 999px;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1rem;
+    color: var(--ink);
+    box-shadow: var(--shadow);
+    transition: all 0.25s ease;
+  }
+  .bubble-badge.good { border-color: var(--good); color: var(--good); background: #F0FDF4; }
+  .bubble-badge.bad { border-color: var(--bad); color: var(--bad); background: #FEF2F2; }
+
+  /* Animated Plant and Watering Can */
+  #wateringCan { transition: transform 0.5s ease, opacity 0.4s ease; }
+  #plantLeaves { transition: fill 0.5s ease, transform 0.5s ease; }
+
+  .story-body { padding: 28px 24px; }
+  .step-eyebrow {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--c);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+  .step-heading {
+    font-family: var(--font-display);
+    font-size: 1.45rem;
+    font-weight: 700;
+    margin: 0 0 12px;
+    color: var(--ink);
+    line-height: 1.3;
+  }
+  .step-text { font-size: 1.05rem; line-height: 1.6; color: var(--ink); margin: 0 0 24px; }
+  .story-nav-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 18px;
+    border-top: 1px solid var(--line);
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .btn-story {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 1rem;
+    padding: 12px 24px;
+    border-radius: var(--radius-m);
+    border: none;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: transform 0.15s ease, opacity 0.15s ease;
+  }
+  .btn-story:hover { transform: translateY(-1px); opacity: 0.92; }
+  .btn-primary { background: var(--c); color: var(--c-ink); box-shadow: var(--shadow); }
+  .btn-secondary { background: var(--surface-2); color: var(--ink); border: 1px solid var(--line-strong); }
+  .step-dots { display: flex; gap: 8px; }
+  .step-dot {
+    width: 10px; height: 10px; border-radius: 50%;
+    background: var(--line-strong); transition: all 0.2s ease; cursor: pointer;
+  }
+  .step-dot.active { background: var(--c); transform: scale(1.3); }
+
+  .concept-cards-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-top: 20px;
+  }
+  @media (max-width: 600px) { .concept-cards-grid { grid-template-columns: 1fr; } }
+  .concept-card {
+    background: var(--surface-2);
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius-m);
+    padding: 16px;
+  }
+  .concept-card h4 {
+    margin: 0 0 6px; font-family: var(--font-display); font-size: 1.05rem;
+    color: var(--ink); display: flex; align-items: center; gap: 6px;
+  }
+  .concept-card p { margin: 0; font-size: 0.92rem; color: var(--muted); line-height: 1.45; }
 </style>
 </head>
 <body>
-<div class="page">
+<div class="page story-container">
   <a class="back-link" href="/ai-story/">&larr; All chapters</a>
-
   <div class="eyebrow"><span class="dot"></span> Chapter 13 of 15 &nbsp;&middot;&nbsp; The Pixel Story</div>
 
   <div class="hero">
-    <h1>Pixel Gets to Work.</h1>
-    <p class="dek">Until now, Pixel only ever answered in one shot. This time it's given a job — water the wilting plant — and has to check, act, and check again until it's actually done.</p>
+    <h1>Pixel Gets to Work</h1>
+    <p class="dek">Talking is easy, but getting real work done requires actions and tools. How AI agents observe, act, check their results, and solve multi-step problems autonomously.</p>
   </div>
 
-  <div class="learn-grid">
-  <div class="learn-col-strip">
-  <div class="section-head">
-    <h2>How Pixel gets a job done</h2>
-    <div class="sub">Six steps. Watch it play, or use the arrows to go at your own pace.</div>
-  </div>
-
-  <div class="strip">
-    <div class="stage">
-      <svg viewBox="0 0 320 220" role="img" aria-label="Illustration of Pixel watering a wilting plant, checking, and watering again">
-        <!-- plant, always present -->
-        <g id="plantGroup">
-          <rect x="40" y="150" width="40" height="28" rx="4" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
-          <path id="stem" d="M60 150 Q 52 118 34 106" fill="none" stroke="var(--bad)" stroke-width="3" stroke-linecap="round"/>
-          <path id="leaf1" d="M34 106 q-12 -4 -14 -14 q12 0 18 8 z" fill="var(--bad)" fill-opacity="0.5"/>
-          <path id="leaf2" d="M46 122 q-10 2 -16 -6 q11 -4 18 0 z" fill="var(--bad)" fill-opacity="0.5"/>
-        </g>
-
-        <!-- watering can, appears when Pixel acts -->
-        <g id="canGroup">
-          <rect x="95" y="120" width="26" height="18" rx="4" fill="var(--surface)" stroke="var(--c)" stroke-width="2"/>
-          <path d="M121 124 l14 -6" stroke="var(--c)" stroke-width="2.5" stroke-linecap="round"/>
-          <path d="M135 118 l4 4 -3 5" fill="none" stroke="var(--c)" stroke-width="1.6" stroke-linecap="round"/>
-        </g>
-
-        <g transform="translate(60,15)">
-          <!-- Pixel base figure (unchanged geometry, repositioned via translate) -->
-          <g id="pixelBase">
-            <ellipse cx="205" cy="196" rx="46" ry="7" fill="var(--ink)" opacity="0.07"/>
-            <rect x="163" y="34" width="7" height="24" rx="3.5" fill="var(--line-strong)"/>
-            <circle cx="166.5" cy="34" r="6.5" fill="var(--c)"/>
-            <rect x="150" y="58" width="112" height="94" rx="26" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
-            <circle cx="206" cy="102" r="32" fill="var(--surface-2)" stroke="var(--line-strong)" stroke-width="2"/>
-            <circle id="facePupil" cx="206" cy="102" r="14" fill="var(--ink)"/>
-            <circle cx="200" cy="96" r="3.6" fill="var(--surface)"/>
-            <rect x="180" y="140" width="52" height="8" rx="4" fill="var(--line-strong)"/>
+  <div class="story-card">
+    <div class="story-stage">
+      <div class="stage-svg-wrap">
+        <svg viewBox="0 0 460 200" width="100%" height="100%" aria-label="AI agent tool use and loop diagram">
+          <!-- Houseplant (Right) -->
+          <g transform="translate(300, 50)">
+            <!-- Pot -->
+            <polygon points="20,80 70,80 62,120 28,120" fill="#B45309" stroke="var(--ink)" stroke-width="2"/>
+            <!-- Soil -->
+            <ellipse cx="45" cy="80" rx="25" ry="6" fill="#78350F"/>
+            <!-- Stem and Leaves -->
+            <g id="plantLeaves">
+              <path d="M45 80 Q 45 40, 45 20" stroke="#15803D" stroke-width="4" fill="none" stroke-linecap="round"/>
+              <!-- Left Leaf -->
+              <path id="leafLeft" d="M45 50 Q 20 40, 10 55 Q 30 65, 45 50" fill="#84CC16" stroke="#15803D" stroke-width="1.5"/>
+              <!-- Right Leaf -->
+              <path id="leafRight" d="M45 35 Q 70 25, 80 40 Q 60 50, 45 35" fill="#84CC16" stroke="#15803D" stroke-width="1.5"/>
+            </g>
           </g>
 
-          <!-- decor 1: question bubble -->
-          <g id="ov1" class="decor">
-            <circle cx="150" cy="52" r="5" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
-            <circle cx="160" cy="42" r="7" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
-            <rect x="148" y="8" width="64" height="30" rx="14" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
-            <text x="180" y="30" text-anchor="middle" font-family="var(--font-display)" font-weight="700" font-size="20" fill="var(--muted)">?</text>
+          <!-- Pixel Agent (Left) -->
+          <g transform="translate(60, 45)">
+            <ellipse cx="25" cy="120" rx="22" ry="5" fill="var(--ink)" opacity="0.07"/>
+            <rect x="12" y="10" width="4" height="14" rx="2" fill="var(--line-strong)"/>
+            <circle id="antennaDot" cx="14" cy="10" r="4" fill="var(--c)"/>
+            <rect x="0" y="24" width="50" height="60" rx="12" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
+            <circle cx="25" cy="46" r="14" fill="var(--surface-2)" stroke="var(--line-strong)" stroke-width="1.5"/>
+            <circle cx="25" cy="46" r="6" fill="var(--ink)"/>
           </g>
 
-          <!-- decor 2: observing focus -->
-          <g id="ov2" class="decor">
-            <circle cx="150" cy="52" r="5" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
-            <circle cx="160" cy="42" r="7" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
-            <rect x="148" y="8" width="64" height="30" rx="14" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
-            <circle cx="176" cy="21" r="8" fill="none" stroke="var(--c)" stroke-width="2"/>
-            <line x1="182" y1="27" x2="190" y2="34" stroke="var(--c)" stroke-width="2.2" stroke-linecap="round"/>
+          <!-- Watering Can Tool (Animates to Plant) -->
+          <g id="wateringCan" transform="translate(130, 80)">
+            <rect x="0" y="10" width="36" height="26" rx="4" fill="#3B82F6" stroke="var(--ink)" stroke-width="1.5"/>
+            <path d="M36 18 L 52 10" stroke="#3B82F6" stroke-width="4" stroke-linecap="round"/>
+            <path d="M0 14 Q -10 23, 0 32" stroke="#3B82F6" stroke-width="3" fill="none"/>
+            <text x="18" y="27" text-anchor="middle" font-family="var(--font-mono)" font-size="8" fill="#FFFFFF" font-weight="700">TOOL</text>
           </g>
 
-          <!-- decor 3: still-drooping bubble -->
-          <g id="ov3" class="decor">
-            <circle cx="150" cy="52" r="5" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
-            <circle cx="160" cy="42" r="7" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
-            <rect x="140" y="4" width="86" height="34" rx="16" fill="var(--surface)" stroke="var(--bad)" stroke-width="2"/>
-            <text x="173" y="27" text-anchor="middle" font-family="var(--font-display)" font-weight="700" font-size="10" fill="var(--muted)">not yet...</text>
-            <circle cx="216" cy="14" r="11" fill="var(--bad)"/>
-            <path d="M212 10 L220 18 M220 10 L212 18" stroke="white" stroke-width="2.4" stroke-linecap="round"/>
+          <!-- Agent Loop Status Panel -->
+          <g transform="translate(145, 10)">
+            <rect x="0" y="0" width="150" height="50" rx="8" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="1.5"/>
+            <text id="loopStepLabel" x="75" y="20" text-anchor="middle" font-family="var(--font-mono)" font-size="9" font-weight="700" fill="var(--c)">
+              LOOP: OBSERVE
+            </text>
+            <text id="loopDetailLabel" x="75" y="38" text-anchor="middle" font-family="var(--font-display)" font-size="11" font-weight="600" fill="var(--ink)">
+              "Soil dry, leaves wilting"
+            </text>
           </g>
-
-          <!-- decor 4: loop icon -->
-          <g id="ov4" class="decor">
-            <circle cx="150" cy="52" r="5" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
-            <circle cx="160" cy="42" r="7" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
-            <rect x="148" y="8" width="64" height="30" rx="14" fill="var(--surface)" stroke="var(--c)" stroke-width="2"/>
-            <path d="M170 23 a10 10 0 1 1 3 7" fill="none" stroke="var(--c)" stroke-width="2" stroke-linecap="round"/>
-            <path d="M170 15 l0 8 8 0" fill="none" stroke="var(--c)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-          </g>
-
-          <!-- decor 5: right bubble -->
-          <g id="ov5" class="decor">
-            <circle cx="150" cy="52" r="5" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
-            <circle cx="160" cy="42" r="7" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
-            <rect x="140" y="4" width="86" height="34" rx="16" fill="var(--surface)" stroke="var(--good)" stroke-width="2"/>
-            <text x="173" y="27" text-anchor="middle" font-family="var(--font-display)" font-weight="700" font-size="11" fill="var(--ink)">perking up!</text>
-            <circle cx="216" cy="14" r="11" fill="var(--good)"/>
-            <path d="M211 14 L215 18 L222 10" fill="none" stroke="white" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
-          </g>
-
-          <!-- decor 6: mastery sparkles -->
-          <g id="ov6" class="decor">
-            <circle cx="206" cy="102" r="38" fill="none" stroke="var(--good)" stroke-width="2" opacity="0.55"/>
-            <path d="M120 40 l4 10 10 4 -10 4 -4 10 -4 -10 -10 -4 10 -4 z" fill="var(--c)"/>
-          </g>
-        </g>
-      </svg>
-    </div>
-
-    <div class="step-meta">
-      <span id="stepLabel">Step 1 of 6</span>
-      <span id="playLabel">▶ playing</span>
-    </div>
-    <div class="caption" id="captionText">Someone asks Pixel to take care of a wilting plant.</div>
-
-    <div class="controls">
-      <div class="nav-btns">
-        <button type="button" class="icon" id="prevBtn" aria-label="Previous step">‹</button>
-        <button type="button" class="icon" id="nextBtn" aria-label="Next step">›</button>
-        <button type="button" class="ghost" id="playPauseBtn">⏸ Pause</button>
+        </svg>
       </div>
-      <div class="dots" id="dots"></div>
+
+      <div class="pixel-bubble-row">
+        <span style="font-size:1.4rem;">🪴</span>
+        <div class="bubble-badge" id="stageBubbleBadge">
+          "Goal: Help the wilting plant!"
+        </div>
+      </div>
+    </div>
+
+    <div class="story-body">
+      <div class="step-eyebrow" id="stepCounter">Step 1 of 5</div>
+      <h2 class="step-heading" id="stepTitle">A one-shot answer isn't enough</h2>
+      <div class="step-text" id="stepDescription">
+        If you ask a regular chatbot to water a plant, it just writes: <em>"Here is advice on how to water a plant."</em> But an <strong>AI Agent</strong> takes real actions in the world using tools!
+      </div>
+
+      <div class="story-nav-row">
+        <button type="button" class="btn-story btn-secondary" id="prevStepBtn" style="visibility:hidden;">← Back</button>
+        <div class="step-dots" id="stepDotsWrap">
+          <span class="step-dot active"></span>
+          <span class="step-dot"></span>
+          <span class="step-dot"></span>
+          <span class="step-dot"></span>
+          <span class="step-dot"></span>
+        </div>
+        <button type="button" class="btn-story btn-primary" id="nextStepBtn">Next Step →</button>
+      </div>
     </div>
   </div>
-  </div>
 
-  <div class="learn-col-vocab">
-  <div class="section-head">
+  <div class="section-head" style="margin-top: 36px;">
     <h2>Now you know the grown-up words</h2>
-    <div class="sub">Tap one to see what it means.</div>
+    <div class="sub">How AI systems write code, operate computers, and execute complex workflows:</div>
   </div>
 
-  <div class="vocab">
-    <details class="chip">
-      <summary>Agentic AI <span class="plus">+</span></summary>
-      <div class="def">Everything before this chapter, Pixel only ever answered a question in one shot. Here it does something different: it checks the plant, acts, checks again, and decides on its own when the job is done, across <button type="button" class="step-ref" data-step="2">step 2</button> through <button type="button" class="step-ref" data-step="6">step 6</button>. A system that plans and acts toward a goal like this, instead of just answering once, is called an agent — and this whole way of working is called agentic AI.</div>
-    </details>
-    <details class="chip">
-      <summary>Tool use <span class="plus">+</span></summary>
-      <div class="def">The watering can Pixel actually picks up in <button type="button" class="step-ref" data-step="3">step 3</button> and <button type="button" class="step-ref" data-step="5">step 5</button> is outside its own "brain" — Pixel doesn't water the plant by thinking about it, it reaches for a real tool and uses it. Reaching outside itself to use an actual tool to get something done is called tool use.</div>
-    </details>
-    <details class="chip">
-      <summary>Action-observation loop <span class="plus">+</span></summary>
-      <div class="def">Pixel doesn't act once and walk away — it acts, checks what changed, and decides what to do next based on that, repeating from <button type="button" class="step-ref" data-step="3">step 3</button> through <button type="button" class="step-ref" data-step="5">step 5</button>. Repeating this act-then-check cycle until a goal is met is called an action-observation loop.</div>
-    </details>
-    <details class="chip">
-      <summary>Autonomy <span class="plus">+</span></summary>
-      <div class="def">Nobody tells Pixel exactly when to stop watering in <button type="button" class="step-ref" data-step="6">step 6</button> — it decides for itself, once the leaves perk back up, that the job is done. Making decisions and choosing when to stop without being told each individual step is called autonomy.</div>
-    </details>
-  </div>
-  </div>
+  <div class="concept-cards-grid">
+    <div class="concept-card">
+      <h4>🤖 Agentic AI</h4>
+      <p>A goal-driven AI system that plans, uses external tools, and iterates autonomously until a task is done.</p>
+    </div>
+    <div class="concept-card">
+      <h4>🛠️ Tool Use (Function Calling)</h4>
+      <p>Allowing an AI to trigger real actions (like running code, sending emails, or browsing websites).</p>
+    </div>
+    <div class="concept-card">
+      <h4>🔄 Action-Observation Loop</h4>
+      <p>The cycle of: Inspect environment → Take an action → Observe the result → Decide what to do next.</p>
+    </div>
+    <div class="concept-card">
+      <h4>🛑 Autonomy (Stopping Condition)</h4>
+      <p>Knowing when the goal has been successfully accomplished and terminating without human intervention.</p>
+    </div>
   </div>
 
-  <div class="next">
+  <div style="background:var(--surface-2); border:1px solid var(--line-strong); border-radius:var(--radius-m); padding:20px; margin-top:28px;">
+    <h3 style="font-family:var(--font-display); font-size:1.15rem; margin:0 0 8px; color:var(--ink);">
+      🤔 Where does AI make the biggest impact in the real world?
+    </h3>
+    <p style="margin:0; font-size:0.95rem; color:var(--muted); line-height:1.5;">
+      From diagnosing rare diseases in hospitals to triaging financial fraud, how do specialized domain models work hand-in-hand with human experts? Meet <strong>Applied AI & Healthcare</strong> in Chapter 14!
+    </p>
+  </div>
+
+  <div class="next" style="margin-top:28px;">
     <div>
       <div class="label">Coming next</div>
-      <p>Pixel helps out in a hospital, a classroom, and a bank — the same ideas, put to work.</p>
+      <p>Pixel assists doctors with X-ray triage: Applied AI & Human-in-the-Loop.</p>
     </div>
-    <a class="tag" href="/ai-story/chapters/09-pixel-visits-the-hospital/">Chapter 14 · Applied AI</a>
+    <a class="tag" href="/ai-story/chapters/09-pixel-visits-the-hospital/">Chapter 14 · Applied AI in Healthcare →</a>
   </div>
 
   <footer class="page-foot">The Pixel Story</footer>
 </div>
 
-<script src="/ai-story/assets/js/stepper.js"></script>
 <script>
-(function () {
-  var DROOPY = "M60 150 Q 52 118 34 106";
-  var PERKED = "M60 150 Q 66 110 80 92";
-  var FRAMES = [
-    { caption: "Someone asks Pixel to take care of a wilting plant.", ov: "ov1", pupilX: 206, stem: DROOPY, stemColor: "var(--bad)", can: false },
-    { caption: "Pixel looks at the plant and decides what to do first.", ov: "ov2", pupilX: 190, stem: DROOPY, stemColor: "var(--bad)", can: false },
-    { caption: "It waters the plant once — but the leaves stay drooping.", ov: "ov3", pupilX: 214, stem: DROOPY, stemColor: "var(--bad)", can: true },
-    { caption: "So it checks again, and decides to water a bit more.", ov: "ov4", pupilX: 196, stem: DROOPY, stemColor: "var(--c)", can: false },
-    { caption: "It waters again, checks again — the leaves start to perk up.", ov: "ov5", pupilX: 200, stem: PERKED, stemColor: "var(--good)", can: true },
-    { caption: "Pixel keeps checking and acting, on its own, until the job's done.", ov: "ov6", pupilX: 206, stem: PERKED, stemColor: "var(--good)", can: false }
+(function() {
+  var currentStep = 0;
+
+  var STEPS = [
+    {
+      title: "A one-shot answer isn't enough",
+      text: "Pixel is given an active goal: <em>'Water the plant until it is healthy.'</em> Pixel doesn't just chat—it enters an <strong>Action-Observation Loop</strong>.",
+      bubble: "Observing the plant... 🧐",
+      bubbleClass: "",
+      canPos: [130, 80],
+      loopStep: "LOOP 1: OBSERVE",
+      loopDetail: "Leaves drooping, soil dry",
+      leafColor: "#CA8A04" // yellowish dry
+    },
+    {
+      title: "Step 1: Selecting the right tool",
+      text: "Pixel searches its available tools (Thermometer, Flashlight, Watering Can) and picks the <strong>Watering Can Tool</strong> 🚰.",
+      bubble: "Tool selected: Watering Can! 🛠️",
+      bubbleClass: "",
+      canPos: [190, 60],
+      loopStep: "LOOP 2: TOOL USE",
+      loopDetail: "Calling water_plant(200ml)",
+      leafColor: "#CA8A04"
+    },
+    {
+      title: "Step 2: Take action & observe result",
+      text: "Pixel pours 200ml of water. Pixel inspects the plant: The soil is moist, but the leaves haven't fully perked up yet. The job isn't finished!",
+      bubble: "Poured 200ml! Checking leaves... 💧",
+      bubbleClass: "",
+      canPos: [270, 45],
+      loopStep: "LOOP 3: RE-OBSERVE",
+      loopDetail: "Soil moist, leaves perk slightly",
+      leafColor: "#84CC16"
+    },
+    {
+      title: "Step 3: Iterate until goal is met",
+      text: "Pixel decides to wait 5 minutes and add another 100ml. The leaves absorb the water and turn bright, healthy green!",
+      bubble: "Adding 100ml... Leaves perking up! 🌿",
+      bubbleClass: "good",
+      canPos: [270, 45],
+      loopStep: "LOOP 4: ITERATE",
+      loopDetail: "Leaves fully vibrant & green",
+      leafColor: "#15803D"
+    },
+    {
+      title: "Autonomous Completion! 🎉",
+      text: "Pixel checks its goal condition: <em>'Plant is 100% healthy.'</em> Pixel puts down the tool and marks the task complete. That is true <strong>Agentic AI</strong>!",
+      bubble: "Task Complete! Plant is thriving! 🪴✨",
+      bubbleClass: "good",
+      canPos: [130, 80],
+      loopStep: "TASK COMPLETE ✅",
+      loopDetail: "Autonomous goal achieved!",
+      leafColor: "#15803D"
+    }
   ];
 
-  var stem = document.getElementById("stem");
-  var canGroup = document.getElementById("canGroup");
+  var stepCounter = document.getElementById("stepCounter");
+  var stepTitle = document.getElementById("stepTitle");
+  var stepDescription = document.getElementById("stepDescription");
+  var stageBubbleBadge = document.getElementById("stageBubbleBadge");
+  var wateringCan = document.getElementById("wateringCan");
+  var leafLeft = document.getElementById("leafLeft");
+  var leafRight = document.getElementById("leafRight");
+  var loopStepLabel = document.getElementById("loopStepLabel");
+  var loopDetailLabel = document.getElementById("loopDetailLabel");
+  var prevBtn = document.getElementById("prevStepBtn");
+  var nextBtn = document.getElementById("nextStepBtn");
+  var dots = document.querySelectorAll(".step-dot");
 
-  function applyFrame(f) {
-    stem.setAttribute("d", f.stem);
-    stem.setAttribute("stroke", f.stemColor);
-    canGroup.classList.toggle("show", f.can);
+  function renderStep() {
+    var s = STEPS[currentStep];
+    stepCounter.textContent = "Step " + (currentStep + 1) + " of " + STEPS.length;
+    stepTitle.textContent = s.title;
+    stepDescription.innerHTML = s.text;
+    stageBubbleBadge.textContent = s.bubble;
+    stageBubbleBadge.className = "bubble-badge " + (s.bubbleClass || "");
+
+    wateringCan.style.transform = "translate(" + s.canPos[0] + "px, " + s.canPos[1] + "px)";
+    leafLeft.setAttribute("fill", s.leafColor);
+    leafRight.setAttribute("fill", s.leafColor);
+
+    loopStepLabel.textContent = s.loopStep;
+    loopDetailLabel.textContent = s.loopDetail;
+
+    prevBtn.style.visibility = currentStep === 0 ? "hidden" : "visible";
+    nextBtn.textContent = currentStep === STEPS.length - 1 ? "Start Over ↺" : "Next Step →";
+    dots.forEach(function(d, i) { d.classList.toggle("active", i === currentStep); });
   }
 
-  window.PixelStepper({ frames: FRAMES, applyFrame: applyFrame });
+  nextBtn.addEventListener("click", function() {
+    currentStep = (currentStep + 1) % STEPS.length;
+    renderStep();
+  });
+  prevBtn.addEventListener("click", function() {
+    if (currentStep > 0) { currentStep--; renderStep(); }
+  });
+  dots.forEach(function(dot, idx) {
+    dot.addEventListener("click", function() { currentStep = idx; renderStep(); });
+  });
+
+  renderStep();
 })();
 </script>
 </body>

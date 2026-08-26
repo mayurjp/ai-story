@@ -1,0 +1,304 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Atkinson+Hyperlegible:wght@400;700&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<title>Technical Track 10: Chain of Thought & System 2 Reasoning — The Pixel Story</title>
+<link rel="stylesheet" href="/ai-story/assets/css/tokens.css">
+<link rel="stylesheet" href="/ai-story/assets/css/base.css">
+<style>
+  .tech-container { max-width: 680px; margin: 0 auto; }
+  .mode-switch-row {
+    display: flex; justify-content: space-between; align-items: center;
+    background: var(--surface); border: 1px solid var(--line-strong);
+    border-radius: var(--radius-m); padding: 10px 16px; margin: 18px 0 24px;
+    box-shadow: var(--shadow); flex-wrap: wrap; gap: 10px;
+  }
+  .mode-badge-tech {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-family: var(--font-mono); font-size: 0.8rem; font-weight: 700;
+    color: var(--c); background: rgba(255, 107, 69, 0.1); padding: 4px 10px; border-radius: 999px;
+  }
+  .switch-btn {
+    font-family: var(--font-display); font-size: 0.88rem; font-weight: 600; color: var(--ink);
+    text-decoration: none; padding: 6px 14px; border: 1px solid var(--line-strong);
+    border-radius: var(--radius-s); background: var(--surface-2); transition: all 0.2s ease;
+  }
+  .switch-btn:hover { border-color: var(--c); color: var(--c); }
+
+  .story-card {
+    background: var(--surface); border: 2px solid var(--line); border-radius: var(--radius-l);
+    box-shadow: 0 8px 30px rgba(42, 38, 34, 0.08); overflow: hidden; margin: 24px 0;
+  }
+  .story-stage {
+    background: var(--bg); border-bottom: 2px solid var(--line);
+    padding: 24px 20px 16px; display: flex; flex-direction: column;
+    align-items: center; justify-content: center; min-height: 270px; user-select: none;
+  }
+  .stage-svg-wrap { width: 100%; max-width: 480px; height: 200px; position: relative; }
+  
+  .pixel-bubble-row { display: flex; align-items: center; justify-content: center; gap: 12px; margin-top: 10px; }
+  .bubble-badge {
+    background: var(--surface); border: 2px solid var(--line-strong); padding: 6px 16px;
+    border-radius: 999px; font-family: var(--font-display); font-weight: 700; font-size: 1rem;
+    color: var(--ink); box-shadow: var(--shadow);
+  }
+  .bubble-badge.good { border-color: var(--good); color: var(--good); background: #F0FDF4; }
+  .bubble-badge.bad { border-color: var(--bad); color: var(--bad); background: #FEF2F2; }
+
+  .story-body { padding: 28px 24px; }
+  .step-eyebrow {
+    font-family: var(--font-mono); font-size: 0.8rem; color: var(--c);
+    text-transform: uppercase; letter-spacing: 0.08em; font-weight: 600; margin-bottom: 8px;
+  }
+  .step-heading {
+    font-family: var(--font-display); font-size: 1.45rem; font-weight: 700;
+    margin: 0 0 12px; color: var(--ink); line-height: 1.3;
+  }
+  .step-text { font-size: 1.05rem; line-height: 1.6; color: var(--ink); margin: 0 0 24px; }
+  
+  .story-nav-row {
+    display: flex; justify-content: space-between; align-items: center;
+    padding-top: 18px; border-top: 1px solid var(--line); flex-wrap: wrap; gap: 12px;
+  }
+  .btn-story {
+    font-family: var(--font-display); font-weight: 600; font-size: 1rem;
+    padding: 12px 24px; border-radius: var(--radius-m); border: none; cursor: pointer;
+    display: inline-flex; align-items: center; gap: 8px;
+  }
+  .btn-story:hover { transform: translateY(-1px); opacity: 0.92; }
+  .btn-primary { background: var(--c); color: var(--c-ink); box-shadow: var(--shadow); }
+  .btn-secondary { background: var(--surface-2); color: var(--ink); border: 1px solid var(--line-strong); }
+  .step-dots { display: flex; gap: 8px; }
+  .step-dot {
+    width: 10px; height: 10px; border-radius: 50%; background: var(--line-strong);
+    transition: all 0.2s ease; cursor: pointer;
+  }
+  .step-dot.active { background: var(--c); transform: scale(1.3); }
+
+  .concept-cards-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 20px; }
+  @media (max-width: 600px) { .concept-cards-grid { grid-template-columns: 1fr; } }
+  .concept-card { background: var(--surface-2); border: 1px solid var(--line-strong); border-radius: var(--radius-m); padding: 16px; }
+  .concept-card h4 { margin: 0 0 6px; font-family: var(--font-display); font-size: 1.05rem; color: var(--ink); }
+  .concept-card p { margin: 0; font-size: 0.92rem; color: var(--muted); line-height: 1.45; }
+
+  pre { background: #1E293B; color: #F8FAFC; border-radius: var(--radius-m); padding: 18px 20px; overflow-x: auto; font-family: var(--font-mono); font-size: 0.86rem; line-height: 1.6; margin: 20px 0; }
+  code { font-family: var(--font-mono); }
+</style>
+</head>
+<body>
+<div class="page tech-container">
+  <a class="back-link" href="/ai-story/technical/">&larr; All Technical Companions</a>
+
+  <div class="mode-switch-row">
+    <span class="mode-badge-tech">⚡ Technical Mastery Track · Module 10</span>
+    <a href="/ai-story/technical/" class="switch-btn">← All Technical Modules</a>
+  </div>
+
+  <div class="hero">
+    <h1>Chain of Thought & System 2 Reasoning</h1>
+    <p class="dek">Reasoning paradigms and test-time compute allocation: System 1 intuitive generation vs. System 2 deliberate search, Tree of Thoughts (ToT), Self-Consistency majority voting, and Process Reward Models (PRMs).</p>
+  </div>
+
+  <div class="story-card">
+    <div class="story-stage">
+      <div class="stage-svg-wrap">
+        <svg viewBox="0 0 460 200" width="100%" height="100%" aria-label="System 1 vs System 2 reasoning architecture diagram">
+          <g transform="translate(40, 25)">
+            <rect x="0" y="0" width="380" height="150" rx="8" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
+            
+            <text x="20" y="25" font-family="var(--font-mono)" font-size="9" font-weight="700" fill="var(--muted)">PROMPT: "A bat and ball cost $1.10. Bat is $1.00 more than ball. Ball cost?"</text>
+            <line x1="15" y1="35" x2="365" y2="35" stroke="var(--line)" stroke-width="1"/>
+
+            <!-- System 1 Box -->
+            <rect id="s1Box" x="20" y="48" width="160" height="85" rx="6" fill="#FEF2F2" stroke="var(--bad)" stroke-width="1.5"/>
+            <text x="30" y="68" font-family="var(--font-mono)" font-size="9" font-weight="700" fill="var(--bad)">⚡ SYSTEM 1 (INSTINCT):</text>
+            <text id="s1Text" x="30" y="90" font-family="var(--font-mono)" font-size="10" fill="var(--bad)">"Ball = $0.10" ❌</text>
+            <text x="30" y="112" font-family="var(--font-mono)" font-size="8" fill="var(--muted)">(Error: $1.10 + $0.10 = $1.20)</text>
+
+            <!-- System 2 CoT Box -->
+            <rect id="s2Box" x="200" y="48" width="165" height="85" rx="6" fill="#DCFCE7" stroke="var(--good)" stroke-width="2"/>
+            <text x="210" y="68" font-family="var(--font-mono)" font-size="9" font-weight="700" fill="var(--good)">🧠 SYSTEM 2 (CoT):</text>
+            <text id="s2Text" x="210" y="88" font-family="var(--font-mono)" font-size="9" fill="var(--ink)">Bat + Ball = 1.10</text>
+            <text x="210" y="104" font-family="var(--font-mono)" font-size="9" fill="var(--ink)">(Ball + 1.00) + Ball = 1.10</text>
+            <text x="210" y="120" font-family="var(--font-mono)" font-size="9" font-weight="700" fill="var(--good)">→ Ball = $0.05 ✅</text>
+          </g>
+        </svg>
+      </div>
+
+      <div class="pixel-bubble-row">
+        <span style="font-size:1.4rem;">🧠</span>
+        <div class="bubble-badge good" id="stageBubbleBadge">
+          "System 2 Chain of Thought: Step-by-step algebra yields exact answer $0.05!"
+        </div>
+      </div>
+    </div>
+
+    <div class="story-body">
+      <div class="step-eyebrow" id="stepCounter">Step 1 of 5</div>
+      <h2 class="step-heading" id="stepTitle">Why Direct Autocompletion Fails on Logic</h2>
+      <div class="step-text" id="stepDescription">
+        LLMs have a constant number of layers per token. For complex logic, math, or coding, a single-pass autoregressive answer cannot allocate enough compute. <strong>Chain of Thought</strong> buys test-time compute by generating intermediate reasoning tokens.
+      </div>
+
+      <div class="story-nav-row">
+        <button type="button" class="btn-story btn-secondary" id="prevStepBtn" style="visibility:hidden;">← Back</button>
+        <div class="step-dots" id="stepDotsWrap">
+          <span class="step-dot active"></span>
+          <span class="step-dot"></span>
+          <span class="step-dot"></span>
+          <span class="step-dot"></span>
+          <span class="step-dot"></span>
+        </div>
+        <button type="button" class="btn-story btn-primary" id="nextStepBtn">Next Step →</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-head" style="margin-top: 36px;">
+    <h2>Mathematical Architecture</h2>
+    <div class="sub">Advanced reasoning paradigms in frontier AI:</div>
+  </div>
+
+  <div class="concept-cards-grid">
+    <div class="concept-card">
+      <h4>🔗 Chain of Thought (Wei et al., 2022)</h4>
+      <p>Prompting with <em>"Let's think step by step"</em> decomposes multi-step problems into solvable conditional sub-tokens.</p>
+    </div>
+    <div class="concept-card">
+      <h4>🌲 Tree of Thoughts (ToT)</h4>
+      <p>Exploring multiple reasoning branches with heuristic search (BFS/DFS) and backtracking when a dead end is detected.</p>
+    </div>
+    <div class="concept-card">
+      <h4>🎲 Self-Consistency Sampling</h4>
+      <p>Sampling <code>k = 10</code> independent reasoning chains at Temperature <code>T = 0.7</code> and taking the majority vote answer.</p>
+    </div>
+    <div class="concept-card">
+      <h4>🏆 Process Reward Models (PRMs)</h4>
+      <p>Scoring the mathematical validity of <em>every intermediate reasoning step</em> rather than only the final answer.</p>
+    </div>
+  </div>
+
+  <h3 style="font-family:var(--font-display); font-size:1.25rem; margin:32px 0 12px; color:var(--ink);">
+    Python Self-Consistency Majority Voting Implementation
+  </h3>
+  <pre><code>from collections import Counter
+
+def self_consistency_vote(reasoning_chains):
+    """
+    Extracts final answers from multiple CoT reasoning paths
+    and returns the majority consensus answer.
+    """
+    answers = []
+    for chain in reasoning_chains:
+        # Extract numerical answer from the final line of reasoning
+        final_line = chain.strip().split("\n")[-1]
+        answers.append(final_line)
+        
+    counts = Counter(answers)
+    majority_answer, votes = counts.most_common(1)[0]
+    confidence = votes / len(reasoning_chains)
+    
+    return {
+        "Consensus Answer": majority_answer,
+        "Confidence": f"{confidence * 100:.1f}%",
+        "Vote Breakdown": dict(counts)
+    }
+
+# 5 Independent sample paths
+chains = [
+    "Let ball = x. Bat = x + 1.00. 2x + 1.00 = 1.10 -> 2x = 0.10 -> x = $0.05\n0.05",
+    "Ball is $0.05 and bat is $1.05. Total = $1.10.\n0.05",
+    "Instant guess: 0.10",
+    "1.10 - 1.00 = 0.10. Divide by 2 = 0.05\n0.05",
+    "2x = 0.10 -> x = 0.05\n0.05",
+]
+
+result = self_consistency_vote(chains)
+print(result)  # Consensus: 0.05 (80.0% Confidence)</code></pre>
+
+  <div class="next" style="margin-top:28px;">
+    <div>
+      <div class="label">Next Technical Companion</div>
+      <p>Algorithmic Bias, Disparate Impact & Red-Teaming.</p>
+    </div>
+    <a class="tag" href="/ai-story/technical/11-ai-safety-bias/">Module 11 · AI Safety, Bias & Red-Teaming →</a>
+  </div>
+
+  <footer class="page-foot">The Pixel Story — Technical Track</footer>
+</div>
+
+<script>
+(function() {
+  var currentStep = 0;
+  var STEPS = [
+    {
+      title: "Step 1: The System 1 Intuition Trap",
+      text: "Given a math riddle, statistical next-token prediction immediately matches the frequent pattern <code>$1.10 - $1.00 = $0.10</code>. But $1.00 more than $0.10 is $1.10, making the total $1.20! ❌",
+      bubble: "System 1 Fast Guess: $0.10 (Mathematically False) ❌",
+      bubbleClass: "bad"
+    },
+    {
+      title: "Step 2: Injecting Chain of Thought Tokens",
+      text: "We prompt the model: <em>'Think step by step before answering.'</em> The model emits reasoning tokens, allocating additional compute cycles to formulate algebraic variables.",
+      bubble: "Emitting intermediate reasoning tokens: Let ball = x... 🧠",
+      bubbleClass: ""
+    },
+    {
+      title: "Step 3: Step-by-Step Algebraic Substitution",
+      text: "Step 1: <code>Bat = x + 1.00</code>. Step 2: <code>(x + 1.00) + x = 1.10</code>. Step 3: <code>2x = 0.10</code>. Step 4: <code>x = $0.05</code>.",
+      bubble: "Solving 2x = 0.10 -> x = $0.05 step by step 📐",
+      bubbleClass: "good"
+    },
+    {
+      title: "Step 4: Self-Consistency Majority Verification",
+      text: "We sample 5 independent reasoning chains. 4 out of 5 chains reach <code>$0.05</code>. Self-consistency filtering eliminates the one faulty shortcut!",
+      bubble: "Self-Consistency: 4/5 paths agree on $0.05 (80% Confidence) 🎲",
+      bubbleClass: "good"
+    },
+    {
+      title: "Step 5: Process Reward Verification & Final Output 🎉",
+      text: "The Process Reward Model (PRM) scores every intermediate step +1.0. The verified answer <code>$0.05</code> is emitted with 100% mathematical certainty!",
+      bubble: "PRM Verified! 100% mathematically correct reasoning 🏆✨",
+      bubbleClass: "good"
+    }
+  ];
+
+  var stepCounter = document.getElementById("stepCounter");
+  var stepTitle = document.getElementById("stepTitle");
+  var stepDescription = document.getElementById("stepDescription");
+  var stageBubbleBadge = document.getElementById("stageBubbleBadge");
+  var prevBtn = document.getElementById("prevStepBtn");
+  var nextBtn = document.getElementById("nextStepBtn");
+  var dots = document.querySelectorAll(".step-dot");
+
+  function renderStep() {
+    var s = STEPS[currentStep];
+    stepCounter.textContent = "Step " + (currentStep + 1) + " of " + STEPS.length;
+    stepTitle.textContent = s.title;
+    stepDescription.innerHTML = s.text;
+    stageBubbleBadge.textContent = s.bubble;
+    stageBubbleBadge.className = "bubble-badge " + (s.bubbleClass || "");
+
+    prevBtn.style.visibility = currentStep === 0 ? "hidden" : "visible";
+    nextBtn.textContent = currentStep === STEPS.length - 1 ? "Start Over ↺" : "Next Step →";
+    dots.forEach(function(d, i) { d.classList.toggle("active", i === currentStep); });
+  }
+
+  nextBtn.addEventListener("click", function() {
+    currentStep = (currentStep + 1) % STEPS.length;
+    renderStep();
+  });
+  prevBtn.addEventListener("click", function() {
+    if (currentStep > 0) { currentStep--; renderStep(); }
+  });
+  dots.forEach(function(dot, idx) {
+    dot.addEventListener("click", function() { currentStep = idx; renderStep(); });
+  });
+
+  renderStep();
+})();
+</script>
+</body>
+</html>

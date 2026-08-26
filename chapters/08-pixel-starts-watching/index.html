@@ -4,203 +4,353 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Atkinson+Hyperlegible:wght@400;700&family=IBM+Plex+Mono:wght@500;600&display=swap">
-<title>Pixel Starts Watching, Not Just Reading — The Pixel Story</title>
+<title>Chapter 12: Pixel Starts Watching — The Pixel Story</title>
 <link rel="stylesheet" href="/ai-story/assets/css/tokens.css">
 <link rel="stylesheet" href="/ai-story/assets/css/base.css">
 <style>
-  #ball { transition: cx 0.35s ease, cy 0.35s ease; }
-  #ghostPath { opacity: 0; transition: opacity 0.35s ease; }
-  #ghostPath.show { opacity: 1; }
-  @media (prefers-reduced-motion: reduce) { #ball, #ghostPath { transition: none; } }
+  .story-container { max-width: 680px; margin: 0 auto; }
+  .story-card {
+    background: var(--surface);
+    border: 2px solid var(--line);
+    border-radius: var(--radius-l);
+    box-shadow: 0 8px 30px rgba(42, 38, 34, 0.08);
+    overflow: hidden;
+    margin: 24px 0;
+    transition: all 0.3s ease;
+  }
+  .story-stage {
+    background: var(--bg);
+    border-bottom: 2px solid var(--line);
+    padding: 24px 20px 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 270px;
+    position: relative;
+    user-select: none;
+  }
+  .stage-svg-wrap {
+    width: 100%;
+    max-width: 480px;
+    height: 200px;
+    position: relative;
+  }
+  .pixel-bubble-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 10px;
+  }
+  .bubble-badge {
+    background: var(--surface);
+    border: 2px solid var(--line-strong);
+    padding: 6px 16px;
+    border-radius: 999px;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1rem;
+    color: var(--ink);
+    box-shadow: var(--shadow);
+    transition: all 0.25s ease;
+  }
+  .bubble-badge.good { border-color: var(--good); color: var(--good); background: #F0FDF4; }
+  .bubble-badge.bad { border-color: var(--bad); color: var(--bad); background: #FEF2F2; }
+
+  /* Animated Falling Apple Graphic */
+  #fallingApple {
+    transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  .story-body { padding: 28px 24px; }
+  .step-eyebrow {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--c);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+  .step-heading {
+    font-family: var(--font-display);
+    font-size: 1.45rem;
+    font-weight: 700;
+    margin: 0 0 12px;
+    color: var(--ink);
+    line-height: 1.3;
+  }
+  .step-text { font-size: 1.05rem; line-height: 1.6; color: var(--ink); margin: 0 0 24px; }
+  .story-nav-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 18px;
+    border-top: 1px solid var(--line);
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .btn-story {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 1rem;
+    padding: 12px 24px;
+    border-radius: var(--radius-m);
+    border: none;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: transform 0.15s ease, opacity 0.15s ease;
+  }
+  .btn-story:hover { transform: translateY(-1px); opacity: 0.92; }
+  .btn-primary { background: var(--c); color: var(--c-ink); box-shadow: var(--shadow); }
+  .btn-secondary { background: var(--surface-2); color: var(--ink); border: 1px solid var(--line-strong); }
+  .step-dots { display: flex; gap: 8px; }
+  .step-dot {
+    width: 10px; height: 10px; border-radius: 50%;
+    background: var(--line-strong); transition: all 0.2s ease; cursor: pointer;
+  }
+  .step-dot.active { background: var(--c); transform: scale(1.3); }
+
+  .concept-cards-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-top: 20px;
+  }
+  @media (max-width: 600px) { .concept-cards-grid { grid-template-columns: 1fr; } }
+  .concept-card {
+    background: var(--surface-2);
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius-m);
+    padding: 16px;
+  }
+  .concept-card h4 {
+    margin: 0 0 6px; font-family: var(--font-display); font-size: 1.05rem;
+    color: var(--ink); display: flex; align-items: center; gap: 6px;
+  }
+  .concept-card p { margin: 0; font-size: 0.92rem; color: var(--muted); line-height: 1.45; }
 </style>
 </head>
 <body>
-<div class="page">
+<div class="page story-container">
   <a class="back-link" href="/ai-story/">&larr; All chapters</a>
-
   <div class="eyebrow"><span class="dot"></span> Chapter 12 of 15 &nbsp;&middot;&nbsp; The Pixel Story</div>
 
   <div class="hero">
-    <h1>Pixel Starts Watching, Not Just Reading.</h1>
-    <p class="dek">Pixel watches a short video for the first time: a ball rolling toward a ramp. Watch how building a picture of how things move lets it predict what happens next.</p>
+    <h1>Pixel Starts Watching</h1>
+    <p class="dek">Babies don't learn about gravity by reading textbooks—they learn by watching objects move and fall. Discover World Models and Video Prediction (JEPA).</p>
   </div>
 
-  <div class="learn-grid">
-  <div class="learn-col-strip">
-  <div class="section-head">
-    <h2>How Pixel learns to predict what's next</h2>
-    <div class="sub">Six steps. Watch it play, or use the arrows to go at your own pace.</div>
-  </div>
+  <div class="story-card">
+    <div class="story-stage">
+      <div class="stage-svg-wrap">
+        <svg viewBox="0 0 460 200" width="100%" height="100%" aria-label="Video prediction and world models physics diagram">
+          <!-- Table and Floor -->
+          <g transform="translate(60, 30)">
+            <!-- Table -->
+            <rect x="20" y="70" width="120" height="12" rx="2" fill="var(--surface-2)" stroke="var(--line-strong)" stroke-width="2"/>
+            <line x1="40" y1="82" x2="40" y2="150" stroke="var(--line-strong)" stroke-width="4"/>
+            <line x1="120" y1="82" x2="120" y2="150" stroke="var(--line-strong)" stroke-width="4"/>
+            <line x1="0" y1="150" x2="340" y2="150" stroke="var(--line-strong)" stroke-width="2"/>
 
-  <div class="strip">
-    <div class="stage">
-      <svg viewBox="0 0 320 220" role="img" aria-label="Illustration of Pixel watching a ball roll up a ramp and predicting what happens next">
-        <!-- floor and ramp, always present -->
-        <g id="sceneGroup">
-          <rect x="16" y="170" width="264" height="4" rx="2" fill="var(--line-strong)"/>
-          <path d="M180 170 L280 170 L280 100 Z" fill="var(--surface-2)" stroke="var(--line-strong)" stroke-width="2"/>
-        </g>
+            <!-- Falling Apple -->
+            <g id="fallingApple" transform="translate(130, 48)">
+              <circle cx="10" cy="10" r="12" fill="#EF4444"/>
+              <path d="M10 0 Q 14 -8, 16 -6" stroke="#15803D" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+            </g>
 
-        <!-- predicted ghost path -->
-        <path id="ghostPath" d="M178 170 L280 100" fill="none" stroke="var(--c)" stroke-width="2" stroke-linecap="round" stroke-dasharray="1 6" opacity="0.75"/>
-        <g id="planDots" class="decor">
-          <circle cx="211" cy="147" r="3" fill="var(--good)"/>
-          <circle cx="245" cy="123" r="3" fill="var(--good)"/>
-          <circle cx="278" cy="101" r="3" fill="var(--good)"/>
-        </g>
-
-        <!-- the ball, position set per frame -->
-        <circle id="ball" cx="40" cy="160" r="10" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
-
-        <g transform="translate(30,15)">
-          <!-- Pixel base figure (unchanged geometry, repositioned via translate) -->
-          <g id="pixelBase">
-            <ellipse cx="205" cy="196" rx="46" ry="7" fill="var(--ink)" opacity="0.07"/>
-            <rect x="163" y="34" width="7" height="24" rx="3.5" fill="var(--line-strong)"/>
-            <circle cx="166.5" cy="34" r="6.5" fill="var(--c)"/>
-            <rect x="150" y="58" width="112" height="94" rx="26" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
-            <circle cx="206" cy="102" r="32" fill="var(--surface-2)" stroke="var(--line-strong)" stroke-width="2"/>
-            <circle id="facePupil" cx="206" cy="102" r="14" fill="var(--ink)"/>
-            <circle cx="200" cy="96" r="3.6" fill="var(--surface)"/>
-            <rect x="180" y="140" width="52" height="8" rx="4" fill="var(--line-strong)"/>
+            <!-- Video Frames Indicator -->
+            <g transform="translate(200, 20)">
+              <rect x="0" y="0" width="130" height="100" rx="8" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
+              <text id="frameStatusTitle" x="65" y="24" text-anchor="middle" font-family="var(--font-mono)" font-size="9" font-weight="700" fill="var(--c)">
+                FRAME PREDICTION
+              </text>
+              <text id="framePredictionText" x="65" y="55" text-anchor="middle" font-family="var(--font-display)" font-size="12" font-weight="700" fill="var(--ink)">
+                "Will it fall or float?"
+              </text>
+              <text id="framePhysicsLabel" x="65" y="80" text-anchor="middle" font-family="var(--font-mono)" font-size="9" fill="var(--muted)">
+                Learning Gravity (g = 9.8 m/s²)
+              </text>
+            </g>
           </g>
-
-          <!-- decor 1: question bubble -->
-          <g id="ov1" class="decor">
-            <circle cx="150" cy="52" r="5" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
-            <circle cx="160" cy="42" r="7" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
-            <rect x="148" y="8" width="64" height="30" rx="14" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
-            <text x="180" y="30" text-anchor="middle" font-family="var(--font-display)" font-weight="700" font-size="20" fill="var(--muted)">?</text>
-          </g>
-
-          <!-- decor 2: watching focus -->
-          <g id="ov2" class="decor">
-            <circle cx="150" cy="52" r="5" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
-            <circle cx="160" cy="42" r="7" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
-            <rect x="148" y="8" width="64" height="30" rx="14" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
-            <circle cx="172" cy="23" r="7" fill="none" stroke="var(--c)" stroke-width="1.8"/>
-            <circle cx="172" cy="23" r="2.5" fill="var(--c)"/>
-            <circle cx="188" cy="23" r="7" fill="none" stroke="var(--c)" stroke-width="1.8"/>
-            <circle cx="188" cy="23" r="2.5" fill="var(--c)"/>
-          </g>
-
-          <!-- decor 3: wrong guess bubble -->
-          <g id="ov3" class="decor">
-            <circle cx="150" cy="52" r="5" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
-            <circle cx="160" cy="42" r="7" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
-            <rect x="140" y="4" width="86" height="34" rx="16" fill="var(--surface)" stroke="var(--bad)" stroke-width="2"/>
-            <text x="173" y="27" text-anchor="middle" font-family="var(--font-display)" font-weight="700" font-size="13" fill="var(--muted)">stops?</text>
-            <circle cx="216" cy="14" r="11" fill="var(--bad)"/>
-            <path d="M212 10 L220 18 M220 10 L212 18" stroke="white" stroke-width="2.4" stroke-linecap="round"/>
-          </g>
-
-          <!-- decor 4: building a mental picture -->
-          <g id="ov4" class="decor">
-            <circle cx="150" cy="52" r="5" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
-            <circle cx="160" cy="42" r="7" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
-            <rect x="148" y="8" width="64" height="30" rx="14" fill="var(--surface)" stroke="var(--c)" stroke-width="2"/>
-            <path d="M168 30 L176 14 L184 24 L192 10" fill="none" stroke="var(--c)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="1 4"/>
-          </g>
-
-          <!-- decor 5: right bubble -->
-          <g id="ov5" class="decor">
-            <circle cx="150" cy="52" r="5" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
-            <circle cx="160" cy="42" r="7" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
-            <rect x="140" y="4" width="86" height="34" rx="16" fill="var(--surface)" stroke="var(--good)" stroke-width="2"/>
-            <text x="173" y="27" text-anchor="middle" font-family="var(--font-display)" font-weight="700" font-size="12" fill="var(--ink)">goes up!</text>
-            <circle cx="216" cy="14" r="11" fill="var(--good)"/>
-            <path d="M211 14 L215 18 L222 10" fill="none" stroke="white" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
-          </g>
-
-          <!-- decor 6: mastery sparkles -->
-          <g id="ov6" class="decor">
-            <circle cx="206" cy="102" r="38" fill="none" stroke="var(--good)" stroke-width="2" opacity="0.55"/>
-            <path d="M120 40 l4 10 10 4 -10 4 -4 10 -4 -10 -10 -4 10 -4 z" fill="var(--c)"/>
-            <path d="M96 150 l3 7 7 3 -7 3 -3 7 -3 -7 -7 -3 7 -3 z" fill="var(--good)"/>
-          </g>
-        </g>
-      </svg>
-    </div>
-
-    <div class="step-meta">
-      <span id="stepLabel">Step 1 of 6</span>
-      <span id="playLabel">▶ playing</span>
-    </div>
-    <div class="caption" id="captionText">Pixel has only ever read words, never watched anything move.</div>
-
-    <div class="controls">
-      <div class="nav-btns">
-        <button type="button" class="icon" id="prevBtn" aria-label="Previous step">‹</button>
-        <button type="button" class="icon" id="nextBtn" aria-label="Next step">›</button>
-        <button type="button" class="ghost" id="playPauseBtn">⏸ Pause</button>
+        </svg>
       </div>
-      <div class="dots" id="dots"></div>
+
+      <div class="pixel-bubble-row">
+        <span style="font-size:1.4rem;">🎥</span>
+        <div class="bubble-badge" id="stageBubbleBadge">
+          "I'm watching the apple roll off the table!"
+        </div>
+      </div>
+    </div>
+
+    <div class="story-body">
+      <div class="step-eyebrow" id="stepCounter">Step 1 of 5</div>
+      <h2 class="step-heading" id="stepTitle">Beyond just reading words</h2>
+      <div class="step-text" id="stepDescription">
+        Humans only read ~100 million words in a lifetime, yet a 3-year-old child understands physics better than an AI model trained on a trillion words! Why? Because children learn by <strong>watching real video streams</strong> of the world.
+      </div>
+
+      <div class="story-nav-row">
+        <button type="button" class="btn-story btn-secondary" id="prevStepBtn" style="visibility:hidden;">← Back</button>
+        <div class="step-dots" id="stepDotsWrap">
+          <span class="step-dot active"></span>
+          <span class="step-dot"></span>
+          <span class="step-dot"></span>
+          <span class="step-dot"></span>
+          <span class="step-dot"></span>
+        </div>
+        <button type="button" class="btn-story btn-primary" id="nextStepBtn">Next Step →</button>
+      </div>
     </div>
   </div>
-  </div>
 
-  <div class="learn-col-vocab">
-  <div class="section-head">
+  <div class="section-head" style="margin-top: 36px;">
     <h2>Now you know the grown-up words</h2>
-    <div class="sub">Tap one to see what it means.</div>
+    <div class="sub">How AI learns common-sense physics and visual reasoning:</div>
   </div>
 
-  <div class="vocab">
-    <details class="chip">
-      <summary>World model <span class="plus">+</span></summary>
-      <div class="def">What Pixel builds in <button type="button" class="step-ref" data-step="4">step 4</button> — an internal picture of how things move and interact, not just which words tend to follow each other. Having this kind of internal picture of how the world behaves is called a world model.</div>
-    </details>
-    <details class="chip">
-      <summary>Planning <span class="plus">+</span></summary>
-      <div class="def">What Pixel is doing by <button type="button" class="step-ref" data-step="6">step 6</button> — using its world model to picture not just the very next moment, but several moves ahead. Working out a sequence of future steps like this, before anything happens, is called planning.</div>
-    </details>
-    <details class="chip">
-      <summary>Hierarchical prediction <span class="plus">+</span></summary>
-      <div class="def">Also happening by <button type="button" class="step-ref" data-step="6">step 6</button>: Pixel predicts at more than one scale at once — "the ball will reach the top soon" (the big picture) and "the ball is moving forward right now" (the small detail), both at the same time. Predicting at multiple zoom levels like this is called hierarchical prediction.</div>
-    </details>
-    <details class="chip">
-      <summary>JEPA <span class="plus">+</span></summary>
-      <div class="def">The name for this exact kind of learning — building an internal picture of the world and predicting what happens next in it, the way Pixel does starting in <button type="button" class="step-ref" data-step="4">step 4</button> — rather than just predicting the next word. This design is called a Joint Embedding Predictive Architecture, or JEPA for short.</div>
-    </details>
-  </div>
-  </div>
+  <div class="concept-cards-grid">
+    <div class="concept-card">
+      <h4>🌍 World Model</h4>
+      <p>An internal mental simulation of how the physical world works (gravity, friction, 3D space, momentum).</p>
+    </div>
+    <div class="concept-card">
+      <h4>🎥 Video Prediction</h4>
+      <p>Training an AI by showing it past frames of a video and making it predict the next visual state.</p>
+    </div>
+    <div class="concept-card">
+      <h4>🧠 JEPA (Joint Embedding Architecture)</h4>
+      <p>Predicting abstract concepts (the apple lands on the floor) rather than wasting energy predicting every noisy background pixel.</p>
+    </div>
+    <div class="concept-card">
+      <h4>🧩 Common Sense</h4>
+      <p>Intuitive physical knowledge (liquid pours down, solid objects don't pass through walls).</p>
+    </div>
   </div>
 
-  <div class="next">
+  <div style="background:var(--surface-2); border:1px solid var(--line-strong); border-radius:var(--radius-m); padding:20px; margin-top:28px;">
+    <h3 style="font-family:var(--font-display); font-size:1.15rem; margin:0 0 8px; color:var(--ink);">
+      🤔 What if Pixel needs to take ACTIONS, not just watch?
+    </h3>
+    <p style="margin:0; font-size:0.95rem; color:var(--muted); line-height:1.5;">
+      Watching is great, but real robots and autonomous agents need to use tools, write code, and water plants in an action loop! Meet <strong>Agentic AI & Tool Use</strong> in Chapter 13!
+    </p>
+  </div>
+
+  <div class="next" style="margin-top:28px;">
     <div>
       <div class="label">Coming next</div>
-      <p>Pixel stops just answering questions, and starts getting things done on its own.</p>
+      <p>Pixel gets tools and takes actions in the real world: Agentic AI.</p>
     </div>
-    <a class="tag" href="/ai-story/chapters/15-pixel-gets-to-work/">Chapter 13 · Agentic AI</a>
+    <a class="tag" href="/ai-story/chapters/15-pixel-gets-to-work/">Chapter 13 · Agentic AI & Tool Use →</a>
   </div>
 
   <footer class="page-foot">The Pixel Story</footer>
 </div>
 
-<script src="/ai-story/assets/js/stepper.js"></script>
 <script>
-(function () {
-  var FRAMES = [
-    { caption: "Pixel has only ever read words, never watched anything move.", ov: "ov1", pupilX: 206, ballX: 40, ballY: 160, ghost: false, plan: false },
-    { caption: "It watches a short video: a ball rolling toward a ramp.", ov: "ov2", pupilX: 190, ballX: 110, ballY: 160, ghost: false, plan: false },
-    { caption: "Pixel guesses the ball will just stop — wrong.", ov: "ov3", pupilX: 214, ballX: 178, ballY: 160, ghost: false, plan: false },
-    { caption: "So it builds a picture in its mind of how things move.", ov: "ov4", pupilX: 196, ballX: 178, ballY: 160, ghost: true, plan: false },
-    { caption: "Now it predicts the ball will roll right up the ramp.", ov: "ov5", pupilX: 200, ballX: 230, ballY: 135, ghost: true, plan: false },
-    { caption: "Pixel can picture what happens several moves ahead now.", ov: "ov6", pupilX: 206, ballX: 278, ballY: 101, ghost: true, plan: true }
+(function() {
+  var currentStep = 0;
+
+  var STEPS = [
+    {
+      title: "Beyond just reading words",
+      text: "Pixel stops reading text files and opens a video stream 🎥. An apple rolls toward the edge of a high table. What happens next?",
+      bubble: "The apple is rolling off the table! 🍎",
+      bubbleClass: "",
+      applePos: [130, 48],
+      frameTitle: "FRAME 1: OBSERVATION",
+      framePred: "Apple at table edge",
+      framePhysics: "Velocity: 0.5 m/s right"
+    },
+    {
+      title: "Untrained prediction: Floating apple?",
+      text: "Without physical training, Pixel's first guess is that the apple will float in midair or turn into a bird! ❌",
+      bubble: "Will it float in mid-air? 🎈❌",
+      bubbleClass: "bad",
+      applePos: [180, 48],
+      frameTitle: "PREDICTION 1: WRONG",
+      framePred: "Floating in air ❌",
+      framePhysics: "Error: Ignored gravity!"
+    },
+    {
+      title: "Watching reality: The apple drops",
+      text: "The next video frame arrives: Gravity pulls the apple down! Pixel calculates the prediction error and updates its internal physics weights.",
+      bubble: "Gravity pulled it down! 📉",
+      bubbleClass: "",
+      applePos: [160, 95],
+      frameTitle: "LEARNING PHYSICS",
+      framePred: "Downward acceleration",
+      framePhysics: "Loss applied to World Model"
+    },
+    {
+      title: "Building the World Model",
+      text: "After watching thousands of hours of videos (water pouring, balls bouncing, doors swinging), Pixel builds an internal <strong>World Model</strong>.",
+      bubble: "I understand gravity & solid objects! 🌍✨",
+      bubbleClass: "good",
+      applePos: [160, 138],
+      frameTitle: "PREDICTION: MASTERED",
+      framePred: "Lands on floor ✅",
+      framePhysics: "Predicts trajectory accurately!"
+    },
+    {
+      title: "True Common Sense! 🎉",
+      text: "Pixel now has intuitive common sense about physics, space, and time! This is the foundation of self-driving cars, humanoid robots, and future AGI.",
+      bubble: "I can predict what happens next! 🚀✨",
+      bubbleClass: "good",
+      applePos: [160, 138],
+      frameTitle: "JEPA WORLD MODEL",
+      framePred: "Physical Common Sense ✨",
+      framePhysics: "100% Grounded in Reality"
+    }
   ];
 
-  var ball = document.getElementById("ball");
-  var ghostPath = document.getElementById("ghostPath");
-  var planDots = document.getElementById("planDots");
+  var stepCounter = document.getElementById("stepCounter");
+  var stepTitle = document.getElementById("stepTitle");
+  var stepDescription = document.getElementById("stepDescription");
+  var stageBubbleBadge = document.getElementById("stageBubbleBadge");
+  var fallingApple = document.getElementById("fallingApple");
+  var frameStatusTitle = document.getElementById("frameStatusTitle");
+  var framePredictionText = document.getElementById("framePredictionText");
+  var framePhysicsLabel = document.getElementById("framePhysicsLabel");
+  var prevBtn = document.getElementById("prevStepBtn");
+  var nextBtn = document.getElementById("nextStepBtn");
+  var dots = document.querySelectorAll(".step-dot");
 
-  function applyFrame(f) {
-    ball.setAttribute("cx", f.ballX);
-    ball.setAttribute("cy", f.ballY);
-    ghostPath.classList.toggle("show", f.ghost);
-    planDots.classList.toggle("show", f.plan);
+  function renderStep() {
+    var s = STEPS[currentStep];
+    stepCounter.textContent = "Step " + (currentStep + 1) + " of " + STEPS.length;
+    stepTitle.textContent = s.title;
+    stepDescription.innerHTML = s.text;
+    stageBubbleBadge.textContent = s.bubble;
+    stageBubbleBadge.className = "bubble-badge " + (s.bubbleClass || "");
+
+    fallingApple.style.transform = "translate(" + s.applePos[0] + "px, " + s.applePos[1] + "px)";
+    frameStatusTitle.textContent = s.frameTitle;
+    framePredictionText.textContent = s.framePred;
+    framePhysicsLabel.textContent = s.framePhysics;
+
+    prevBtn.style.visibility = currentStep === 0 ? "hidden" : "visible";
+    nextBtn.textContent = currentStep === STEPS.length - 1 ? "Start Over ↺" : "Next Step →";
+    dots.forEach(function(d, i) { d.classList.toggle("active", i === currentStep); });
   }
 
-  window.PixelStepper({ frames: FRAMES, applyFrame: applyFrame });
+  nextBtn.addEventListener("click", function() {
+    currentStep = (currentStep + 1) % STEPS.length;
+    renderStep();
+  });
+  prevBtn.addEventListener("click", function() {
+    if (currentStep > 0) { currentStep--; renderStep(); }
+  });
+  dots.forEach(function(dot, idx) {
+    dot.addEventListener("click", function() { currentStep = idx; renderStep(); });
+  });
+
+  renderStep();
 })();
 </script>
 </body>

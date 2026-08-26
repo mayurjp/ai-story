@@ -4,204 +4,352 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Atkinson+Hyperlegible:wght@400;700&family=IBM+Plex+Mono:wght@500;600&display=swap">
-<title>Pixel Embarrasses Itself — The Pixel Story</title>
+<title>Chapter 10: Pixel Embarrasses Itself — The Pixel Story</title>
 <link rel="stylesheet" href="/ai-story/assets/css/tokens.css">
 <link rel="stylesheet" href="/ai-story/assets/css/base.css">
 <style>
-  #glassIntact { transition: opacity 0.35s ease, cy 0.35s ease; }
-  #glassIntact.show { opacity: 1; }
-  #glassBroken { opacity: 0; transition: opacity 0.35s ease; }
-  #glassBroken.show { opacity: 1; }
-  @media (prefers-reduced-motion: reduce) { #glassIntact, #glassBroken { transition: none; } }
+  .story-container { max-width: 680px; margin: 0 auto; }
+  .story-card {
+    background: var(--surface);
+    border: 2px solid var(--line);
+    border-radius: var(--radius-l);
+    box-shadow: 0 8px 30px rgba(42, 38, 34, 0.08);
+    overflow: hidden;
+    margin: 24px 0;
+    transition: all 0.3s ease;
+  }
+  .story-stage {
+    background: var(--bg);
+    border-bottom: 2px solid var(--line);
+    padding: 24px 20px 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 270px;
+    position: relative;
+    user-select: none;
+  }
+  .stage-svg-wrap {
+    width: 100%;
+    max-width: 480px;
+    height: 200px;
+    position: relative;
+  }
+  .pixel-bubble-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 10px;
+  }
+  .bubble-badge {
+    background: var(--surface);
+    border: 2px solid var(--line-strong);
+    padding: 6px 16px;
+    border-radius: 999px;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1rem;
+    color: var(--ink);
+    box-shadow: var(--shadow);
+    transition: all 0.25s ease;
+  }
+  .bubble-badge.good { border-color: var(--good); color: var(--good); background: #F0FDF4; }
+  .bubble-badge.bad { border-color: var(--bad); color: var(--bad); background: #FEF2F2; }
+
+  .story-body { padding: 28px 24px; }
+  .step-eyebrow {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--c);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+  .step-heading {
+    font-family: var(--font-display);
+    font-size: 1.45rem;
+    font-weight: 700;
+    margin: 0 0 12px;
+    color: var(--ink);
+    line-height: 1.3;
+  }
+  .step-text { font-size: 1.05rem; line-height: 1.6; color: var(--ink); margin: 0 0 24px; }
+  .story-nav-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 18px;
+    border-top: 1px solid var(--line);
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .btn-story {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 1rem;
+    padding: 12px 24px;
+    border-radius: var(--radius-m);
+    border: none;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: transform 0.15s ease, opacity 0.15s ease;
+  }
+  .btn-story:hover { transform: translateY(-1px); opacity: 0.92; }
+  .btn-primary { background: var(--c); color: var(--c-ink); box-shadow: var(--shadow); }
+  .btn-secondary { background: var(--surface-2); color: var(--ink); border: 1px solid var(--line-strong); }
+  .step-dots { display: flex; gap: 8px; }
+  .step-dot {
+    width: 10px; height: 10px; border-radius: 50%;
+    background: var(--line-strong); transition: all 0.2s ease; cursor: pointer;
+  }
+  .step-dot.active { background: var(--c); transform: scale(1.3); }
+
+  .concept-cards-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-top: 20px;
+  }
+  @media (max-width: 600px) { .concept-cards-grid { grid-template-columns: 1fr; } }
+  .concept-card {
+    background: var(--surface-2);
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius-m);
+    padding: 16px;
+  }
+  .concept-card h4 {
+    margin: 0 0 6px; font-family: var(--font-display); font-size: 1.05rem;
+    color: var(--ink); display: flex; align-items: center; gap: 6px;
+  }
+  .concept-card p { margin: 0; font-size: 0.92rem; color: var(--muted); line-height: 1.45; }
 </style>
 </head>
 <body>
-<div class="page">
+<div class="page story-container">
   <a class="back-link" href="/ai-story/">&larr; All chapters</a>
-
   <div class="eyebrow"><span class="dot"></span> Chapter 10 of 15 &nbsp;&middot;&nbsp; The Pixel Story</div>
 
   <div class="hero">
-    <h1>Pixel Embarrasses Itself.</h1>
-    <p class="dek">Pixel can describe almost anything from what it's read — but reading about a kitchen isn't the same as living in one. Watch what happens when a glass gets dropped.</p>
+    <h1>Pixel Embarrasses Itself</h1>
+    <p class="dek">Why does AI sometimes state completely made-up facts with 100% confidence? Discover Hallucinations, System 1 vs. System 2, and Chain of Thought reasoning.</p>
   </div>
 
-  <div class="learn-grid">
-  <div class="learn-col-strip">
-  <div class="section-head">
-    <h2>How Pixel learns to slow down</h2>
-    <div class="sub">Six steps. Watch it play, or use the arrows to go at your own pace.</div>
-  </div>
+  <div class="story-card">
+    <div class="story-stage">
+      <div class="stage-svg-wrap">
+        <svg viewBox="0 0 460 200" width="100%" height="100%" aria-label="Hallucination versus chain of thought reasoning diagram">
+          <!-- Glass Dropping Scenario -->
+          <g transform="translate(60, 30)">
+            <text x="0" y="20" font-family="var(--font-display)" font-size="14" font-weight="700" fill="var(--ink)">
+              Question: "If you drop a glass bowl on concrete, what happens?"
+            </text>
 
-  <div class="strip">
-    <div class="stage">
-      <svg viewBox="0 0 320 220" role="img" aria-label="Illustration of Pixel reasoning about a dropped glass">
-        <!-- kitchen counter and floor, always present -->
-        <g id="kitchenGroup">
-          <rect x="20" y="126" width="110" height="10" rx="2" fill="var(--line-strong)"/>
-          <rect x="20" y="172" width="110" height="4" rx="2" fill="var(--line-strong)"/>
-        </g>
-
-        <!-- intact glass, position/visibility set per frame -->
-        <g id="glassIntact">
-          <rect x="60" y="96" width="24" height="30" rx="4" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
-          <ellipse cx="72" cy="96" rx="12" ry="3.5" fill="none" stroke="var(--line-strong)" stroke-width="2"/>
-        </g>
-
-        <!-- broken glass shards -->
-        <g id="glassBroken">
-          <path d="M54 168 l10 -10 6 8 z" fill="var(--surface)" stroke="var(--bad)" stroke-width="1.6"/>
-          <path d="M70 170 l8 -12 8 10 -6 6 z" fill="var(--surface)" stroke="var(--bad)" stroke-width="1.6"/>
-          <path d="M90 168 l10 -8 4 10 z" fill="var(--surface)" stroke="var(--bad)" stroke-width="1.6"/>
-        </g>
-
-        <!-- decor 2: attention focus around glass -->
-        <g id="ov2" class="decor">
-          <rect x="50" y="86" width="44" height="50" rx="10" fill="none" stroke="var(--c)" stroke-width="2.5" stroke-dasharray="2 6" opacity="0.65"/>
-        </g>
-
-        <g transform="translate(60,10)">
-          <!-- Pixel base figure (unchanged geometry, repositioned via translate) -->
-          <g id="pixelBase">
-            <ellipse cx="205" cy="196" rx="46" ry="7" fill="var(--ink)" opacity="0.07"/>
-            <rect x="163" y="34" width="7" height="24" rx="3.5" fill="var(--line-strong)"/>
-            <circle cx="166.5" cy="34" r="6.5" fill="var(--c)"/>
-            <rect x="150" y="58" width="112" height="94" rx="26" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
-            <circle cx="206" cy="102" r="32" fill="var(--surface-2)" stroke="var(--line-strong)" stroke-width="2"/>
-            <circle id="facePupil" cx="206" cy="102" r="14" fill="var(--ink)"/>
-            <circle cx="200" cy="96" r="3.6" fill="var(--surface)"/>
-            <rect x="180" y="140" width="52" height="8" rx="4" fill="var(--line-strong)"/>
+            <!-- Thinking Process Display Box -->
+            <rect id="thoughtBox" x="0" y="38" width="340" height="90" rx="8" fill="#FEF2F2" stroke="var(--bad)" stroke-width="1.5"/>
+            <text id="thoughtType" x="15" y="60" font-family="var(--font-mono)" font-size="10" font-weight="700" fill="var(--bad)">
+              ⚡ FAST GUESS (SYSTEM 1):
+            </text>
+            <text id="thoughtContent" x="15" y="85" font-family="var(--font-display)" font-size="13" font-weight="600" fill="var(--bad)">
+              "The glass bowl bounces right back up into your hand! 🪃"
+            </text>
+            <text id="thoughtVerdict" x="15" y="112" font-family="var(--font-mono)" font-size="10" fill="var(--bad)">
+              ❌ Hallucination! (Sounds fluent, but physically false)
+            </text>
           </g>
-
-          <!-- decor 1: fast/confident lightning bolt -->
-          <g id="ov1" class="decor">
-            <circle cx="150" cy="52" r="5" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
-            <circle cx="160" cy="42" r="7" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
-            <rect x="148" y="8" width="64" height="30" rx="14" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
-            <path d="M182 12 l-10 12 h7 l-4 10 12 -13 h-7 z" fill="var(--c)"/>
-          </g>
-
-          <!-- decor 3: wrong guess bubble -->
-          <g id="ov3" class="decor">
-            <circle cx="150" cy="52" r="5" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
-            <circle cx="160" cy="42" r="7" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
-            <rect x="140" y="4" width="86" height="34" rx="16" fill="var(--surface)" stroke="var(--bad)" stroke-width="2"/>
-            <text x="173" y="27" text-anchor="middle" font-family="var(--font-display)" font-weight="700" font-size="13" fill="var(--muted)">bounces?</text>
-            <circle cx="216" cy="14" r="11" fill="var(--bad)"/>
-            <path d="M212 10 L220 18 M220 10 L212 18" stroke="white" stroke-width="2.4" stroke-linecap="round"/>
-          </g>
-
-          <!-- decor 4: slow, deliberate thinking -->
-          <g id="ov4" class="decor">
-            <circle cx="150" cy="52" r="5" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
-            <circle cx="160" cy="42" r="7" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
-            <rect x="148" y="8" width="64" height="30" rx="14" fill="var(--surface)" stroke="var(--c)" stroke-width="2"/>
-            <circle cx="168" cy="23" r="3" fill="var(--c)"/>
-            <circle cx="180" cy="23" r="3" fill="var(--c)"/>
-            <circle cx="192" cy="23" r="3" fill="var(--c)"/>
-          </g>
-
-          <!-- decor 5: right bubble -->
-          <g id="ov5" class="decor">
-            <circle cx="150" cy="52" r="5" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
-            <circle cx="160" cy="42" r="7" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
-            <rect x="140" y="4" width="86" height="34" rx="16" fill="var(--surface)" stroke="var(--good)" stroke-width="2"/>
-            <text x="173" y="27" text-anchor="middle" font-family="var(--font-display)" font-weight="700" font-size="13" fill="var(--ink)">shatters!</text>
-            <circle cx="216" cy="14" r="11" fill="var(--good)"/>
-            <path d="M211 14 L215 18 L222 10" fill="none" stroke="white" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
-          </g>
-
-          <!-- decor 6: mastery sparkles -->
-          <g id="ov6" class="decor">
-            <circle cx="206" cy="102" r="38" fill="none" stroke="var(--good)" stroke-width="2" opacity="0.55"/>
-            <path d="M120 40 l4 10 10 4 -10 4 -4 10 -4 -10 -10 -4 10 -4 z" fill="var(--c)"/>
-            <path d="M270 150 l3 7 7 3 -7 3 -3 7 -3 -7 -7 -3 7 -3 z" fill="var(--good)"/>
-          </g>
-        </g>
-      </svg>
-    </div>
-
-    <div class="step-meta">
-      <span id="stepLabel">Step 1 of 6</span>
-      <span id="playLabel">▶ playing</span>
-    </div>
-    <div class="caption" id="captionText">Pixel can describe almost anything, in an instant.</div>
-
-    <div class="controls">
-      <div class="nav-btns">
-        <button type="button" class="icon" id="prevBtn" aria-label="Previous step">‹</button>
-        <button type="button" class="icon" id="nextBtn" aria-label="Next step">›</button>
-        <button type="button" class="ghost" id="playPauseBtn">⏸ Pause</button>
+        </svg>
       </div>
-      <div class="dots" id="dots"></div>
+
+      <div class="pixel-bubble-row">
+        <span style="font-size:1.4rem;">🙈</span>
+        <div class="bubble-badge bad" id="stageBubbleBadge">
+          "It bounces back into your hand!"
+        </div>
+      </div>
+    </div>
+
+    <div class="story-body">
+      <div class="step-eyebrow" id="stepCounter">Step 1 of 5</div>
+      <h2 class="step-heading" id="stepTitle">Confident, but totally wrong</h2>
+      <div class="step-text" id="stepDescription">
+        Pixel can write poetry and code, but when asked about physical reality, it hallucinates: <em>"A dropped glass bowl bounces like rubber!"</em> Why did Pixel say something so absurd?
+      </div>
+
+      <div class="story-nav-row">
+        <button type="button" class="btn-story btn-secondary" id="prevStepBtn" style="visibility:hidden;">← Back</button>
+        <div class="step-dots" id="stepDotsWrap">
+          <span class="step-dot active"></span>
+          <span class="step-dot"></span>
+          <span class="step-dot"></span>
+          <span class="step-dot"></span>
+          <span class="step-dot"></span>
+        </div>
+        <button type="button" class="btn-story btn-primary" id="nextStepBtn">Next Step →</button>
+      </div>
     </div>
   </div>
-  </div>
 
-  <div class="learn-col-vocab">
-  <div class="section-head">
+  <div class="section-head" style="margin-top: 36px;">
     <h2>Now you know the grown-up words</h2>
-    <div class="sub">Tap one to see what it means.</div>
+    <div class="sub">Why AI makes mistakes and how scientists fix them:</div>
   </div>
 
-  <div class="vocab">
-    <details class="chip">
-      <summary>Hallucination <span class="plus">+</span></summary>
-      <div class="def">What happens in <button type="button" class="step-ref" data-step="3">step 3</button> — Pixel doesn't say "I don't know," it confidently states something invented that sounds right but isn't. That confidently-wrong kind of answer is called a hallucination.</div>
-    </details>
-    <details class="chip">
-      <summary>System 1 <span class="plus">+</span></summary>
-      <div class="def">The fast, instant kind of answering Pixel does in <button type="button" class="step-ref" data-step="1">step 1</button> and <button type="button" class="step-ref" data-step="3">step 3</button> — pattern-matching straight from everything it's read, without stopping to reason. That quick, automatic kind of thinking is called System 1.</div>
-    </details>
-    <details class="chip">
-      <summary>System 2 <span class="plus">+</span></summary>
-      <div class="def">The slower, deliberate kind of thinking Pixel switches to in <button type="button" class="step-ref" data-step="4">step 4</button> — working through a problem step by step instead of blurting the first answer. That careful, step-by-step kind of thinking is called System 2.</div>
-    </details>
-    <details class="chip">
-      <summary>Chain of thought <span class="plus">+</span></summary>
-      <div class="def">The actual words Pixel would produce while reasoning slowly in <button type="button" class="step-ref" data-step="4">step 4</button>, if it wrote them out loud: "a glass is fragile... it's about to hit a hard floor... fragile things hitting hard floors shatter." Writing the reasoning out step by step like this, instead of jumping straight to an answer, is called chain of thought.</div>
-    </details>
-    <details class="chip">
-      <summary>Persistent memory <span class="plus">+</span></summary>
-      <div class="def">The one thing <button type="button" class="step-ref" data-step="6">step 6</button> doesn't fully fix: the next time someone starts a new conversation with Pixel, it won't remember any of this — every conversation starts over from scratch. Carrying memories from one conversation into the next is called persistent memory, and it's something Pixel, as you've met it here, doesn't have.</div>
-    </details>
-  </div>
-  </div>
+  <div class="concept-cards-grid">
+    <div class="concept-card">
+      <h4>👻 Hallucination</h4>
+      <p>When an AI generates fluent, convincing text that is factually false or physically impossible.</p>
+    </div>
+    <div class="concept-card">
+      <h4>⚡ System 1 vs 🧠 System 2</h4>
+      <p>System 1 is instant instinct (quick guessing); System 2 is slow, deliberate step-by-step reasoning.</p>
+    </div>
+    <div class="concept-card">
+      <h4>🔗 Chain of Thought (CoT)</h4>
+      <p>Prompting the AI to write out its intermediate thinking steps before blurting out a final conclusion.</p>
+    </div>
+    <div class="concept-card">
+      <h4>🌍 Grounding</h4>
+      <p>Connecting word tokens to real-world physical laws, verified web searches, or databases.</p>
+    </div>
   </div>
 
-  <div class="next">
+  <div style="background:var(--surface-2); border:1px solid var(--line-strong); border-radius:var(--radius-m); padding:20px; margin-top:28px;">
+    <h3 style="font-family:var(--font-display); font-size:1.15rem; margin:0 0 8px; color:var(--ink);">
+      🤔 What if a robot sounds helpful, but is secretly biased?
+    </h3>
+    <p style="margin:0; font-size:0.95rem; color:var(--muted); line-height:1.5;">
+      If an AI learned from biased internet text, it might give unfair advice. How do researchers test and red-team AI models for safety? Meet <strong>AI Safety & Red-Teaming</strong> in Chapter 11!
+    </p>
+  </div>
+
+  <div class="next" style="margin-top:28px;">
     <div>
       <div class="label">Coming next</div>
-      <p>Pixel meets a classmate who sounds confident — but is sometimes just wrong.</p>
+      <p>Pixel meets a robot who gives unfair answers: Bias, Red-Teaming, and Alignment.</p>
     </div>
-    <a class="tag" href="/ai-story/chapters/10-pixel-meets-a-robot-who-lies/">Chapter 11 · AI safety</a>
+    <a class="tag" href="/ai-story/chapters/10-pixel-meets-a-robot-who-lies/">Chapter 11 · AI Safety & Bias →</a>
   </div>
 
   <footer class="page-foot">The Pixel Story</footer>
 </div>
 
-<script src="/ai-story/assets/js/stepper.js"></script>
 <script>
-(function () {
-  var FRAMES = [
-    { caption: "Pixel can describe almost anything, in an instant.", ov: "ov1", pupilX: 206, glassY: 96, broken: false },
-    { caption: "Someone asks: what happens if you drop a glass?", ov: "ov2", pupilX: 196, glassY: 96, broken: false },
-    { caption: "Pixel blurts a fast answer — it says the glass bounces.", ov: "ov3", pupilX: 214, glassY: 120, broken: false },
-    { caption: "So it slows down and reasons it through, step by step.", ov: "ov4", pupilX: 196, glassY: 108, broken: false },
-    { caption: "This time it works out: the glass would shatter.", ov: "ov5", pupilX: 200, glassY: 96, broken: true },
-    { caption: "Pixel learns to pause and think, not just guess fast.", ov: "ov6", pupilX: 206, glassY: 96, broken: true }
+(function() {
+  var currentStep = 0;
+
+  var STEPS = [
+    {
+      title: "Confident, but totally wrong",
+      text: "Pixel is asked: <em>'If you drop a glass bowl on concrete, what happens?'</em> Pixel blurts out: <em>'It bounces back up!'</em> Pixel has only ever read text—it has no physical body!",
+      bubble: "It bounces right back up! 🪃❌",
+      bubbleClass: "bad",
+      boxFill: "#FEF2F2",
+      boxStroke: "var(--bad)",
+      thoughtType: "⚡ INSTANT REACTION (SYSTEM 1):",
+      thoughtColor: "var(--bad)",
+      thoughtContent: "'The glass bowl bounces right back up into your hand! 🪃'",
+      thoughtVerdict: "❌ Hallucination! (Pixel has never experienced gravity or glass)"
+    },
+    {
+      title: "Why did Pixel hallucinate?",
+      text: "LLMs predict the most statistically probable next words. If fantasy stories mention bouncing objects, Pixel stitches those words together without true physics knowledge!",
+      bubble: "I was just guessing likely words! 📚🎲",
+      bubbleClass: "bad",
+      boxFill: "#FEF3C7",
+      boxStroke: "#F59E0B",
+      thoughtType: "🔍 STATISTICAL PATTERN MATCHING:",
+      thoughtColor: "#B45309",
+      thoughtContent: "'Drop + bowl + floor = bounce/return'",
+      thoughtVerdict: "⚠️ No physics model behind the words"
+    },
+    {
+      title: "Teaching Pixel to think step-by-step (Chain of Thought)",
+      text: "We tell Pixel: <em>'Think step by step before answering.'</em> Pixel slows down and breaks the problem into logical pieces (<strong>System 2 reasoning</strong>).",
+      bubble: "Let me think through the steps... 🧠",
+      bubbleClass: "",
+      boxFill: "#EFF6FF",
+      boxStroke: "#3B82F6",
+      thoughtType: "🧠 CHAIN OF THOUGHT REASONING:",
+      thoughtColor: "#1D4ED8",
+      thoughtContent: "1. Glass is brittle. 2. Concrete is solid and hard. 3. Dropping creates impact.",
+      thoughtVerdict: "💡 Reasoning step-by-step through materials & forces"
+    },
+    {
+      title: "The correct physical conclusion! 🎉",
+      text: "Pixel connects its steps: <em>'Because brittle glass hits hard concrete with high force, the bowl will shatter into pieces!'</em> Accurate and grounded!",
+      bubble: "It shatters into pieces! 💥✅",
+      bubbleClass: "good",
+      boxFill: "#DCFCE7",
+      boxStroke: "var(--good)",
+      thoughtType: "✅ REASONED CONCLUSION (SYSTEM 2):",
+      thoughtColor: "var(--good)",
+      thoughtContent: "'The glass bowl will shatter into pieces on impact.'",
+      thoughtVerdict: "✨ Logically sound and physically accurate!"
+    },
+    {
+      title: "Grounding with Search and Tools",
+      text: "Modern models also search live databases and check Python math calculators before answering, eliminating hallucinations entirely!",
+      bubble: "I think before I speak! 🛡️✨",
+      bubbleClass: "good",
+      boxFill: "#DCFCE7",
+      boxStroke: "var(--good)",
+      thoughtType: "🌐 GROUNDED IN FACTS & TOOLS:",
+      thoughtColor: "var(--good)",
+      thoughtContent: "'Checked material database: Glass shatters under 15N impact.'",
+      thoughtVerdict: "✨ Verified by tools and reasoning"
+    }
   ];
 
-  var glassIntact = document.getElementById("glassIntact");
-  var glassBroken = document.getElementById("glassBroken");
+  var stepCounter = document.getElementById("stepCounter");
+  var stepTitle = document.getElementById("stepTitle");
+  var stepDescription = document.getElementById("stepDescription");
+  var stageBubbleBadge = document.getElementById("stageBubbleBadge");
+  var thoughtBox = document.getElementById("thoughtBox");
+  var thoughtType = document.getElementById("thoughtType");
+  var thoughtContent = document.getElementById("thoughtContent");
+  var thoughtVerdict = document.getElementById("thoughtVerdict");
+  var prevBtn = document.getElementById("prevStepBtn");
+  var nextBtn = document.getElementById("nextStepBtn");
+  var dots = document.querySelectorAll(".step-dot");
 
-  function applyFrame(f) {
-    glassIntact.classList.toggle("show", !f.broken);
-    glassIntact.setAttribute("transform", "translate(0," + (f.glassY - 96) + ")");
-    glassBroken.classList.toggle("show", f.broken);
+  function renderStep() {
+    var s = STEPS[currentStep];
+    stepCounter.textContent = "Step " + (currentStep + 1) + " of " + STEPS.length;
+    stepTitle.textContent = s.title;
+    stepDescription.innerHTML = s.text;
+    stageBubbleBadge.textContent = s.bubble;
+    stageBubbleBadge.className = "bubble-badge " + (s.bubbleClass || "");
+
+    thoughtBox.setAttribute("fill", s.boxFill);
+    thoughtBox.setAttribute("stroke", s.boxStroke);
+    thoughtType.textContent = s.thoughtType;
+    thoughtType.setAttribute("fill", s.thoughtColor);
+    thoughtContent.textContent = s.thoughtContent;
+    thoughtContent.setAttribute("fill", s.thoughtColor);
+    thoughtVerdict.textContent = s.thoughtVerdict;
+    thoughtVerdict.setAttribute("fill", s.thoughtColor);
+
+    prevBtn.style.visibility = currentStep === 0 ? "hidden" : "visible";
+    nextBtn.textContent = currentStep === STEPS.length - 1 ? "Start Over ↺" : "Next Step →";
+    dots.forEach(function(d, i) { d.classList.toggle("active", i === currentStep); });
   }
 
-  window.PixelStepper({ frames: FRAMES, applyFrame: applyFrame });
+  nextBtn.addEventListener("click", function() {
+    currentStep = (currentStep + 1) % STEPS.length;
+    renderStep();
+  });
+  prevBtn.addEventListener("click", function() {
+    if (currentStep > 0) { currentStep--; renderStep(); }
+  });
+  dots.forEach(function(dot, idx) {
+    dot.addEventListener("click", function() { currentStep = idx; renderStep(); });
+  });
+
+  renderStep();
 })();
 </script>
 </body>

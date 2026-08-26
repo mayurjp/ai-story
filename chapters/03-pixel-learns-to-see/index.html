@@ -4,198 +4,367 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Atkinson+Hyperlegible:wght@400;700&family=IBM+Plex+Mono:wght@500;600&display=swap">
-<title>Pixel Learns to See — The Pixel Story</title>
+<title>Chapter 4: Pixel Learns to See — The Pixel Story</title>
 <link rel="stylesheet" href="/ai-story/assets/css/tokens.css">
 <link rel="stylesheet" href="/ai-story/assets/css/base.css">
 <style>
-  #scanWindow { opacity: 0; transition: opacity 0.35s ease, x 0.35s ease, y 0.35s ease; }
-  #scanWindow.show { opacity: 1; }
-  @media (prefers-reduced-motion: reduce) {
-    #scanWindow { transition: none; }
+  .story-container { max-width: 680px; margin: 0 auto; }
+  .story-card {
+    background: var(--surface);
+    border: 2px solid var(--line);
+    border-radius: var(--radius-l);
+    box-shadow: 0 8px 30px rgba(42, 38, 34, 0.08);
+    overflow: hidden;
+    margin: 24px 0;
+    transition: all 0.3s ease;
   }
+  .story-stage {
+    background: var(--bg);
+    border-bottom: 2px solid var(--line);
+    padding: 24px 20px 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 270px;
+    position: relative;
+    user-select: none;
+  }
+  .stage-svg-wrap {
+    width: 100%;
+    max-width: 480px;
+    height: 200px;
+    position: relative;
+  }
+  .pixel-bubble-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 10px;
+  }
+  .bubble-badge {
+    background: var(--surface);
+    border: 2px solid var(--line-strong);
+    padding: 6px 16px;
+    border-radius: 999px;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1rem;
+    color: var(--ink);
+    box-shadow: var(--shadow);
+    transition: all 0.25s ease;
+  }
+  .bubble-badge.good { border-color: var(--good); color: var(--good); background: #F0FDF4; }
+  .bubble-badge.bad { border-color: var(--bad); color: var(--bad); background: #FEF2F2; }
+
+  /* Sliding Filter Window */
+  #slidingFilter {
+    transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  #featureMap {
+    transition: opacity 0.4s ease;
+  }
+
+  .story-body { padding: 28px 24px; }
+  .step-eyebrow {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--c);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+  .step-heading {
+    font-family: var(--font-display);
+    font-size: 1.45rem;
+    font-weight: 700;
+    margin: 0 0 12px;
+    color: var(--ink);
+    line-height: 1.3;
+  }
+  .step-text { font-size: 1.05rem; line-height: 1.6; color: var(--ink); margin: 0 0 24px; }
+  .story-nav-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 18px;
+    border-top: 1px solid var(--line);
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .btn-story {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 1rem;
+    padding: 12px 24px;
+    border-radius: var(--radius-m);
+    border: none;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: transform 0.15s ease, opacity 0.15s ease;
+  }
+  .btn-story:hover { transform: translateY(-1px); opacity: 0.92; }
+  .btn-primary { background: var(--c); color: var(--c-ink); box-shadow: var(--shadow); }
+  .btn-secondary { background: var(--surface-2); color: var(--ink); border: 1px solid var(--line-strong); }
+  .step-dots { display: flex; gap: 8px; }
+  .step-dot {
+    width: 10px; height: 10px; border-radius: 50%;
+    background: var(--line-strong); transition: all 0.2s ease; cursor: pointer;
+  }
+  .step-dot.active { background: var(--c); transform: scale(1.3); }
+
+  .concept-cards-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-top: 20px;
+  }
+  @media (max-width: 600px) { .concept-cards-grid { grid-template-columns: 1fr; } }
+  .concept-card {
+    background: var(--surface-2);
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius-m);
+    padding: 16px;
+  }
+  .concept-card h4 {
+    margin: 0 0 6px; font-family: var(--font-display); font-size: 1.05rem;
+    color: var(--ink); display: flex; align-items: center; gap: 6px;
+  }
+  .concept-card p { margin: 0; font-size: 0.92rem; color: var(--muted); line-height: 1.45; }
 </style>
 </head>
 <body>
-<div class="page">
+<div class="page story-container">
   <a class="back-link" href="/ai-story/">&larr; All chapters</a>
-
   <div class="eyebrow"><span class="dot"></span> Chapter 4 of 15 &nbsp;&middot;&nbsp; The Pixel Story</div>
 
   <div class="hero">
-    <h1>Pixel Learns to See.</h1>
-    <p class="dek">Pixel is handed a whole photograph — far too much to take in at once. Watch how looking at it one small patch at a time teaches Pixel to actually see.</p>
+    <h1>Pixel Learns to See</h1>
+    <p class="dek">A photo has millions of pixels—too much for a computer to swallow in one gulp. Watch how Pixel slides a tiny magnifying glass to recognize shapes: Convolutional Neural Networks (CNNs).</p>
   </div>
 
-  <div class="learn-grid">
-  <div class="learn-col-strip">
-  <div class="section-head">
-    <h2>How Pixel learns to see</h2>
-    <div class="sub">Six steps. Watch it play, or use the arrows to go at your own pace.</div>
-  </div>
+  <div class="story-card">
+    <div class="story-stage">
+      <div class="stage-svg-wrap">
+        <svg viewBox="0 0 460 200" width="100%" height="100%" aria-label="Convolution filter sliding over image diagram">
+          <!-- Raw Cat Image Grid (Left) -->
+          <g transform="translate(40, 30)">
+            <rect x="0" y="0" width="140" height="140" rx="8" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
+            <!-- Pixel grid lines -->
+            <line x1="35" y1="0" x2="35" y2="140" stroke="var(--line)" stroke-width="1"/>
+            <line x1="70" y1="0" x2="70" y2="140" stroke="var(--line)" stroke-width="1"/>
+            <line x1="105" y1="0" x2="105" y2="140" stroke="var(--line)" stroke-width="1"/>
+            <line x1="0" y1="35" x2="140" y2="35" stroke="var(--line)" stroke-width="1"/>
+            <line x1="0" y1="70" x2="140" y2="70" stroke="var(--line)" stroke-width="1"/>
+            <line x1="0" y1="105" x2="140" y2="105" stroke="var(--line)" stroke-width="1"/>
 
-  <div class="strip">
-    <div class="stage">
-      <svg viewBox="0 0 320 220" role="img" aria-label="Illustration of Pixel learning to see a photo patch by patch">
-        <!-- photo, always present -->
-        <g id="photoGroup">
-          <rect x="20" y="40" width="120" height="130" rx="10" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
-          <path d="M80 62 L88 84 L112 84 L92 98 L100 120 L80 106 L60 120 L68 98 L48 84 L72 84 Z" fill="none" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round"/>
-          <line x1="53" y1="40" x2="53" y2="170" stroke="var(--line)" stroke-width="1"/>
-          <line x1="86" y1="40" x2="86" y2="170" stroke="var(--line)" stroke-width="1"/>
-          <line x1="119" y1="40" x2="119" y2="170" stroke="var(--line)" stroke-width="1"/>
-          <line x1="20" y1="83" x2="140" y2="83" stroke="var(--line)" stroke-width="1"/>
-          <line x1="20" y1="127" x2="140" y2="127" stroke="var(--line)" stroke-width="1"/>
-        </g>
+            <!-- Drawn Cat Face in Grid -->
+            <!-- Ears -->
+            <polygon points="35,35 15,10 45,25" fill="var(--muted)"/>
+            <polygon points="105,35 125,10 95,25" fill="var(--muted)"/>
+            <!-- Eyes -->
+            <circle cx="45" cy="60" r="8" fill="var(--ink)"/>
+            <circle cx="95" cy="60" r="8" fill="var(--ink)"/>
+            <!-- Nose & Whiskers -->
+            <polygon points="70,75 62,85 78,85" fill="var(--c)"/>
+            <line x1="30" y1="85" x2="60" y2="82" stroke="var(--ink)" stroke-width="2"/>
+            <line x1="110" y1="85" x2="80" y2="82" stroke="var(--ink)" stroke-width="2"/>
 
-        <!-- the scanning window, position/visibility set per frame -->
-        <rect id="scanWindow" x="53" y="83" width="33" height="44" rx="4" fill="var(--c)" fill-opacity="0.18" stroke="var(--c)" stroke-width="2.5"/>
+            <!-- Sliding Filter Magnifying Frame -->
+            <g id="slidingFilter" transform="translate(0, 0)">
+              <rect x="0" y="0" width="70" height="70" rx="4" fill="none" stroke="var(--c)" stroke-width="3.5"/>
+              <circle cx="35" cy="35" r="28" fill="rgba(255, 107, 69, 0.15)"/>
+              <text x="35" y="40" text-anchor="middle" font-family="var(--font-mono)" font-size="9" font-weight="700" fill="var(--c)">FILTER</text>
+            </g>
+          </g>
 
-        <!-- Pixel base figure (unchanged geometry) -->
-        <g id="pixelBase">
-          <ellipse cx="205" cy="196" rx="46" ry="7" fill="var(--ink)" opacity="0.07"/>
-          <rect x="163" y="34" width="7" height="24" rx="3.5" fill="var(--line-strong)"/>
-          <circle cx="166.5" cy="34" r="6.5" fill="var(--c)"/>
-          <rect x="150" y="58" width="112" height="94" rx="26" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
-          <circle cx="206" cy="102" r="32" fill="var(--surface-2)" stroke="var(--line-strong)" stroke-width="2"/>
-          <circle id="facePupil" cx="206" cy="102" r="14" fill="var(--ink)"/>
-          <circle cx="200" cy="96" r="3.6" fill="var(--surface)"/>
-          <rect x="180" y="140" width="52" height="8" rx="4" fill="var(--line-strong)"/>
-        </g>
+          <!-- Arrow from Input to Feature Map -->
+          <g transform="translate(195, 90)">
+            <path d="M0 10 L40 10" stroke="var(--c)" stroke-width="3" stroke-linecap="round" stroke-dasharray="4,4"/>
+            <polygon points="40,10 32,5 32,15" fill="var(--c)"/>
+            <text x="20" y="28" text-anchor="middle" font-family="var(--font-mono)" font-size="8" fill="var(--muted)">Slide & Match</text>
+          </g>
 
-        <!-- decor 1: question bubble -->
-        <g id="ov1" class="decor">
-          <circle cx="150" cy="52" r="5" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
-          <circle cx="160" cy="42" r="7" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
-          <rect x="148" y="8" width="64" height="30" rx="14" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
-          <text x="180" y="30" text-anchor="middle" font-family="var(--font-display)" font-weight="700" font-size="20" fill="var(--muted)">?</text>
-        </g>
+          <!-- Feature Map Output (Right) -->
+          <g id="featureMap" transform="translate(255, 30)" opacity="0">
+            <rect x="0" y="0" width="140" height="140" rx="8" fill="var(--surface-2)" stroke="var(--good)" stroke-width="2"/>
+            <text x="70" y="20" text-anchor="middle" font-family="var(--font-mono)" font-size="9" font-weight="700" fill="var(--good)">FEATURE MAP</text>
+            
+            <!-- Detected features highlighted -->
+            <rect x="15" y="35" width="45" height="35" rx="6" fill="#DCFCE7" stroke="var(--good)" stroke-width="1.5"/>
+            <text x="37" y="56" text-anchor="middle" font-family="var(--font-display)" font-size="9" font-weight="700" fill="var(--good)">Ear ∧</text>
 
-        <!-- decor 2: whole-photo overload highlight -->
-        <g id="ov2" class="decor">
-          <rect x="16" y="36" width="128" height="138" rx="12" fill="none" stroke="var(--c)" stroke-width="2.5" stroke-dasharray="2 6" opacity="0.7"/>
-        </g>
+            <rect x="80" y="35" width="45" height="35" rx="6" fill="#DCFCE7" stroke="var(--good)" stroke-width="1.5"/>
+            <text x="102" y="56" text-anchor="middle" font-family="var(--font-display)" font-size="9" font-weight="700" fill="var(--good)">Eye 👀</text>
 
-        <!-- decor 3: overwhelmed bubble -->
-        <g id="ov3" class="decor">
-          <circle cx="150" cy="52" r="5" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
-          <circle cx="160" cy="42" r="7" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
-          <rect x="140" y="4" width="86" height="34" rx="16" fill="var(--surface)" stroke="var(--bad)" stroke-width="2"/>
-          <path d="M155 21 q6 -8 12 0 q6 -8 12 0 q6 -8 12 0" fill="none" stroke="var(--muted)" stroke-width="2.2" stroke-linecap="round"/>
-          <circle cx="216" cy="14" r="11" fill="var(--bad)"/>
-          <path d="M212 10 L220 18 M220 10 L212 18" stroke="white" stroke-width="2.4" stroke-linecap="round"/>
-        </g>
-
-        <!-- decor 4: already-scanned patch trail -->
-        <g id="ov4" class="decor">
-          <rect x="20" y="40" width="33" height="43" rx="4" fill="none" stroke="var(--c)" stroke-width="1.5" opacity="0.35"/>
-          <rect x="53" y="40" width="33" height="43" rx="4" fill="none" stroke="var(--c)" stroke-width="1.5" opacity="0.35"/>
-          <rect x="20" y="83" width="33" height="44" rx="4" fill="none" stroke="var(--c)" stroke-width="1.5" opacity="0.35"/>
-        </g>
-
-        <!-- decor 5: recognized bubble -->
-        <g id="ov5" class="decor">
-          <circle cx="150" cy="52" r="5" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
-          <circle cx="160" cy="42" r="7" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
-          <rect x="140" y="4" width="86" height="34" rx="16" fill="var(--surface)" stroke="var(--good)" stroke-width="2"/>
-          <text x="173" y="27" text-anchor="middle" font-family="var(--font-display)" font-weight="700" font-size="15" fill="var(--ink)">Star!</text>
-          <circle cx="216" cy="14" r="11" fill="var(--good)"/>
-          <path d="M211 14 L215 18 L222 10" fill="none" stroke="white" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
-        </g>
-
-        <!-- decor 6: mastery, full grid checked -->
-        <g id="ov6" class="decor">
-          <circle cx="206" cy="102" r="38" fill="none" stroke="var(--good)" stroke-width="2" opacity="0.55"/>
-          <rect x="20" y="40" width="33" height="43" rx="4" fill="var(--good)" fill-opacity="0.12" stroke="var(--good)" stroke-width="1.5"/>
-          <rect x="53" y="40" width="33" height="43" rx="4" fill="var(--good)" fill-opacity="0.12" stroke="var(--good)" stroke-width="1.5"/>
-          <rect x="86" y="40" width="33" height="43" rx="4" fill="var(--good)" fill-opacity="0.12" stroke="var(--good)" stroke-width="1.5"/>
-          <rect x="20" y="83" width="33" height="44" rx="4" fill="var(--good)" fill-opacity="0.12" stroke="var(--good)" stroke-width="1.5"/>
-          <rect x="53" y="83" width="33" height="44" rx="4" fill="var(--good)" fill-opacity="0.12" stroke="var(--good)" stroke-width="1.5"/>
-          <rect x="86" y="83" width="33" height="44" rx="4" fill="var(--good)" fill-opacity="0.12" stroke="var(--good)" stroke-width="1.5"/>
-          <path d="M120 40 l4 10 10 4 -10 4 -4 10 -4 -10 -10 -4 10 -4 z" fill="var(--c)"/>
-        </g>
-      </svg>
-    </div>
-
-    <div class="step-meta">
-      <span id="stepLabel">Step 1 of 6</span>
-      <span id="playLabel">▶ playing</span>
-    </div>
-    <div class="caption" id="captionText">Pixel doesn't know how to look at a big picture yet.</div>
-
-    <div class="controls">
-      <div class="nav-btns">
-        <button type="button" class="icon" id="prevBtn" aria-label="Previous step">‹</button>
-        <button type="button" class="icon" id="nextBtn" aria-label="Next step">›</button>
-        <button type="button" class="ghost" id="playPauseBtn">⏸ Pause</button>
+            <rect x="35" y="80" width="70" height="40" rx="6" fill="#DCFCE7" stroke="var(--good)" stroke-width="1.5"/>
+            <text x="70" y="104" text-anchor="middle" font-family="var(--font-display)" font-size="10" font-weight="700" fill="var(--good)">Whiskers ✨</text>
+          </g>
+        </svg>
       </div>
-      <div class="dots" id="dots"></div>
+
+      <div class="pixel-bubble-row">
+        <span style="font-size:1.4rem;">🤖</span>
+        <div class="bubble-badge" id="stageBubbleBadge">
+          "A photo is too big to look at all at once!"
+        </div>
+      </div>
+    </div>
+
+    <div class="story-body">
+      <div class="step-eyebrow" id="stepCounter">Step 1 of 5</div>
+      <h2 class="step-heading" id="stepTitle">The photo is overwhelming</h2>
+      <div class="step-text" id="stepDescription">
+        Pixel is handed a photo of a Cat 🐱. A photo has millions of tiny colored dots (pixels). Trying to connect wires to every single pixel burns out Pixel's brain!
+      </div>
+
+      <div class="story-nav-row">
+        <button type="button" class="btn-story btn-secondary" id="prevStepBtn" style="visibility:hidden;">← Back</button>
+        <div class="step-dots" id="stepDotsWrap">
+          <span class="step-dot active"></span>
+          <span class="step-dot"></span>
+          <span class="step-dot"></span>
+          <span class="step-dot"></span>
+          <span class="step-dot"></span>
+        </div>
+        <button type="button" class="btn-story btn-primary" id="nextStepBtn">Next Step →</button>
+      </div>
     </div>
   </div>
-  </div>
 
-  <div class="learn-col-vocab">
-  <div class="section-head">
+  <div class="section-head" style="margin-top: 36px;">
     <h2>Now you know the grown-up words</h2>
-    <div class="sub">Tap one to see what it means.</div>
+    <div class="sub">How computers see images, medical scans, and self-driving roads:</div>
   </div>
 
-  <div class="vocab">
-    <details class="chip">
-      <summary>Convolution <span class="plus">+</span></summary>
-      <div class="def">What happens in <button type="button" class="step-ref" data-step="4">step 4</button>: instead of taking in the whole photo at once, Pixel slides a small window across it, checking one little patch at a time. That sliding, patch-by-patch checking process is called convolution.</div>
-    </details>
-    <details class="chip">
-      <summary>Filter <span class="plus">+</span></summary>
-      <div class="def">The one specific thing Pixel's small window is checking for inside each patch in <button type="button" class="step-ref" data-step="4">step 4</button> — one window might look for edges, another for curves. Each of those specific pattern-checkers is called a filter.</div>
-    </details>
-    <details class="chip">
-      <summary>Feature map <span class="plus">+</span></summary>
-      <div class="def">After sliding the window over every patch in <button type="button" class="step-ref" data-step="4">step 4</button>, Pixel has a mark for what it found in each spot — laid out in the same grid shape as the photo, in <button type="button" class="step-ref" data-step="6">step 6</button>. That grid of results is called a feature map.</div>
-    </details>
-    <details class="chip">
-      <summary>ConvNet <span class="plus">+</span></summary>
-      <div class="def">The name for the whole machine built from stacking patch-scanning steps like <button type="button" class="step-ref" data-step="4">step 4</button> on top of each other, so later scans combine what earlier ones already found. A network built this way is called a convolutional neural network, or ConvNet for short.</div>
-    </details>
-    <details class="chip">
-      <summary>Computer vision <span class="plus">+</span></summary>
-      <div class="def">The name for the whole field of getting machines to understand pictures the way Pixel just did in this story — turning patches of pixels into a recognized shape by <button type="button" class="step-ref" data-step="5">step 5</button>. That field is called computer vision.</div>
-    </details>
-  </div>
-  </div>
+  <div class="concept-cards-grid">
+    <div class="concept-card">
+      <h4>🔍 Convolution</h4>
+      <p>Sliding a small patch filter across an entire picture to scan for patterns everywhere.</p>
+    </div>
+    <div class="concept-card">
+      <h4>🔲 Filter / Kernel</h4>
+      <p>A tiny pattern detector designed to search for specific clues like lines, curves, or textures.</p>
+    </div>
+    <div class="concept-card">
+      <h4>🗺️ Feature Map</h4>
+      <p>A summary map showing where in the picture each feature (ears, whiskers, eyes) was found.</p>
+    </div>
+    <div class="concept-card">
+      <h4>👁️ Computer Vision (CNN)</h4>
+      <p>Stacking feature maps in layers to recognize objects (Edges → Shapes → Faces → Cats!).</p>
+    </div>
   </div>
 
-  <div class="next">
+  <div style="background:var(--surface-2); border:1px solid var(--line-strong); border-radius:var(--radius-m); padding:20px; margin-top:28px;">
+    <h3 style="font-family:var(--font-display); font-size:1.15rem; margin:0 0 8px; color:var(--ink);">
+      🤔 What if Pixel wants to read BOOKS instead of photos?
+    </h3>
+    <p style="margin:0; font-size:0.95rem; color:var(--muted); line-height:1.5;">
+      Images are 2D grids of pixels, but human language is a flowing sequence of words! How does Pixel learn language without humans labeling every word? We rip pages out of a book in <strong>Self-Supervised Learning</strong> (Chapter 5)!
+    </p>
+  </div>
+
+  <div class="next" style="margin-top:28px;">
     <div>
       <div class="label">Coming next</div>
-      <p>Pixel reads a book with pages torn out — and guesses the missing words itself.</p>
+      <p>Pixel learns language by filling in missing words in torn-up books.</p>
     </div>
-    <a class="tag" href="/ai-story/chapters/04-pixel-reads-a-torn-up-book/">Chapter 5 · Self-supervised learning</a>
+    <a class="tag" href="/ai-story/chapters/04-pixel-reads-a-torn-up-book/">Chapter 5 · Self-Supervised Learning →</a>
   </div>
 
   <footer class="page-foot">The Pixel Story</footer>
 </div>
 
-<script src="/ai-story/assets/js/stepper.js"></script>
 <script>
-(function () {
-  var FRAMES = [
-    { caption: "Pixel doesn't know how to look at a big picture yet.", scan: false, scanX: 53, scanY: 83, ov: "ov1", pupilX: 200 },
-    { caption: "It tries to take in the whole photo at once.", scan: false, scanX: 53, scanY: 83, ov: "ov2", pupilX: 206 },
-    { caption: "It's too much — Pixel can't make sense of any of it.", scan: false, scanX: 53, scanY: 83, ov: "ov3", pupilX: 210 },
-    { caption: "So Pixel slides a tiny window across the photo, one patch at a time.", scan: true, scanX: 86, scanY: 83, ov: "ov4", pupilX: 196 },
-    { caption: "Patch by patch, the clues add up — Pixel spots the shape!", scan: true, scanX: 53, scanY: 40, ov: "ov5", pupilX: 200 },
-    { caption: "Now Pixel recognizes shapes at a glance, patch scan and all.", scan: false, scanX: 53, scanY: 83, ov: "ov6", pupilX: 206 }
+(function() {
+  var currentStep = 0;
+
+  var STEPS = [
+    {
+      title: "The photo is overwhelming",
+      text: "Pixel looks at a cat photo 🐱. If Pixel tries to look at all 1,000,000 pixels at the same time, it gets confused and blinded by the raw data!",
+      bubble: "Too many pixels at once! 😵‍💫",
+      bubbleClass: "bad",
+      filterPos: [0, 0],
+      showMap: false
+    },
+    {
+      title: "The secret: Use a sliding magnifying glass",
+      text: "Instead of staring at the whole photo, Pixel uses a tiny 3x3 magnifying box called a <strong>Filter</strong>. It inspects one small corner at a time.",
+      bubble: "Inspecting the top-left ear! 🧐",
+      bubbleClass: "",
+      filterPos: [0, 0],
+      showMap: false
+    },
+    {
+      title: "Slide the filter across the image (Convolution)",
+      text: "Pixel slides the filter over to the eyes and whiskers. Sliding a small filter across every patch of an image is called <strong>Convolution</strong>!",
+      bubble: "Sliding across the eyes & nose! 🔍",
+      bubbleClass: "",
+      filterPos: [70, 40],
+      showMap: false
+    },
+    {
+      title: "Building the Feature Map",
+      text: "Every time the filter spots a clue (a triangle ear, a round eye, a whisker line), it lights up a summary grid called a <strong>Feature Map</strong>!",
+      bubble: "Feature Map created! 🗺️✨",
+      bubbleClass: "good",
+      filterPos: [70, 70],
+      showMap: true
+    },
+    {
+      title: "Combining the clues: It's a Cat! 🎉",
+      text: "Pixel's higher brain layer combines the detected features: <em>2 Ears + 2 Eyes + Whiskers = Cat!</em> That is how self-driving cars and camera face-detectors see the world!",
+      bubble: "Ears + Eyes + Whiskers = CAT! 🐱🎉",
+      bubbleClass: "good",
+      filterPos: [0, 0],
+      showMap: true
+    }
   ];
 
-  var scanWindow = document.getElementById("scanWindow");
+  var stepCounter = document.getElementById("stepCounter");
+  var stepTitle = document.getElementById("stepTitle");
+  var stepDescription = document.getElementById("stepDescription");
+  var stageBubbleBadge = document.getElementById("stageBubbleBadge");
+  var slidingFilter = document.getElementById("slidingFilter");
+  var featureMap = document.getElementById("featureMap");
+  var prevBtn = document.getElementById("prevStepBtn");
+  var nextBtn = document.getElementById("nextStepBtn");
+  var dots = document.querySelectorAll(".step-dot");
 
-  function applyFrame(f) {
-    scanWindow.classList.toggle("show", f.scan);
-    scanWindow.setAttribute("x", f.scanX);
-    scanWindow.setAttribute("y", f.scanY);
+  function renderStep() {
+    var s = STEPS[currentStep];
+    stepCounter.textContent = "Step " + (currentStep + 1) + " of " + STEPS.length;
+    stepTitle.textContent = s.title;
+    stepDescription.innerHTML = s.text;
+    stageBubbleBadge.textContent = s.bubble;
+    stageBubbleBadge.className = "bubble-badge " + (s.bubbleClass || "");
+
+    slidingFilter.style.transform = "translate(" + s.filterPos[0] + "px, " + s.filterPos[1] + "px)";
+    featureMap.setAttribute("opacity", s.showMap ? "1" : "0");
+
+    prevBtn.style.visibility = currentStep === 0 ? "hidden" : "visible";
+    nextBtn.textContent = currentStep === STEPS.length - 1 ? "Start Over ↺" : "Next Step →";
+    dots.forEach(function(d, i) { d.classList.toggle("active", i === currentStep); });
   }
 
-  window.PixelStepper({ frames: FRAMES, applyFrame: applyFrame });
+  nextBtn.addEventListener("click", function() {
+    currentStep = (currentStep + 1) % STEPS.length;
+    renderStep();
+  });
+  prevBtn.addEventListener("click", function() {
+    if (currentStep > 0) { currentStep--; renderStep(); }
+  });
+  dots.forEach(function(dot, idx) {
+    dot.addEventListener("click", function() { currentStep = idx; renderStep(); });
+  });
+
+  renderStep();
 })();
 </script>
 </body>

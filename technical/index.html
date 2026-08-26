@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Atkinson+Hyperlegible:wght@400;700&family=IBM+Plex+Mono:wght@500;600&display=swap">
-<title>The Pixel Story — For Technical Readers</title>
+<title>The Pixel Story — Technical Mastery Track</title>
 <link rel="stylesheet" href="/ai-story/assets/css/tokens.css">
 <link rel="stylesheet" href="/ai-story/assets/css/base.css">
 <style>
@@ -26,42 +26,171 @@
     font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0.02em; color: var(--muted);
     border: 1px solid var(--line-strong); border-radius: 999px; padding: 3px 10px; white-space: nowrap;
   }
-  .coming-soon {
-    display: flex; align-items: center; gap: 14px;
-    border: 1px dashed var(--line-strong); border-radius: var(--radius-m);
-    padding: 14px 16px; color: var(--muted); font-size: 0.92rem;
-  }
 </style>
 </head>
 <body>
 <div class="page">
 
-  <div class="eyebrow"><span class="dot"></span> The Pixel Story &nbsp;·&nbsp; For technical readers</div>
+  <div class="eyebrow"><span class="dot"></span> The Pixel Story &nbsp;·&nbsp; Technical Mastery Track</div>
 
   <div class="hero">
     <h1>Same concepts. Real scenarios, real math, real code.</h1>
-    <p class="dek">Each story chapter has a technical companion here — same underlying idea Pixel learns, worked through the way you'd actually explain it to an engineer: a concrete use case, the formulas, and runnable code.</p>
+    <p class="dek">Every visual storybook chapter has an exact technical companion here — engineering use cases, mathematical formulations, and runnable Python / NumPy code.</p>
     <div class="cta-row" style="margin-top:22px;">
-      <a class="cta-secondary" style="font-family:var(--font-mono);font-size:0.82rem;color:var(--muted);text-decoration:none;border:1px solid var(--line-strong);border-radius:var(--radius-m);padding:12px 18px;" href="/ai-story/">← Back to the story</a>
+      <a class="cta-secondary" style="font-family:var(--font-mono);font-size:0.82rem;color:var(--muted);text-decoration:none;border:1px solid var(--line-strong);border-radius:var(--radius-m);padding:12px 18px;" href="/ai-story/">← Back to Main Hub</a>
     </div>
   </div>
 
   <div class="section-head">
-    <h2>Technical companions</h2>
-    <div class="sub">Numbered to match the story chapters they pair with.</div>
+    <h2>18 Technical Companions</h2>
+    <div class="sub">Complete curriculum matching Chapters 1 through 18.</div>
   </div>
   <div class="chapter-list">
     <a class="chapter-card" href="/ai-story/technical/01-perceptron-classification/">
       <span class="num">01</span>
       <span class="body">
-        <h3>Binary Classification with a Perceptron</h3>
-        <p>Companion to Chapter 1 (Meet Pixel). A real spam-filter feature vector, the perceptron update rule, and a from-scratch NumPy implementation.</p>
-        <span class="topic-tags"><span class="topic-tag">Perceptron</span><span class="topic-tag">Decision boundary</span><span class="topic-tag">NumPy</span></span>
+        <h3>Binary Classification with a Single Neuron</h3>
+        <p>Real-world spam email feature extraction, mathematical dot products, neuron learning rule, and NumPy.</p>
+        <span class="topic-tags"><span class="topic-tag">Single Neuron</span><span class="topic-tag">Feature Vector</span><span class="topic-tag">NumPy</span></span>
+      </span>
+    </a>
+    <a class="chapter-card" href="/ai-story/technical/02-linear-regression/">
+      <span class="num">02</span>
+      <span class="body">
+        <h3>Continuous Prediction & Ordinary Least Squares</h3>
+        <p>Linear Regression, Mean Squared Error (MSE) loss function, and gradient descent optimization.</p>
+        <span class="topic-tags"><span class="topic-tag">Linear Regression</span><span class="topic-tag">MSE Loss</span><span class="topic-tag">OLS</span></span>
+      </span>
+    </a>
+    <a class="chapter-card" href="/ai-story/technical/03-backpropagation/">
+      <span class="num">03</span>
+      <span class="body">
+        <h3>Backpropagation & Multi-Layer Networks</h3>
+        <p>Multi-layer perceptrons (MLP), forward pass, and calculus Chain Rule backward gradient flow.</p>
+        <span class="topic-tags"><span class="topic-tag">Backpropagation</span><span class="topic-tag">Chain Rule</span><span class="topic-tag">Gradients</span></span>
+      </span>
+    </a>
+    <a class="chapter-card" href="/ai-story/technical/04-cnns-computer-vision/">
+      <span class="num">04</span>
+      <span class="body">
+        <h3>CNNs & Feature Kernels</h3>
+        <p>2D convolution matrix operations, Sobel edge filters, stride, and spatial max pooling.</p>
+        <span class="topic-tags"><span class="topic-tag">2D Convolutions</span><span class="topic-tag">Kernels</span><span class="topic-tag">CNNs</span></span>
+      </span>
+    </a>
+    <a class="chapter-card" href="/ai-story/technical/05-self-supervised-masking/">
+      <span class="num">05</span>
+      <span class="body">
+        <h3>Self-Supervised Masking & Pretraining</h3>
+        <p>Masked Language Modeling (BERT), vocabulary Softmax, and cross-entropy loss over web-scale text.</p>
+        <span class="topic-tags"><span class="topic-tag">BERT</span><span class="topic-tag">MLM</span><span class="topic-tag">Cross-Entropy</span></span>
+      </span>
+    </a>
+    <a class="chapter-card" href="/ai-story/technical/06-attention-transformers/">
+      <span class="num">06</span>
+      <span class="body">
+        <h3>Scaled Dot-Product Self-Attention</h3>
+        <p>Query, Key, and Value matrices: Softmax((Q·K^T) / sqrt(d_k)) · V mathematical architecture.</p>
+        <span class="topic-tags"><span class="topic-tag">Transformers</span><span class="topic-tag">Q K V Matrices</span><span class="topic-tag">Attention</span></span>
+      </span>
+    </a>
+    <a class="chapter-card" href="/ai-story/technical/07-llms-autoregressive/">
+      <span class="num">07</span>
+      <span class="body">
+        <h3>Autoregressive Decoding & Sampling</h3>
+        <p>Causal Language Modeling, BPE tokenization, Temperature scaling, Top-p sampling, and KV Cache.</p>
+        <span class="topic-tags"><span class="topic-tag">Autoregressive</span><span class="topic-tag">Temperature</span><span class="topic-tag">KV Cache</span></span>
+      </span>
+    </a>
+    <a class="chapter-card" href="/ai-story/technical/08-rlhf-alignment/">
+      <span class="num">08</span>
+      <span class="body">
+        <h3>RLHF, Alignment & Deployment</h3>
+        <p>Supervised Fine-Tuning (SFT), Reward Models, Direct Preference Optimization (DPO), and KL penalty.</p>
+        <span class="topic-tags"><span class="topic-tag">RLHF</span><span class="topic-tag">DPO</span><span class="topic-tag">Safety Alignment</span></span>
+      </span>
+    </a>
+    <a class="chapter-card" href="/ai-story/technical/09-gpu-compute-scaling/">
+      <span class="num">09</span>
+      <span class="body">
+        <h3>GPU Hardware & Scaling Laws</h3>
+        <p>Tensor Cores, FLOPs equation C = 6ND, Chinchilla scaling laws, and distributed model parallelism.</p>
+        <span class="topic-tags"><span class="topic-tag">FLOPs</span><span class="topic-tag">Chinchilla</span><span class="topic-tag">GPU Parallelism</span></span>
+      </span>
+    </a>
+    <a class="chapter-card" href="/ai-story/technical/10-chain-of-thought/">
+      <span class="num">10</span>
+      <span class="body">
+        <h3>Chain of Thought & System 2 Reasoning</h3>
+        <p>Fast vs. Slow reasoning, Tree of Thoughts (ToT), Self-Consistency voting, and Process Reward Models.</p>
+        <span class="topic-tags"><span class="topic-tag">Chain of Thought</span><span class="topic-tag">System 2</span><span class="topic-tag">PRMs</span></span>
+      </span>
+    </a>
+    <a class="chapter-card" href="/ai-story/technical/11-ai-safety-bias/">
+      <span class="num">11</span>
+      <span class="body">
+        <h3>AI Safety, Bias & Red-Teaming</h3>
+        <p>Disparate impact ratio, algorithmic fairness audits, adversarial jailbreak probing, and Llama-Guard.</p>
+        <span class="topic-tags"><span class="topic-tag">Fairness</span><span class="topic-tag">Disparate Impact</span><span class="topic-tag">Red-Teaming</span></span>
+      </span>
+    </a>
+    <a class="chapter-card" href="/ai-story/technical/12-world-models-jepa/">
+      <span class="num">12</span>
+      <span class="body">
+        <h3>World Models & JEPA Architecture</h3>
+        <p>Joint Embedding Predictive Architecture, latent physical state prediction, and non-generative video modeling.</p>
+        <span class="topic-tags"><span class="topic-tag">JEPA</span><span class="topic-tag">World Models</span><span class="topic-tag">Latent Space</span></span>
+      </span>
+    </a>
+    <a class="chapter-card" href="/ai-story/technical/13-agentic-tool-use/">
+      <span class="num">13</span>
+      <span class="body">
+        <h3>Agentic AI & Tool Use Loops</h3>
+        <p>ReAct framework (Thought-Action-Observation), JSON schema function calling, and state machines.</p>
+        <span class="topic-tags"><span class="topic-tag">ReAct Loop</span><span class="topic-tag">Function Calling</span><span class="topic-tag">Agents</span></span>
+      </span>
+    </a>
+    <a class="chapter-card" href="/ai-story/technical/14-applied-ai-healthcare/">
+      <span class="num">14</span>
+      <span class="body">
+        <h3>Clinical AI & Domain Triage</h3>
+        <p>Sensitivity/Specificity optimization, ROC-AUC calibration, DICOM workflows, and Human-in-the-Loop.</p>
+        <span class="topic-tags"><span class="topic-tag">Sensitivity/Recall</span><span class="topic-tag">ROC-AUC</span><span class="topic-tag">Healthcare</span></span>
+      </span>
+    </a>
+    <a class="chapter-card" href="/ai-story/technical/15-diffusion-models/">
+      <span class="num">15</span>
+      <span class="body">
+        <h3>Diffusion Models & Generative Synthesis</h3>
+        <p>Forward Gaussian diffusion, U-Net reverse denoising, Classifier-Free Guidance (CFG), and VAEs.</p>
+        <span class="topic-tags"><span class="topic-tag">Diffusion</span><span class="topic-tag">DDPM</span><span class="topic-tag">CFG</span></span>
+      </span>
+    </a>
+    <a class="chapter-card" href="/ai-story/technical/16-rag-vector-databases/">
+      <span class="num">16</span>
+      <span class="body">
+        <h3>RAG & Vector Databases</h3>
+        <p>Dense vector embeddings, Cosine similarity, HNSW indexing graphs, and context chunking.</p>
+        <span class="topic-tags"><span class="topic-tag">RAG</span><span class="topic-tag">Cosine Similarity</span><span class="topic-tag">HNSW</span></span>
+      </span>
+    </a>
+    <a class="chapter-card" href="/ai-story/technical/17-multimodal-omni/">
+      <span class="num">17</span>
+      <span class="body">
+        <h3>Native Multimodal Omni Architecture</h3>
+        <p>Unified token spaces, discrete audio codecs, end-to-end cross-attention, and sub-300ms streaming.</p>
+        <span class="topic-tags"><span class="topic-tag">Multimodal</span><span class="topic-tag">Omni AI</span><span class="topic-tag">Audio Codecs</span></span>
+      </span>
+    </a>
+    <a class="chapter-card" href="/ai-story/technical/18-ai-engineering-synthesis/">
+      <span class="num">18</span>
+      <span class="body">
+        <h3>Full-Stack AI Engineering Synthesis</h3>
+        <p>Modern 5-layer AI architecture, evaluation benchmarks (MMLU/HumanEval), quantization, and certificate.</p>
+        <span class="topic-tags"><span class="topic-tag">LLMOps</span><span class="topic-tag">Evals</span><span class="topic-tag">Quantization</span></span>
       </span>
     </a>
   </div>
-
-  <div class="coming-soon">More technical companions are being added as the story chapters get their write-ups — check back.</div>
 
   <footer class="page-foot">The Pixel Story &nbsp;&middot;&nbsp; <a href="/ai-story/">Home</a> &nbsp;&middot;&nbsp; <a href="/ai-story/about/">About this project</a></footer>
 </div>

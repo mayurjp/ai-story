@@ -1,0 +1,336 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Atkinson+Hyperlegible:wght@400;700&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<title>Technical Track 02: Continuous Prediction & Linear Regression — The Pixel Story</title>
+<link rel="stylesheet" href="/ai-story/assets/css/tokens.css">
+<link rel="stylesheet" href="/ai-story/assets/css/base.css">
+<style>
+  .tech-container { max-width: 680px; margin: 0 auto; }
+  .mode-switch-row {
+    display: flex; justify-content: space-between; align-items: center;
+    background: var(--surface); border: 1px solid var(--line-strong);
+    border-radius: var(--radius-m); padding: 10px 16px; margin: 18px 0 24px;
+    box-shadow: var(--shadow); flex-wrap: wrap; gap: 10px;
+  }
+  .mode-badge-tech {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-family: var(--font-mono); font-size: 0.8rem; font-weight: 700;
+    color: var(--c); background: rgba(255, 107, 69, 0.1); padding: 4px 10px; border-radius: 999px;
+  }
+  .switch-btn {
+    font-family: var(--font-display); font-size: 0.88rem; font-weight: 600; color: var(--ink);
+    text-decoration: none; padding: 6px 14px; border: 1px solid var(--line-strong);
+    border-radius: var(--radius-s); background: var(--surface-2); transition: all 0.2s ease;
+  }
+  .switch-btn:hover { border-color: var(--c); color: var(--c); }
+
+  .story-card {
+    background: var(--surface); border: 2px solid var(--line); border-radius: var(--radius-l);
+    box-shadow: 0 8px 30px rgba(42, 38, 34, 0.08); overflow: hidden; margin: 24px 0;
+  }
+  .story-stage {
+    background: var(--bg); border-bottom: 2px solid var(--line);
+    padding: 24px 20px 16px; display: flex; flex-direction: column;
+    align-items: center; justify-content: center; min-height: 270px; user-select: none;
+  }
+  .stage-svg-wrap { width: 100%; max-width: 480px; height: 200px; position: relative; }
+  
+  .pixel-bubble-row { display: flex; align-items: center; justify-content: center; gap: 12px; margin-top: 10px; }
+  .bubble-badge {
+    background: var(--surface); border: 2px solid var(--line-strong); padding: 6px 16px;
+    border-radius: 999px; font-family: var(--font-display); font-weight: 700; font-size: 1rem;
+    color: var(--ink); box-shadow: var(--shadow);
+  }
+  .bubble-badge.good { border-color: var(--good); color: var(--good); background: #F0FDF4; }
+  .bubble-badge.bad { border-color: var(--bad); color: var(--bad); background: #FEF2F2; }
+
+  .story-body { padding: 28px 24px; }
+  .step-eyebrow {
+    font-family: var(--font-mono); font-size: 0.8rem; color: var(--c);
+    text-transform: uppercase; letter-spacing: 0.08em; font-weight: 600; margin-bottom: 8px;
+  }
+  .step-heading {
+    font-family: var(--font-display); font-size: 1.45rem; font-weight: 700;
+    margin: 0 0 12px; color: var(--ink); line-height: 1.3;
+  }
+  .step-text { font-size: 1.05rem; line-height: 1.6; color: var(--ink); margin: 0 0 24px; }
+  
+  .story-nav-row {
+    display: flex; justify-content: space-between; align-items: center;
+    padding-top: 18px; border-top: 1px solid var(--line); flex-wrap: wrap; gap: 12px;
+  }
+  .btn-story {
+    font-family: var(--font-display); font-weight: 600; font-size: 1rem;
+    padding: 12px 24px; border-radius: var(--radius-m); border: none; cursor: pointer;
+    display: inline-flex; align-items: center; gap: 8px;
+  }
+  .btn-story:hover { transform: translateY(-1px); opacity: 0.92; }
+  .btn-primary { background: var(--c); color: var(--c-ink); box-shadow: var(--shadow); }
+  .btn-secondary { background: var(--surface-2); color: var(--ink); border: 1px solid var(--line-strong); }
+  .step-dots { display: flex; gap: 8px; }
+  .step-dot {
+    width: 10px; height: 10px; border-radius: 50%; background: var(--line-strong);
+    transition: all 0.2s ease; cursor: pointer;
+  }
+  .step-dot.active { background: var(--c); transform: scale(1.3); }
+
+  .concept-cards-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 20px; }
+  @media (max-width: 600px) { .concept-cards-grid { grid-template-columns: 1fr; } }
+  .concept-card { background: var(--surface-2); border: 1px solid var(--line-strong); border-radius: var(--radius-m); padding: 16px; }
+  .concept-card h4 { margin: 0 0 6px; font-family: var(--font-display); font-size: 1.05rem; color: var(--ink); }
+  .concept-card p { margin: 0; font-size: 0.92rem; color: var(--muted); line-height: 1.45; }
+
+  pre { background: #1E293B; color: #F8FAFC; border-radius: var(--radius-m); padding: 18px 20px; overflow-x: auto; font-family: var(--font-mono); font-size: 0.86rem; line-height: 1.6; margin: 20px 0; }
+  code { font-family: var(--font-mono); }
+</style>
+</head>
+<body>
+<div class="page tech-container">
+  <a class="back-link" href="/ai-story/technical/">&larr; All Technical Companions</a>
+
+  <div class="mode-switch-row">
+    <span class="mode-badge-tech">⚡ Technical Mastery Track · Module 02</span>
+    <a href="/ai-story/technical/" class="switch-btn">← All Technical Modules</a>
+  </div>
+
+  <div class="hero">
+    <h1>Continuous Prediction & Linear Regression</h1>
+    <p class="dek">Continuous numeric prediction and Ordinary Least Squares (OLS): Mean Squared Error (MSE) loss functions, gradient descent optimization, and server cluster cost estimation.</p>
+  </div>
+
+  <div class="story-card">
+    <div class="story-stage">
+      <div class="stage-svg-wrap">
+        <svg viewBox="0 0 460 200" width="100%" height="100%" aria-label="Linear regression gradient descent diagram">
+          <g transform="translate(60, 20)">
+            <line x1="30" y1="150" x2="330" y2="150" stroke="var(--line-strong)" stroke-width="2"/>
+            <line x1="30" y1="10" x2="30" y2="150" stroke="var(--line-strong)" stroke-width="2"/>
+            <text x="330" y="165" font-family="var(--font-mono)" font-size="9" fill="var(--muted)">CPU Cores (x)</text>
+            <text x="25" y="15" text-anchor="end" font-family="var(--font-mono)" font-size="9" fill="var(--muted)">Cost ($/mo)</text>
+
+            <!-- Data Points: (2, $50), (4, $100), (8, $200) -->
+            <circle cx="90" cy="120" r="5" fill="var(--c)"/>
+            <circle cx="150" cy="90" r="5" fill="var(--c)"/>
+            <circle cx="270" cy="30" r="5" fill="var(--c)"/>
+
+            <!-- Regression Line -->
+            <line id="regLine" x1="30" y1="150" x2="310" y2="10" stroke="var(--bad)" stroke-width="3" stroke-linecap="round"/>
+          </g>
+
+          <g transform="translate(320, 25)">
+            <rect id="statBox" x="0" y="0" width="125" height="150" rx="8" fill="#FEF2F2" stroke="var(--bad)" stroke-width="2"/>
+            <text x="62" y="24" text-anchor="middle" font-family="var(--font-mono)" font-size="9" font-weight="700" fill="var(--ink)">OPTIMIZATION</text>
+            <line x1="10" y1="34" x2="115" y2="34" stroke="var(--line)" stroke-width="1"/>
+            <text x="62" y="55" text-anchor="middle" font-family="var(--font-mono)" font-size="8" fill="var(--muted)">MSE LOSS (L)</text>
+            <text id="lossValText" x="62" y="78" text-anchor="middle" font-family="var(--font-mono)" font-size="13" font-weight="700" fill="var(--bad)">L = 4,200.0</text>
+            <text id="eqLabel" x="62" y="105" text-anchor="middle" font-family="var(--font-mono)" font-size="8" fill="var(--muted)">MODEL SLOPE</text>
+            <text id="slopeValText" x="62" y="132" text-anchor="middle" font-family="var(--font-mono)" font-size="11" font-weight="700" fill="var(--bad)">w = 0.10</text>
+          </g>
+        </svg>
+      </div>
+
+      <div class="pixel-bubble-row">
+        <span style="font-size:1.4rem;">📉</span>
+        <div class="bubble-badge bad" id="stageBubbleBadge">
+          "Initial Line: High Mean Squared Error (MSE)!"
+        </div>
+      </div>
+    </div>
+
+    <div class="story-body">
+      <div class="step-eyebrow" id="stepCounter">Step 1 of 5</div>
+      <h2 class="step-heading" id="stepTitle">Predicting Continuous Quantities</h2>
+      <div class="step-text" id="stepDescription">
+        Unlike classification (Yes/No), <strong>Regression</strong> predicts continuous real numbers (e.g. monthly AWS cloud server cost based on allocated CPU cores).
+      </div>
+
+      <div class="story-nav-row">
+        <button type="button" class="btn-story btn-secondary" id="prevStepBtn" style="visibility:hidden;">← Back</button>
+        <div class="step-dots" id="stepDotsWrap">
+          <span class="step-dot active"></span>
+          <span class="step-dot"></span>
+          <span class="step-dot"></span>
+          <span class="step-dot"></span>
+          <span class="step-dot"></span>
+        </div>
+        <button type="button" class="btn-story btn-primary" id="nextStepBtn">Next Step →</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-head" style="margin-top: 36px;">
+    <h2>Mathematical Formulation</h2>
+    <div class="sub">How linear models optimize slopes via loss gradients:</div>
+  </div>
+
+  <div class="concept-cards-grid">
+    <div class="concept-card">
+      <h4>📐 Linear Hypothesis</h4>
+      <p><code>ŷ = w · x + b</code>. Predicts output <code>ŷ</code> as a linear function of input feature <code>x</code>.</p>
+    </div>
+    <div class="concept-card">
+      <h4>📉 Mean Squared Error (MSE)</h4>
+      <p><code>L = (1/N) · Σ (y_i - ŷ_i)²</code>. Squares residuals to heavily penalize large errors.</p>
+    </div>
+    <div class="concept-card">
+      <h4>⚡ Gradient Descent</h4>
+      <p><code>w ← w - η · (∂L/∂w)</code>. Takes steps proportional to the negative loss gradient to reach minimum error.</p>
+    </div>
+    <div class="concept-card">
+      <h4>🎯 Closed-Form Solution (OLS)</h4>
+      <p><code>w = (X^T · X)⁻¹ · X^T · y</code>. Direct matrix inversion to compute exact optimal weights in one step.</p>
+    </div>
+  </div>
+
+  <h3 style="font-family:var(--font-display); font-size:1.25rem; margin:32px 0 12px; color:var(--ink);">
+    From-Scratch Python / NumPy Implementation
+  </h3>
+  <pre><code>import numpy as np
+
+# Training data: CPU cores (X) and monthly cost in $ (y)
+X = np.array([2.0, 4.0, 6.0, 8.0])
+y = np.array([50.0, 100.0, 150.0, 200.0])
+
+w = 0.0
+b = 0.0
+lr = 0.01
+
+# Gradient Descent Optimization Loop
+for epoch in range(1000):
+    y_pred = w * X + b
+    error = y_pred - y
+    
+    # Partial derivatives
+    dw = (2 / len(X)) * np.sum(error * X)
+    db = (2 / len(X)) * np.sum(error)
+    
+    w -= lr * dw
+    b -= lr * db
+
+print(f"Optimal Weight (w): {w:.2f} ($/core)")
+print(f"Optimal Bias (b): {b:.2f}")
+
+# Predict 16 CPU cores server cost
+print(f"16 Cores Cost: ${w * 16 + b:.2f}/mo")  # → $400.00/mo</code></pre>
+
+  <div class="next" style="margin-top:28px;">
+    <div>
+      <div class="label">Next Technical Companion</div>
+      <p>Multi-Layer Perceptrons & Calculus Chain Rule.</p>
+    </div>
+    <a class="tag" href="/ai-story/technical/03-backpropagation/">Module 03 · Backpropagation & Multi-Layer Nets →</a>
+  </div>
+
+  <footer class="page-foot">The Pixel Story — Technical Track</footer>
+</div>
+
+<script>
+(function() {
+  var currentStep = 0;
+  var STEPS = [
+    {
+      title: "Step 1: Raw Server Data Plotted",
+      text: "We collect 3 server benchmarks: <code>(2 cores, $50)</code>, <code>(4 cores, $100)</code>, <code>(8 cores, $200)</code>. Initial model slope is flat: <code>w = 0.0, b = 0.0</code>.",
+      bubble: "Flat line: High Mean Squared Error (MSE) 📉",
+      bubbleClass: "bad",
+      lineY1: 150, lineY2: 150,
+      loss: "L = 20,833.0",
+      slope: "w = 0.00",
+      boxFill: "#FEF2F2", stroke: "var(--bad)"
+    },
+    {
+      title: "Step 2: Computing Residuals & Loss",
+      text: "Each distance between a data point and the guess line is a <strong>residual</strong>. We square all residuals to calculate the Mean Squared Error (MSE) loss: <code>L = Σ(y - ŷ)² / N</code>.",
+      bubble: "Residuals squared to penalize large errors! 📐",
+      bubbleClass: "",
+      lineY1: 140, lineY2: 100,
+      loss: "L = 9,450.0",
+      slope: "w = 10.50",
+      boxFill: "#FEF3C7", stroke: "#F59E0B"
+    },
+    {
+      title: "Step 3: Gradient Descent Iteration",
+      text: "We calculate the derivative <code>∂L/∂w</code> and take a step downhill: <code>w ← w - η · (∂L/∂w)</code>. The line pivots upward toward the data points.",
+      bubble: "Gradient descent pivoting line toward data! ⚡",
+      bubbleClass: "",
+      lineY1: 145, lineY2: 45,
+      loss: "L = 1,120.0",
+      slope: "w = 20.00",
+      boxFill: "#EFF6FF", stroke: "#3B82F6"
+    },
+    {
+      title: "Step 4: Convergence to Line of Best Fit",
+      text: "After iterations, the gradient reaches zero <code>∂L/∂w ≈ 0</code>. The line snaps perfectly through all points: <code>w = 25.0, b = 0.0</code> with <code>Loss = 0.0</code>!",
+      bubble: "Line of Best Fit: MSE Loss = 0.0! ✨",
+      bubbleClass: "good",
+      lineY1: 150, lineY2: 10,
+      loss: "L = 0.00",
+      slope: "w = 25.00",
+      boxFill: "#DCFCE7", stroke: "var(--good)"
+    },
+    {
+      title: "Step 5: Exact Inference & Extrapolation",
+      text: "Now the cloud team can predict any cluster size: <em>'How much for a 16-core GPU worker node?'</em> <code>ŷ = 25.0 × 16 = $400/month</code>! Continuous prediction mastered.",
+      bubble: "Predicting unseen 16-core cluster: $400/mo ✅",
+      bubbleClass: "good",
+      lineY1: 150, lineY2: 10,
+      loss: "Optimal (OLS)",
+      slope: "w = 25.00",
+      boxFill: "#DCFCE7", stroke: "var(--good)"
+    }
+  ];
+
+  var stepCounter = document.getElementById("stepCounter");
+  var stepTitle = document.getElementById("stepTitle");
+  var stepDescription = document.getElementById("stepDescription");
+  var stageBubbleBadge = document.getElementById("stageBubbleBadge");
+  var regLine = document.getElementById("regLine");
+  var statBox = document.getElementById("statBox");
+  var lossValText = document.getElementById("lossValText");
+  var slopeValText = document.getElementById("slopeValText");
+  var prevBtn = document.getElementById("prevStepBtn");
+  var nextBtn = document.getElementById("nextStepBtn");
+  var dots = document.querySelectorAll(".step-dot");
+
+  function renderStep() {
+    var s = STEPS[currentStep];
+    stepCounter.textContent = "Step " + (currentStep + 1) + " of " + STEPS.length;
+    stepTitle.textContent = s.title;
+    stepDescription.innerHTML = s.text;
+    stageBubbleBadge.textContent = s.bubble;
+    stageBubbleBadge.className = "bubble-badge " + (s.bubbleClass || "");
+
+    regLine.setAttribute("y1", s.lineY1);
+    regLine.setAttribute("y2", s.lineY2);
+    regLine.setAttribute("stroke", s.stroke);
+    statBox.setAttribute("fill", s.boxFill);
+    statBox.setAttribute("stroke", s.stroke);
+    lossValText.textContent = s.loss;
+    lossValText.setAttribute("fill", s.stroke);
+    slopeValText.textContent = s.slope;
+    slopeValText.setAttribute("fill", s.stroke);
+
+    prevBtn.style.visibility = currentStep === 0 ? "hidden" : "visible";
+    nextBtn.textContent = currentStep === STEPS.length - 1 ? "Start Over ↺" : "Next Step →";
+    dots.forEach(function(d, i) { d.classList.toggle("active", i === currentStep); });
+  }
+
+  nextBtn.addEventListener("click", function() {
+    currentStep = (currentStep + 1) % STEPS.length;
+    renderStep();
+  });
+  prevBtn.addEventListener("click", function() {
+    if (currentStep > 0) { currentStep--; renderStep(); }
+  });
+  dots.forEach(function(dot, idx) {
+    dot.addEventListener("click", function() { currentStep = idx; renderStep(); });
+  });
+
+  renderStep();
+})();
+</script>
+</body>
+</html>

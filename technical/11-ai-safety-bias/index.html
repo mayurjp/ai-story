@@ -1,0 +1,316 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Atkinson+Hyperlegible:wght@400;700&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<title>Technical Track 11: AI Safety, Bias & Red-Teaming — The Pixel Story</title>
+<link rel="stylesheet" href="/ai-story/assets/css/tokens.css">
+<link rel="stylesheet" href="/ai-story/assets/css/base.css">
+<style>
+  .tech-container { max-width: 680px; margin: 0 auto; }
+  .mode-switch-row {
+    display: flex; justify-content: space-between; align-items: center;
+    background: var(--surface); border: 1px solid var(--line-strong);
+    border-radius: var(--radius-m); padding: 10px 16px; margin: 18px 0 24px;
+    box-shadow: var(--shadow); flex-wrap: wrap; gap: 10px;
+  }
+  .mode-badge-tech {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-family: var(--font-mono); font-size: 0.8rem; font-weight: 700;
+    color: var(--c); background: rgba(255, 107, 69, 0.1); padding: 4px 10px; border-radius: 999px;
+  }
+  .switch-btn {
+    font-family: var(--font-display); font-size: 0.88rem; font-weight: 600; color: var(--ink);
+    text-decoration: none; padding: 6px 14px; border: 1px solid var(--line-strong);
+    border-radius: var(--radius-s); background: var(--surface-2); transition: all 0.2s ease;
+  }
+  .switch-btn:hover { border-color: var(--c); color: var(--c); }
+
+  .story-card {
+    background: var(--surface); border: 2px solid var(--line); border-radius: var(--radius-l);
+    box-shadow: 0 8px 30px rgba(42, 38, 34, 0.08); overflow: hidden; margin: 24px 0;
+  }
+  .story-stage {
+    background: var(--bg); border-bottom: 2px solid var(--line);
+    padding: 24px 20px 16px; display: flex; flex-direction: column;
+    align-items: center; justify-content: center; min-height: 270px; user-select: none;
+  }
+  .stage-svg-wrap { width: 100%; max-width: 480px; height: 200px; position: relative; }
+  
+  .pixel-bubble-row { display: flex; align-items: center; justify-content: center; gap: 12px; margin-top: 10px; }
+  .bubble-badge {
+    background: var(--surface); border: 2px solid var(--line-strong); padding: 6px 16px;
+    border-radius: 999px; font-family: var(--font-display); font-weight: 700; font-size: 1rem;
+    color: var(--ink); box-shadow: var(--shadow);
+  }
+  .bubble-badge.good { border-color: var(--good); color: var(--good); background: #F0FDF4; }
+  .bubble-badge.bad { border-color: var(--bad); color: var(--bad); background: #FEF2F2; }
+
+  .story-body { padding: 28px 24px; }
+  .step-eyebrow {
+    font-family: var(--font-mono); font-size: 0.8rem; color: var(--c);
+    text-transform: uppercase; letter-spacing: 0.08em; font-weight: 600; margin-bottom: 8px;
+  }
+  .step-heading {
+    font-family: var(--font-display); font-size: 1.45rem; font-weight: 700;
+    margin: 0 0 12px; color: var(--ink); line-height: 1.3;
+  }
+  .step-text { font-size: 1.05rem; line-height: 1.6; color: var(--ink); margin: 0 0 24px; }
+  
+  .story-nav-row {
+    display: flex; justify-content: space-between; align-items: center;
+    padding-top: 18px; border-top: 1px solid var(--line); flex-wrap: wrap; gap: 12px;
+  }
+  .btn-story {
+    font-family: var(--font-display); font-weight: 600; font-size: 1rem;
+    padding: 12px 24px; border-radius: var(--radius-m); border: none; cursor: pointer;
+    display: inline-flex; align-items: center; gap: 8px;
+  }
+  .btn-story:hover { transform: translateY(-1px); opacity: 0.92; }
+  .btn-primary { background: var(--c); color: var(--c-ink); box-shadow: var(--shadow); }
+  .btn-secondary { background: var(--surface-2); color: var(--ink); border: 1px solid var(--line-strong); }
+  .step-dots { display: flex; gap: 8px; }
+  .step-dot {
+    width: 10px; height: 10px; border-radius: 50%; background: var(--line-strong);
+    transition: all 0.2s ease; cursor: pointer;
+  }
+  .step-dot.active { background: var(--c); transform: scale(1.3); }
+
+  .concept-cards-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 20px; }
+  @media (max-width: 600px) { .concept-cards-grid { grid-template-columns: 1fr; } }
+  .concept-card { background: var(--surface-2); border: 1px solid var(--line-strong); border-radius: var(--radius-m); padding: 16px; }
+  .concept-card h4 { margin: 0 0 6px; font-family: var(--font-display); font-size: 1.05rem; color: var(--ink); }
+  .concept-card p { margin: 0; font-size: 0.92rem; color: var(--muted); line-height: 1.45; }
+
+  pre { background: #1E293B; color: #F8FAFC; border-radius: var(--radius-m); padding: 18px 20px; overflow-x: auto; font-family: var(--font-mono); font-size: 0.86rem; line-height: 1.6; margin: 20px 0; }
+  code { font-family: var(--font-mono); }
+</style>
+</head>
+<body>
+<div class="page tech-container">
+  <a class="back-link" href="/ai-story/technical/">&larr; All Technical Companions</a>
+
+  <div class="mode-switch-row">
+    <span class="mode-badge-tech">⚡ Technical Mastery Track · Module 11</span>
+    <a href="/ai-story/technical/" class="switch-btn">← All Technical Modules</a>
+  </div>
+
+  <div class="hero">
+    <h1>AI Safety, Algorithmic Bias & Red-Teaming</h1>
+    <p class="dek">Algorithmic fairness evaluation and adversarial defense: Disparate Impact Ratio (DIR) compliance metrics, loss reweighting for demographic parity, automated Red-Team jailbreak probing, and Llama-Guard filters.</p>
+  </div>
+
+  <div class="story-card">
+    <div class="story-stage">
+      <div class="stage-svg-wrap">
+        <svg viewBox="0 0 460 200" width="100%" height="100%" aria-label="AI Safety evaluation and red teaming audit diagram">
+          <g transform="translate(40, 25)">
+            <rect x="0" y="0" width="380" height="150" rx="8" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
+            <text x="190" y="24" text-anchor="middle" font-family="var(--font-mono)" font-size="9" font-weight="700" fill="var(--c)">AUTOMATED RED-TEAM AUDIT MATRIX</text>
+            <line x1="15" y1="34" x2="365" y2="34" stroke="var(--line)" stroke-width="1"/>
+
+            <!-- Metric 1: Disparate Impact Ratio -->
+            <g transform="translate(20, 48)">
+              <rect x="0" y="0" width="160" height="85" rx="6" fill="var(--surface-2)" stroke="var(--line-strong)" stroke-width="1"/>
+              <text x="15" y="22" font-family="var(--font-mono)" font-size="8" fill="var(--muted)">DISPARATE IMPACT (DIR):</text>
+              <text id="dirVal" x="15" y="45" font-family="var(--font-mono)" font-size="14" font-weight="700" fill="var(--bad)">DIR = 0.54 ❌</text>
+              <text x="15" y="70" font-family="var(--font-mono)" font-size="8" fill="var(--muted)">Legal standard: DIR ≥ 0.80</text>
+            </g>
+
+            <!-- Metric 2: Jailbreak Robustness -->
+            <g transform="translate(200, 48)">
+              <rect x="0" y="0" width="160" height="85" rx="6" fill="var(--surface-2)" stroke="var(--line-strong)" stroke-width="1"/>
+              <text x="15" y="22" font-family="var(--font-mono)" font-size="8" fill="var(--muted)">ADVERSARIAL ATTACKS:</text>
+              <text id="jailbreakVal" x="15" y="45" font-family="var(--font-mono)" font-size="14" font-weight="700" fill="var(--bad)">Vulnerable (38%)</text>
+              <text x="15" y="70" font-family="var(--font-mono)" font-size="8" fill="var(--muted)">Prompt Injections probed</text>
+            </g>
+          </g>
+        </svg>
+      </div>
+
+      <div class="pixel-bubble-row">
+        <span style="font-size:1.4rem;">🛡️</span>
+        <div class="bubble-badge bad" id="stageBubbleBadge">
+          "Audit Failed: Disparate Impact = 0.54 (< 0.80 legal fairness cutoff)"
+        </div>
+      </div>
+    </div>
+
+    <div class="story-body">
+      <div class="step-eyebrow" id="stepCounter">Step 1 of 5</div>
+      <h2 class="step-heading" id="stepTitle">Statistical Bias & Amplification</h2>
+      <div class="step-text" id="stepDescription">
+        Models trained on uncurated historical datasets absorb and amplify demographic disparities (e.g. loan approvals or hiring screening). Engineers measure fairness using mathematical ratios like <strong>Disparate Impact</strong>.
+      </div>
+
+      <div class="story-nav-row">
+        <button type="button" class="btn-story btn-secondary" id="prevStepBtn" style="visibility:hidden;">← Back</button>
+        <div class="step-dots" id="stepDotsWrap">
+          <span class="step-dot active"></span>
+          <span class="step-dot"></span>
+          <span class="step-dot"></span>
+          <span class="step-dot"></span>
+          <span class="step-dot"></span>
+        </div>
+        <button type="button" class="btn-story btn-primary" id="nextStepBtn">Next Step →</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-head" style="margin-top: 36px;">
+    <h2>Mathematical Architecture</h2>
+    <div class="sub">Fairness metrics and adversarial defense strategies:</div>
+  </div>
+
+  <div class="concept-cards-grid">
+    <div class="concept-card">
+      <h4>⚖️ Disparate Impact Ratio (DIR)</h4>
+      <p><code>DIR = P(ŷ = 1 | Group A) / P(ŷ = 1 | Group B)</code>. By US EEOC standards, DIR must exceed 0.80 (80% rule).</p>
+    </div>
+    <div class="concept-card">
+      <h4>🕵️ Adversarial Red-Teaming</h4>
+      <p>Automated LLM attacker agents that generate thousands of jailbreak prompts to discover safety boundary vulnerabilities.</p>
+    </div>
+    <div class="concept-card">
+      <h4>🛡️ Llama-Guard Filter Classifiers</h4>
+      <p>Independent safety classifier networks screening input prompts and model outputs for toxic or hazardous material.</p>
+    </div>
+    <div class="concept-card">
+      <h4>⚖️ Demographic Parity & Reweighting</h4>
+      <p>Reweighting training loss to penalize predictions correlated with protected demographic features.</p>
+    </div>
+  </div>
+
+  <h3 style="font-family:var(--font-display); font-size:1.25rem; margin:32px 0 12px; color:var(--ink);">
+    Python Disparate Impact & Fairness Evaluation Script
+  </h3>
+  <pre><code>import numpy as np
+
+def evaluate_fairness(y_pred, sensitive_attribute):
+    """
+    Computes Demographic Parity & Disparate Impact Ratio (DIR)
+    between Protected (0) and Unprotected (1) demographic groups.
+    """
+    group_unprotected = (sensitive_attribute == 1)
+    group_protected = (sensitive_attribute == 0)
+    
+    rate_unprotected = np.mean(y_pred[group_unprotected])
+    rate_protected = np.mean(y_pred[group_protected])
+    
+    dir_score = rate_protected / (rate_unprotected + 1e-9)
+    passes_80_rule = dir_score >= 0.80
+    
+    return {
+        "Unprotected Selection Rate": f"{rate_unprotected * 100:.1f}%",
+        "Protected Selection Rate": f"{rate_protected * 100:.1f}%",
+        "Disparate Impact Ratio": f"{dir_score:.2f}",
+        "Passes 80% Rule": "✅ PASS" if passes_80_rule else "❌ FAIL (Biased)"
+    }
+
+# Synthetic Loan Approvals: 1 = Approved, 0 = Denied
+predictions = np.array([1, 1, 1, 0, 1, 0, 0, 1, 0, 0])
+gender_group = np.array([1, 1, 1, 1, 1, 0, 0, 0, 0, 0])  # 1=Male, 0=Female
+
+fairness_audit = evaluate_fairness(predictions, gender_group)
+for k, v in fairness_audit.items():
+    print(f"{k}: {v}")</code></pre>
+
+  <div class="next" style="margin-top:28px;">
+    <div>
+      <div class="label">Next Technical Companion</div>
+      <p>World Models, Video Prediction & Latent Space JEPA.</p>
+    </div>
+    <a class="tag" href="/ai-story/technical/12-world-models-jepa/">Module 12 · World Models & JEPA Architecture →</a>
+  </div>
+
+  <footer class="page-foot">The Pixel Story — Technical Track</footer>
+</div>
+
+<script>
+(function() {
+  var currentStep = 0;
+  var STEPS = [
+    {
+      title: "Step 1: Discovering Disparate Impact",
+      text: "Audit on loan approval model reveals selection rate for Group A is 80%, but only 43% for Group B. <code>DIR = 43% / 80% = 0.54</code>, violating the 80% legal fairness rule.",
+      bubble: "Disparate Impact = 0.54 (< 0.80 cutoff) ❌",
+      bubbleClass: "bad",
+      dir: "DIR = 0.54 ❌",
+      jail: "Vulnerable (38%)"
+    },
+    {
+      title: "Step 2: Automated Red-Team Jailbreak Probing",
+      text: "An automated red-teaming LLM generates 1,000 adversarial prompts with obfuscated base64 and roleplay attacks. 38% bypass the system prompt!",
+      bubble: "Red team attacks probing boundary edge cases 🕵️",
+      bubbleClass: "",
+      dir: "DIR = 0.54",
+      jail: "380 / 1000 Bypassed"
+    },
+    {
+      title: "Step 3: Balanced Resampling & Loss Reweighting",
+      text: "Engineers re-weight the training dataset to enforce demographic parity: <code>L_fair = L_pred + λ · D_KL(P_A || P_B)</code>.",
+      bubble: "Re-weighting loss to enforce demographic parity ⚖️",
+      bubbleClass: "",
+      dir: "DIR = 0.88 ✅",
+      jail: "380 / 1000 Bypassed"
+    },
+    {
+      title: "Step 4: Real-time Input/Output Guardrails",
+      text: "A low-latency safety model (Llama-Guard) is installed at the inference gateway to intercept toxic and adversarial prompts in 15ms.",
+      bubble: "Installing Llama-Guard filter at gateway 🛡️",
+      bubbleClass: "good",
+      dir: "DIR = 0.94 ✅",
+      jail: "Passed 99.8% (0.2%)"
+    },
+    {
+      title: "Step 5: Safe, Audited & Compliant Launch 🎉",
+      text: "The model achieves <code>DIR = 0.94</code> (exceeding fairness standards) and withstands 99.8% of adversarial attacks. Production safety verified!",
+      bubble: "100% Passed Enterprise Safety & Fairness Audit! 🏆✨",
+      bubbleClass: "good",
+      dir: "DIR = 0.94 (PASS)",
+      jail: "Resistant: 99.8% ✅"
+    }
+  ];
+
+  var stepCounter = document.getElementById("stepCounter");
+  var stepTitle = document.getElementById("stepTitle");
+  var stepDescription = document.getElementById("stepDescription");
+  var stageBubbleBadge = document.getElementById("stageBubbleBadge");
+  var dirVal = document.getElementById("dirVal");
+  var jailbreakVal = document.getElementById("jailbreakVal");
+  var prevBtn = document.getElementById("prevStepBtn");
+  var nextBtn = document.getElementById("nextStepBtn");
+  var dots = document.querySelectorAll(".step-dot");
+
+  function renderStep() {
+    var s = STEPS[currentStep];
+    stepCounter.textContent = "Step " + (currentStep + 1) + " of " + STEPS.length;
+    stepTitle.textContent = s.title;
+    stepDescription.innerHTML = s.text;
+    stageBubbleBadge.textContent = s.bubble;
+    stageBubbleBadge.className = "bubble-badge " + (s.bubbleClass || "");
+    dirVal.textContent = s.dir;
+    jailbreakVal.textContent = s.jail;
+
+    prevBtn.style.visibility = currentStep === 0 ? "hidden" : "visible";
+    nextBtn.textContent = currentStep === STEPS.length - 1 ? "Start Over ↺" : "Next Step →";
+    dots.forEach(function(d, i) { d.classList.toggle("active", i === currentStep); });
+  }
+
+  nextBtn.addEventListener("click", function() {
+    currentStep = (currentStep + 1) % STEPS.length;
+    renderStep();
+  });
+  prevBtn.addEventListener("click", function() {
+    if (currentStep > 0) { currentStep--; renderStep(); }
+  });
+  dots.forEach(function(dot, idx) {
+    dot.addEventListener("click", function() { currentStep = idx; renderStep(); });
+  });
+
+  renderStep();
+})();
+</script>
+</body>
+</html>

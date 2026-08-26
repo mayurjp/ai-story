@@ -4,203 +4,371 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Atkinson+Hyperlegible:wght@400;700&family=IBM+Plex+Mono:wght@500;600&display=swap">
-<title>Pixel Learns to Listen to Everyone at Once — The Pixel Story</title>
+<title>Chapter 6: Pixel Listens to Everyone at Once — The Pixel Story</title>
 <link rel="stylesheet" href="/ai-story/assets/css/tokens.css">
 <link rel="stylesheet" href="/ai-story/assets/css/base.css">
 <style>
-  #arcBall, #arcBox { transition: stroke 0.35s ease, stroke-width 0.35s ease, opacity 0.35s ease; }
-  @media (prefers-reduced-motion: reduce) { #arcBall, #arcBox { transition: none; } }
+  .story-container { max-width: 680px; margin: 0 auto; }
+  .story-card {
+    background: var(--surface);
+    border: 2px solid var(--line);
+    border-radius: var(--radius-l);
+    box-shadow: 0 8px 30px rgba(42, 38, 34, 0.08);
+    overflow: hidden;
+    margin: 24px 0;
+    transition: all 0.3s ease;
+  }
+  .story-stage {
+    background: var(--bg);
+    border-bottom: 2px solid var(--line);
+    padding: 24px 20px 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 270px;
+    position: relative;
+    user-select: none;
+  }
+  .stage-svg-wrap {
+    width: 100%;
+    max-width: 480px;
+    height: 200px;
+    position: relative;
+  }
+  .pixel-bubble-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 10px;
+  }
+  .bubble-badge {
+    background: var(--surface);
+    border: 2px solid var(--line-strong);
+    padding: 6px 16px;
+    border-radius: 999px;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1rem;
+    color: var(--ink);
+    box-shadow: var(--shadow);
+    transition: all 0.25s ease;
+  }
+  .bubble-badge.good { border-color: var(--good); color: var(--good); background: #F0FDF4; }
+  .bubble-badge.bad { border-color: var(--bad); color: var(--bad); background: #FEF2F2; }
+
+  /* Attention Beams Animation */
+  #beamTrophy { transition: stroke-width 0.4s ease, opacity 0.4s ease, stroke 0.4s ease; }
+  #beamSuitcase { transition: stroke-width 0.4s ease, opacity 0.4s ease, stroke 0.4s ease; }
+
+  .story-body { padding: 28px 24px; }
+  .step-eyebrow {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--c);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+  .step-heading {
+    font-family: var(--font-display);
+    font-size: 1.45rem;
+    font-weight: 700;
+    margin: 0 0 12px;
+    color: var(--ink);
+    line-height: 1.3;
+  }
+  .step-text { font-size: 1.05rem; line-height: 1.6; color: var(--ink); margin: 0 0 24px; }
+  .story-nav-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 18px;
+    border-top: 1px solid var(--line);
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .btn-story {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 1rem;
+    padding: 12px 24px;
+    border-radius: var(--radius-m);
+    border: none;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: transform 0.15s ease, opacity 0.15s ease;
+  }
+  .btn-story:hover { transform: translateY(-1px); opacity: 0.92; }
+  .btn-primary { background: var(--c); color: var(--c-ink); box-shadow: var(--shadow); }
+  .btn-secondary { background: var(--surface-2); color: var(--ink); border: 1px solid var(--line-strong); }
+  .step-dots { display: flex; gap: 8px; }
+  .step-dot {
+    width: 10px; height: 10px; border-radius: 50%;
+    background: var(--line-strong); transition: all 0.2s ease; cursor: pointer;
+  }
+  .step-dot.active { background: var(--c); transform: scale(1.3); }
+
+  .concept-cards-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-top: 20px;
+  }
+  @media (max-width: 600px) { .concept-cards-grid { grid-template-columns: 1fr; } }
+  .concept-card {
+    background: var(--surface-2);
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius-m);
+    padding: 16px;
+  }
+  .concept-card h4 {
+    margin: 0 0 6px; font-family: var(--font-display); font-size: 1.05rem;
+    color: var(--ink); display: flex; align-items: center; gap: 6px;
+  }
+  .concept-card p { margin: 0; font-size: 0.92rem; color: var(--muted); line-height: 1.45; }
 </style>
 </head>
 <body>
-<div class="page">
+<div class="page story-container">
   <a class="back-link" href="/ai-story/">&larr; All chapters</a>
-
   <div class="eyebrow"><span class="dot"></span> Chapter 6 of 15 &nbsp;&middot;&nbsp; The Pixel Story</div>
 
   <div class="hero">
-    <h1>Pixel Learns to Listen to Everyone at Once.</h1>
-    <p class="dek">Pixel reads a tricky little sentence — one where a single word could mean two different things. Watch how weighing every word at once clears up the confusion.</p>
+    <h1>Pixel Listens to Everyone at Once</h1>
+    <p class="dek">How do you know what the word "it" means in a long sentence? Meet the breakthrough that powers ChatGPT: The Attention Mechanism & Transformers.</p>
   </div>
 
-  <div class="learn-grid">
-  <div class="learn-col-strip">
-  <div class="section-head">
-    <h2>How Pixel figures out what matters</h2>
-    <div class="sub">Six steps. Watch it play, or use the arrows to go at your own pace.</div>
-  </div>
-
-  <div class="strip">
-    <div class="stage">
-      <svg viewBox="0 0 320 220" role="img" aria-label="Illustration of Pixel weighing which word a pronoun refers to">
-        <!-- the phrase: ball, box, and the pronoun "it" -->
-        <g id="phraseGroup">
-          <circle cx="45" cy="112" r="24" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
-          <path d="M45 88 L45 136 M25 100 Q45 112 65 100 M25 124 Q45 112 65 124" fill="none" stroke="var(--line-strong)" stroke-width="1.3"/>
-          <text x="45" y="150" text-anchor="middle" font-family="var(--font-mono)" font-size="10" fill="var(--muted)">ball</text>
-
-          <rect x="95" y="88" width="54" height="48" rx="6" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
-          <text x="122" y="149" text-anchor="middle" font-family="var(--font-mono)" font-size="10" fill="var(--muted)">box</text>
-
-          <rect x="58" y="38" width="34" height="24" rx="12" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
-          <text x="75" y="55" text-anchor="middle" font-family="var(--font-display)" font-weight="700" font-size="13" fill="var(--ink)">it</text>
-        </g>
-
-        <path id="arcBall" d="M70 60 Q 55 80 45 90" fill="none" stroke-linecap="round"/>
-        <path id="arcBox" d="M82 60 Q 100 72 118 88" fill="none" stroke-linecap="round"/>
-
-        <!-- decor 2: reading focus ring around the whole phrase -->
-        <g id="ov2" class="decor">
-          <rect x="18" y="30" width="148" height="128" rx="14" fill="none" stroke="var(--c)" stroke-width="2.5" stroke-dasharray="2 6" opacity="0.65"/>
-        </g>
-
-        <g transform="translate(30,15)">
-          <!-- Pixel base figure (unchanged geometry, repositioned via translate) -->
-          <g id="pixelBase">
-            <ellipse cx="205" cy="196" rx="46" ry="7" fill="var(--ink)" opacity="0.07"/>
-            <rect x="163" y="34" width="7" height="24" rx="3.5" fill="var(--line-strong)"/>
-            <circle cx="166.5" cy="34" r="6.5" fill="var(--c)"/>
-            <rect x="150" y="58" width="112" height="94" rx="26" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
-            <circle cx="206" cy="102" r="32" fill="var(--surface-2)" stroke="var(--line-strong)" stroke-width="2"/>
-            <circle id="facePupil" cx="206" cy="102" r="14" fill="var(--ink)"/>
-            <circle cx="200" cy="96" r="3.6" fill="var(--surface)"/>
-            <rect x="180" y="140" width="52" height="8" rx="4" fill="var(--line-strong)"/>
+  <div class="story-card">
+    <div class="story-stage">
+      <div class="stage-svg-wrap">
+        <svg viewBox="0 0 460 200" width="100%" height="100%" aria-label="Transformer self-attention connecting words in sentence">
+          <!-- Word Badges Row -->
+          <!-- Word 1: Trophy -->
+          <g transform="translate(40, 40)">
+            <rect x="0" y="0" width="80" height="34" rx="8" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
+            <text x="40" y="22" text-anchor="middle" font-family="var(--font-display)" font-weight="700" font-size="14" fill="var(--ink)">🏆 Trophy</text>
           </g>
 
-          <!-- decor 1: question bubble -->
-          <g id="ov1" class="decor">
-            <circle cx="150" cy="52" r="5" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
-            <circle cx="160" cy="42" r="7" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
-            <rect x="148" y="8" width="64" height="30" rx="14" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
-            <text x="180" y="30" text-anchor="middle" font-family="var(--font-display)" font-weight="700" font-size="20" fill="var(--muted)">?</text>
+          <!-- Word 2: Suitcase -->
+          <g transform="translate(140, 40)">
+            <rect x="0" y="0" width="85" height="34" rx="8" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
+            <text x="42" y="22" text-anchor="middle" font-family="var(--font-display)" font-weight="700" font-size="14" fill="var(--ink)">🧳 Suitcase</text>
           </g>
 
-          <!-- decor 3: wrong guess bubble -->
-          <g id="ov3" class="decor">
-            <circle cx="150" cy="52" r="5" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
-            <circle cx="160" cy="42" r="7" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
-            <rect x="140" y="4" width="86" height="34" rx="16" fill="var(--surface)" stroke="var(--bad)" stroke-width="2"/>
-            <text x="173" y="27" text-anchor="middle" font-family="var(--font-display)" font-weight="700" font-size="15" fill="var(--muted)">box?</text>
-            <circle cx="216" cy="14" r="11" fill="var(--bad)"/>
-            <path d="M212 10 L220 18 M220 10 L212 18" stroke="white" stroke-width="2.4" stroke-linecap="round"/>
+          <!-- Filler words -->
+          <text x="240" y="62" font-family="var(--font-mono)" font-size="12" fill="var(--muted)">because</text>
+
+          <!-- Word 3: IT (Target) -->
+          <g transform="translate(300, 40)">
+            <rect x="0" y="0" width="50" height="34" rx="8" fill="var(--c)" stroke="var(--c)" stroke-width="2"/>
+            <text x="25" y="23" text-anchor="middle" font-family="var(--font-display)" font-weight="700" font-size="16" fill="var(--c-ink)">"IT"</text>
           </g>
 
-          <!-- decor 4: weighing (balance scale) -->
-          <g id="ov4" class="decor">
-            <line x1="182" y1="18" x2="182" y2="4" stroke="var(--c)" stroke-width="2.2" stroke-linecap="round"/>
-            <line x1="160" y1="10" x2="204" y2="10" stroke="var(--c)" stroke-width="2.2" stroke-linecap="round"/>
-            <path d="M160 10 q-4 12 -10 12 q-6 0 -10 -12 Z" fill="none" stroke="var(--c)" stroke-width="1.8"/>
-            <path d="M204 10 q-4 12 -10 12 q-6 0 -10 -12 Z" fill="none" stroke="var(--c)" stroke-width="1.8"/>
+          <!-- Clue word: too big -->
+          <g transform="translate(365, 40)">
+            <rect x="0" y="0" width="75" height="34" rx="8" fill="#FEF3C7" stroke="#F59E0B" stroke-width="1.5"/>
+            <text x="37" y="22" text-anchor="middle" font-family="var(--font-display)" font-weight="700" font-size="12" fill="#B45309">too big</text>
           </g>
 
-          <!-- decor 5: right bubble -->
-          <g id="ov5" class="decor">
-            <circle cx="150" cy="52" r="5" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
-            <circle cx="160" cy="42" r="7" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
-            <rect x="140" y="4" width="86" height="34" rx="16" fill="var(--surface)" stroke="var(--good)" stroke-width="2"/>
-            <text x="173" y="27" text-anchor="middle" font-family="var(--font-display)" font-weight="700" font-size="15" fill="var(--ink)">ball!</text>
-            <circle cx="216" cy="14" r="11" fill="var(--good)"/>
-            <path d="M211 14 L215 18 L222 10" fill="none" stroke="white" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+          <!-- Attention Light Beams from "IT" -->
+          <!-- Beam to Trophy -->
+          <path id="beamTrophy" d="M325 74 C 325 150, 80 150, 80 74" fill="none" stroke="var(--good)" stroke-width="6" stroke-linecap="round" opacity="0"/>
+          
+          <!-- Beam to Suitcase -->
+          <path id="beamSuitcase" d="M325 74 C 325 120, 182 120, 182 74" fill="none" stroke="var(--bad)" stroke-width="1.5" stroke-linecap="round" opacity="0"/>
+
+          <!-- Label below beams -->
+          <g transform="translate(15, 160)">
+            <text id="beamLabel" x="230" y="15" text-anchor="middle" font-family="var(--font-mono)" font-size="11" font-weight="600" fill="var(--muted)">
+              Sentence: "The trophy didn't fit in the suitcase because IT was too big."
+            </text>
           </g>
-
-          <!-- decor 6: mastery sparkles -->
-          <g id="ov6" class="decor">
-            <circle cx="206" cy="102" r="38" fill="none" stroke="var(--good)" stroke-width="2" opacity="0.55"/>
-            <path d="M120 40 l4 10 10 4 -10 4 -4 10 -4 -10 -10 -4 10 -4 z" fill="var(--c)"/>
-            <path d="M270 60 l3 7 7 3 -7 3 -3 7 -3 -7 -7 -3 7 -3 z" fill="var(--good)"/>
-          </g>
-        </g>
-      </svg>
-    </div>
-
-    <div class="step-meta">
-      <span id="stepLabel">Step 1 of 6</span>
-      <span id="playLabel">▶ playing</span>
-    </div>
-    <div class="caption" id="captionText">Pixel doesn't know which words matter yet.</div>
-
-    <div class="controls">
-      <div class="nav-btns">
-        <button type="button" class="icon" id="prevBtn" aria-label="Previous step">‹</button>
-        <button type="button" class="icon" id="nextBtn" aria-label="Next step">›</button>
-        <button type="button" class="ghost" id="playPauseBtn">⏸ Pause</button>
+        </svg>
       </div>
-      <div class="dots" id="dots"></div>
+
+      <div class="pixel-bubble-row">
+        <span style="font-size:1.4rem;">🤖</span>
+        <div class="bubble-badge" id="stageBubbleBadge">
+          "What does the word 'IT' refer to?"
+        </div>
+      </div>
+    </div>
+
+    <div class="story-body">
+      <div class="step-eyebrow" id="stepCounter">Step 1 of 5</div>
+      <h2 class="step-heading" id="stepTitle">A tricky pronoun puzzle</h2>
+      <div class="step-text" id="stepDescription">
+        Look at this sentence: <em>"The trophy didn't fit in the suitcase because it was too big."</em> What is "it"? Is it the trophy or the suitcase?
+      </div>
+
+      <div class="story-nav-row">
+        <button type="button" class="btn-story btn-secondary" id="prevStepBtn" style="visibility:hidden;">← Back</button>
+        <div class="step-dots" id="stepDotsWrap">
+          <span class="step-dot active"></span>
+          <span class="step-dot"></span>
+          <span class="step-dot"></span>
+          <span class="step-dot"></span>
+          <span class="step-dot"></span>
+        </div>
+        <button type="button" class="btn-story btn-primary" id="nextStepBtn">Next Step →</button>
+      </div>
     </div>
   </div>
-  </div>
 
-  <div class="learn-col-vocab">
-  <div class="section-head">
+  <div class="section-head" style="margin-top: 36px;">
     <h2>Now you know the grown-up words</h2>
-    <div class="sub">Tap one to see what it means.</div>
+    <div class="sub">The core architecture behind all modern Large Language Models:</div>
   </div>
 
-  <div class="vocab">
-    <details class="chip">
-      <summary>Attention <span class="plus">+</span></summary>
-      <div class="def">What Pixel does across <button type="button" class="step-ref" data-step="2">step 2</button>, <button type="button" class="step-ref" data-step="4">4</button>, and <button type="button" class="step-ref" data-step="5">5</button> — instead of only looking at the word right next to "it," Pixel looks back at every word in the sentence and decides how much each one matters. Looking across everything at once like this, and deciding what matters, is called attention.</div>
-    </details>
-    <details class="chip">
-      <summary>Attention weight <span class="plus">+</span></summary>
-      <div class="def">The thickness of the line connecting "it" to each word in <button type="button" class="step-ref" data-step="4">step 4</button> — a number saying exactly how much that word should count. Ball ends up with a heavy weight; box ends up with a light one. That number is called an attention weight.</div>
-    </details>
-    <details class="chip">
-      <summary>Self-attention <span class="plus">+</span></summary>
-      <div class="def">The specific thing happening in <button type="button" class="step-ref" data-step="2">steps 2</button> through <button type="button" class="step-ref" data-step="5">5</button>: the words are weighing each other, all from within the same sentence — nothing from outside gets brought in to help. When a sentence looks at its own words to understand itself, that's called self-attention.</div>
-    </details>
-    <details class="chip">
-      <summary>Transformer <span class="plus">+</span></summary>
-      <div class="def">The name for the whole design built from stacking these attention-weighing steps together — the same idea you watched in this story, repeated in layers. This exact design, built for real in 2017, is called a transformer.</div>
-    </details>
-  </div>
-  </div>
+  <div class="concept-cards-grid">
+    <div class="concept-card">
+      <h4>💡 Attention</h4>
+      <p>Looking at every word in a sentence at the same time and calculating how much each word relates to the others.</p>
+    </div>
+    <div class="concept-card">
+      <h4>🔦 Attention Weight</h4>
+      <p>The thickness/strength of the connection beam (thick beam for "trophy", thin beam for "suitcase").</p>
+    </div>
+    <div class="concept-card">
+      <h4>⚡ Transformer</h4>
+      <p>The neural network architecture (invented at Google in 2017) built entirely out of self-attention layers.</p>
+    </div>
+    <div class="concept-card">
+      <h4>🚀 Parallel Processing</h4>
+      <p>Reading all words across an entire document simultaneously rather than one by one.</p>
+    </div>
   </div>
 
-  <div class="next">
+  <div style="background:var(--surface-2); border:1px solid var(--line-strong); border-radius:var(--radius-m); padding:20px; margin-top:28px;">
+    <h3 style="font-family:var(--font-display); font-size:1.15rem; margin:0 0 8px; color:var(--ink);">
+      🤔 What happens when Pixel starts WRITING stories?
+    </h3>
+    <p style="margin:0; font-size:0.95rem; color:var(--muted); line-height:1.5;">
+      Understanding sentences is great, but how does an AI generate brand new essays, code, and poems? It predicts the next word in an infinite loop—<strong>Autoregressive Generation</strong> in Chapter 7!
+    </p>
+  </div>
+
+  <div class="next" style="margin-top:28px;">
     <div>
       <div class="label">Coming next</div>
-      <p>Pixel starts writing one word at a time, based on everything said so far.</p>
+      <p>Pixel writes stories one word at a time: Large Language Models (LLMs).</p>
     </div>
-    <a class="tag" href="/ai-story/chapters/06-pixel-becomes-a-know-it-all/">Chapter 7 · Large language models</a>
+    <a class="tag" href="/ai-story/chapters/06-pixel-becomes-a-know-it-all/">Chapter 7 · LLMs & Next-Word Prediction →</a>
   </div>
 
   <footer class="page-foot">The Pixel Story</footer>
 </div>
 
-<script src="/ai-story/assets/js/stepper.js"></script>
 <script>
-(function () {
-  var FRAMES = [
-    { caption: "Pixel doesn't know which words matter yet.", ov: "ov1", pupilX: 206,
-      ball: { w: 0, op: 0, color: "var(--line-strong)" }, box: { w: 0, op: 0, color: "var(--line-strong)" } },
-    { caption: "It reads: the ball didn't fit in the box.", ov: "ov2", pupilX: 190,
-      ball: { w: 2, op: 0.35, color: "var(--line-strong)" }, box: { w: 2, op: 0.35, color: "var(--line-strong)" } },
-    { caption: "Pixel guesses ‘it’ means the box — wrong.", ov: "ov3", pupilX: 214,
-      ball: { w: 1.5, op: 0.25, color: "var(--line-strong)" }, box: { w: 4, op: 1, color: "var(--bad)" } },
-    { caption: "So it weighs every word again, more carefully.", ov: "ov4", pupilX: 196,
-      ball: { w: 3, op: 0.8, color: "var(--c)" }, box: { w: 2, op: 0.4, color: "var(--line-strong)" } },
-    { caption: "Now it's clear: ‘it’ means the ball.", ov: "ov5", pupilX: 200,
-      ball: { w: 4, op: 1, color: "var(--good)" }, box: { w: 1, op: 0.15, color: "var(--line-strong)" } },
-    { caption: "Pixel untangles tricky sentences like this instantly.", ov: "ov6", pupilX: 206,
-      ball: { w: 4, op: 1, color: "var(--good)" }, box: { w: 1, op: 0.15, color: "var(--line-strong)" } }
+(function() {
+  var currentStep = 0;
+
+  var STEPS = [
+    {
+      title: "A tricky pronoun puzzle",
+      text: "Sentence: <em>'The trophy didn't fit in the suitcase because it was too big.'</em> Old robots only looked at the word right next to 'it' and got confused!",
+      bubble: "What is 'IT'? The trophy or suitcase? 🤷",
+      bubbleClass: "",
+      showBeams: false,
+      trophyThick: 1,
+      suitcaseThick: 1,
+      caption: "Sentence: 'The trophy didn't fit in the suitcase because IT was too big.'"
+    },
+    {
+      title: "Pixel shines spotlight beams to everyone (Attention)",
+      text: "Instead of reading word-by-word, Pixel connects 'IT' to every word in the sentence simultaneously with light beams!",
+      bubble: "Shining attention spotlights... 🔦",
+      bubbleClass: "",
+      showBeams: true,
+      trophyThick: 3,
+      suitcaseThick: 3,
+      caption: "Attention beams check both candidate words at once!"
+    },
+    {
+      title: "Checking the clue: 'too big'",
+      text: "Pixel checks the reason: <em>'too big'</em>. Why doesn't something fit? Because the <strong>trophy</strong> is huge! The beam to 'trophy' glows thick and strong!",
+      bubble: "Trophies are the things that are 'too big'! 🏆",
+      bubbleClass: "good",
+      showBeams: true,
+      trophyThick: 7,
+      suitcaseThick: 1,
+      caption: "Attention Weight for Trophy: 94% (Heavy Weight!)"
+    },
+    {
+      title: "What if the sentence said 'too small'?",
+      text: "If we change the word to <em>'too small'</em>, the attention beam instantly flips to the <strong>suitcase 🧳</strong>! Pixel understands context dynamically!",
+      bubble: "If it was 'too small', IT = suitcase! 🧳✨",
+      bubbleClass: "good",
+      showBeams: true,
+      trophyThick: 1,
+      suitcaseThick: 7,
+      caption: "Sentence change: '...because IT was too small' → Attention flips to Suitcase!"
+    },
+    {
+      title: "The Transformer Revolution 🎉",
+      text: "By paying attention to all words at once, computers finally mastered human language. This is the **Transformer** model—the engine behind ChatGPT!",
+      bubble: "Now I understand entire paragraphs! 🚀✨",
+      bubbleClass: "good",
+      showBeams: true,
+      trophyThick: 7,
+      suitcaseThick: 1,
+      caption: "Attention is all you need! ✨"
+    }
   ];
 
-  var arcBall = document.getElementById("arcBall");
-  var arcBox = document.getElementById("arcBox");
+  var stepCounter = document.getElementById("stepCounter");
+  var stepTitle = document.getElementById("stepTitle");
+  var stepDescription = document.getElementById("stepDescription");
+  var stageBubbleBadge = document.getElementById("stageBubbleBadge");
+  var beamTrophy = document.getElementById("beamTrophy");
+  var beamSuitcase = document.getElementById("beamSuitcase");
+  var beamLabel = document.getElementById("beamLabel");
+  var prevBtn = document.getElementById("prevStepBtn");
+  var nextBtn = document.getElementById("nextStepBtn");
+  var dots = document.querySelectorAll(".step-dot");
 
-  function applyArc(el, cfg) {
-    el.setAttribute("stroke-width", cfg.w);
-    el.setAttribute("opacity", cfg.op);
-    el.setAttribute("stroke", cfg.color);
+  function renderStep() {
+    var s = STEPS[currentStep];
+    stepCounter.textContent = "Step " + (currentStep + 1) + " of " + STEPS.length;
+    stepTitle.textContent = s.title;
+    stepDescription.innerHTML = s.text;
+    stageBubbleBadge.textContent = s.bubble;
+    stageBubbleBadge.className = "bubble-badge " + (s.bubbleClass || "");
+
+    beamLabel.textContent = s.caption;
+
+    if (s.showBeams) {
+      beamTrophy.setAttribute("opacity", "0.85");
+      beamTrophy.setAttribute("stroke-width", s.trophyThick);
+      beamSuitcase.setAttribute("opacity", "0.85");
+      beamSuitcase.setAttribute("stroke-width", s.suitcaseThick);
+    } else {
+      beamTrophy.setAttribute("opacity", "0");
+      beamSuitcase.setAttribute("opacity", "0");
+    }
+
+    prevBtn.style.visibility = currentStep === 0 ? "hidden" : "visible";
+    nextBtn.textContent = currentStep === STEPS.length - 1 ? "Start Over ↺" : "Next Step →";
+    dots.forEach(function(d, i) { d.classList.toggle("active", i === currentStep); });
   }
 
-  function applyFrame(f) {
-    applyArc(arcBall, f.ball);
-    applyArc(arcBox, f.box);
-  }
+  nextBtn.addEventListener("click", function() {
+    currentStep = (currentStep + 1) % STEPS.length;
+    renderStep();
+  });
+  prevBtn.addEventListener("click", function() {
+    if (currentStep > 0) { currentStep--; renderStep(); }
+  });
+  dots.forEach(function(dot, idx) {
+    dot.addEventListener("click", function() { currentStep = idx; renderStep(); });
+  });
 
-  window.PixelStepper({ frames: FRAMES, applyFrame: applyFrame });
+  renderStep();
 })();
 </script>
 </body>

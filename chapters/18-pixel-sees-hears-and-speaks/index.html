@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Atkinson+Hyperlegible:wght@400;700&family=IBM+Plex+Mono:wght@500;600&display=swap">
-<title>Chapter 15: What Pixel Means for You — The Pixel Story</title>
+<title>Chapter 18: Pixel Sees, Hears, and Speaks — The Pixel Story</title>
 <link rel="stylesheet" href="/ai-story/assets/css/tokens.css">
 <link rel="stylesheet" href="/ai-story/assets/css/base.css">
 <style>
@@ -56,6 +56,7 @@
     transition: all 0.25s ease;
   }
   .bubble-badge.good { border-color: var(--good); color: var(--good); background: #F0FDF4; }
+  .bubble-badge.bad { border-color: var(--bad); color: var(--bad); background: #FEF2F2; }
 
   .story-body { padding: 28px 24px; }
   .step-eyebrow {
@@ -126,23 +127,6 @@
     color: var(--ink); display: flex; align-items: center; gap: 6px;
   }
   .concept-card p { margin: 0; font-size: 0.92rem; color: var(--muted); line-height: 1.45; }
-
-  /* Graduation Certificate Banner */
-  .grad-banner {
-    background: linear-gradient(135deg, #FFF7ED 0%, #FEF3C7 100%);
-    border: 2px solid var(--c);
-    border-radius: var(--radius-l);
-    padding: 28px 24px;
-    text-align: center;
-    margin-top: 36px;
-  }
-  .grad-banner h3 {
-    font-family: var(--font-display);
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: var(--ink);
-    margin: 0 0 8px;
-  }
 </style>
 </head>
 <body>
@@ -151,54 +135,65 @@
   <div class="eyebrow"><span class="dot"></span> Chapter 18 of 18 &nbsp;&middot;&nbsp; The Pixel Story</div>
 
   <div class="hero">
-    <h1>What Pixel Means for You</h1>
-    <p class="dek">You just learned the entire history and future of Artificial Intelligence. Here is what this revolution means for your future, your creativity, and your career.</p>
+    <h1>Pixel Sees, Hears, and Speaks</h1>
+    <p class="dek">Why type when you can talk and show? How modern Omni models combine voice, camera video, and emotional expression into one unified brain.</p>
   </div>
 
   <div class="story-card">
     <div class="story-stage">
       <div class="stage-svg-wrap">
-        <svg viewBox="0 0 460 200" width="100%" height="100%" aria-label="Pixel graduation celebration diagram">
-          <!-- Pixel Graduated with Cap and Sparkles -->
-          <g transform="translate(180, 20)">
-            <ellipse cx="50" cy="140" rx="35" ry="7" fill="var(--ink)" opacity="0.07"/>
-            <!-- Graduation Cap -->
-            <polygon points="50,0 95,15 50,30 5,15" fill="#1E293B"/>
-            <rect x="35" y="22" width="30" height="12" fill="#1E293B"/>
-            <path d="M90 18 L96 40" stroke="#F59E0B" stroke-width="2" stroke-linecap="round"/>
-            <circle cx="96" cy="42" r="3" fill="#F59E0B"/>
+        <svg viewBox="0 0 460 200" width="100%" height="100%" aria-label="Multimodal omni model diagram">
+          <!-- Pixel Omni Center Figure -->
+          <g transform="translate(195, 45)">
+            <ellipse cx="35" cy="120" rx="30" ry="6" fill="var(--ink)" opacity="0.07"/>
+            <rect x="22" y="10" width="6" height="14" rx="3" fill="var(--line-strong)"/>
+            <circle cx="25" cy="10" r="5" fill="var(--good)"/>
+            <rect x="0" y="24" width="70" height="75" rx="16" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
+            
+            <!-- Big Expressive Eye -->
+            <circle cx="35" cy="54" r="18" fill="var(--surface-2)" stroke="var(--line-strong)" stroke-width="2"/>
+            <circle cx="35" cy="54" r="8" fill="var(--ink)"/>
+            <circle cx="31" cy="50" r="2.5" fill="var(--surface)"/>
+            <!-- Speaker mouth slot -->
+            <rect x="15" y="80" width="40" height="6" rx="3" fill="var(--good)"/>
+          </g>
 
-            <!-- Robot Body -->
-            <rect x="10" y="34" width="80" height="90" rx="20" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2.5"/>
-            <!-- Eye -->
-            <circle cx="50" cy="74" r="24" fill="var(--surface-2)" stroke="var(--line-strong)" stroke-width="2"/>
-            <circle cx="50" cy="74" r="10" fill="var(--ink)"/>
-            <circle cx="46" cy="70" r="2.5" fill="var(--surface)"/>
-            <rect x="30" y="104" width="40" height="6" rx="3" fill="var(--line-strong)"/>
-            <circle cx="50" cy="18" r="5" fill="var(--good)"/>
+          <!-- Input Stream 1: Camera Vision (Left Top) -->
+          <g transform="translate(40, 25)">
+            <rect x="0" y="0" width="100" height="40" rx="8" fill="var(--surface)" stroke="var(--c)" stroke-width="1.5"/>
+            <text x="50" y="25" text-anchor="middle" font-family="var(--font-display)" font-size="12" font-weight="700" fill="var(--c)">👁️ Camera Stream</text>
+            <path d="M100 20 L190 60" stroke="var(--c)" stroke-width="2" stroke-dasharray="3,3"/>
+          </g>
 
-            <!-- Sparkles & Stars -->
-            <path d="M-20 40 L-15 48 L-7 50 L-15 52 L-20 60 L-25 52 L-33 50 L-25 48 Z" fill="var(--c)"/>
-            <path d="M120 40 L125 48 L133 50 L125 52 L120 60 L115 52 L107 50 L115 48 Z" fill="#F59E0B"/>
-            <path d="M-10 110 L-6 116 L0 118 L-6 120 L-10 126 L-14 120 L-20 118 L-14 116 Z" fill="var(--good)"/>
-            <path d="M110 110 L114 116 L120 118 L114 120 L110 126 L106 120 L100 118 L106 116 Z" fill="var(--c)"/>
+          <!-- Input Stream 2: Live Voice Audio (Left Bottom) -->
+          <g transform="translate(40, 110)">
+            <rect x="0" y="0" width="100" height="40" rx="8" fill="var(--surface)" stroke="#3B82F6" stroke-width="1.5"/>
+            <text x="50" y="25" text-anchor="middle" font-family="var(--font-display)" font-size="12" font-weight="700" fill="#3B82F6">🎙️ Live Voice</text>
+            <path d="M100 20 L190 -10" stroke="#3B82F6" stroke-width="2" stroke-dasharray="3,3"/>
+          </g>
+
+          <!-- Output Stream: Expressive Real-time Voice (Right) -->
+          <g transform="translate(320, 60)">
+            <rect x="0" y="0" width="110" height="50" rx="8" fill="#DCFCE7" stroke="var(--good)" stroke-width="2"/>
+            <text x="55" y="22" text-anchor="middle" font-family="var(--font-mono)" font-size="9" font-weight="700" fill="var(--good)">🔊 EXPRESSIVE AUDIO</text>
+            <text x="55" y="40" text-anchor="middle" font-family="var(--font-display)" font-size="11" font-weight="700" fill="var(--ink)">Real-time voice! ✨</text>
           </g>
         </svg>
       </div>
 
       <div class="pixel-bubble-row">
-        <span style="font-size:1.4rem;">🎓</span>
+        <span style="font-size:1.4rem;">🎙️👁️</span>
         <div class="bubble-badge good" id="stageBubbleBadge">
-          "We made it to the finish line! 🎉"
+          "I see what you're holding and hear your voice!"
         </div>
       </div>
     </div>
 
     <div class="story-body">
       <div class="step-eyebrow" id="stepCounter">Step 1 of 5</div>
-      <h2 class="step-heading" id="stepTitle">You now understand AI</h2>
+      <h2 class="step-heading" id="stepTitle">The old pipeline was clumsy</h2>
       <div class="step-text" id="stepDescription">
-        You started with a single dial guessing cookies in 1957. You followed Pixel all the way to neural nets, transformers, world models, and agents. You now understand AI deeper than 99% of people on Earth!
+        Old voice assistants were clunky pipelines: Microphone → Speech-to-Text → LLM → Robotic Voice. It took 3 seconds to reply and couldn't hear laughter or tone.
       </div>
 
       <div class="story-nav-row">
@@ -216,41 +211,47 @@
   </div>
 
   <div class="section-head" style="margin-top: 36px;">
-    <h2>Your AI Future</h2>
-    <div class="sub">How you can use these superpowers in school, hobbies, and work:</div>
+    <h2>Now you know the grown-up words</h2>
+    <div class="sub">How systems like GPT-4o and Gemini Live interact naturally:</div>
   </div>
 
   <div class="concept-cards-grid">
     <div class="concept-card">
-      <h4>🎨 AI as a Creative Bicycle</h4>
-      <p>Steve Jobs called computers a bicycle for the mind. AI is a rocket booster for your imagination and ideas.</p>
+      <h4>🌐 Native Multimodality</h4>
+      <p>A single neural network architecture that accepts text, audio, images, and video directly without translation steps.</p>
     </div>
     <div class="concept-card">
-      <h4>💡 Build Whatever You Dream</h4>
-      <p>You don't need years of coding to build apps, games, or stories—you can direct AI agents to build alongside you.</p>
+      <h4>⚡ Real-Time Latency</h4>
+      <p>Responding in ~250 milliseconds (the same speed as a natural human conversation) so you can interrupt naturally.</p>
     </div>
     <div class="concept-card">
-      <h4>🕵️ Critical Thinking is King</h4>
-      <p>Knowing about hallucinations, bias, and weights means you can spot errors and guide AI safely.</p>
+      <h4>🎭 Prosody & Tone</h4>
+      <p>Detecting emotions like sarcasm, joy, or hesitation in your voice and responding with matching emotional expression.</p>
     </div>
     <div class="concept-card">
-      <h4>🚀 The Next Breakthrough is Yours</h4>
-      <p>Every breakthrough in this story was invented by a curious person just like you. The future is unwritten!</p>
+      <h4>📱 Spatial Video Understanding</h4>
+      <p>Understanding live video feeds (e.g. <em>"Help me fix this bicycle gear"</em>) in real-time as you point your phone camera.</p>
     </div>
   </div>
 
-  <!-- Graduation Banner -->
-  <div class="grad-banner">
-    <h3>🎓 Certificate of AI Mastery</h3>
-    <p style="margin: 8px auto 18px; max-width: 500px; color: var(--muted); font-size: 1rem; line-height: 1.5;">
-      You have officially completed all 18 chapters of <strong>The Pixel Story</strong>. You understand Neurons, Backpropagation, CNNs, Transformers, LLMs, RLHF, World Models, Agents, Diffusion Art, RAG, and Multimodal Omni AI!
+  <div style="background:var(--surface-2); border:1px solid var(--line-strong); border-radius:var(--radius-m); padding:20px; margin-top:28px;">
+    <h3 style="font-family:var(--font-display); font-size:1.15rem; margin:0 0 8px; color:var(--ink);">
+      🎓 Time to celebrate your AI Graduation!
+    </h3>
+    <p style="margin:0; font-size:0.95rem; color:var(--muted); line-height:1.5;">
+      You have explored all 18 major breakthroughs of Artificial Intelligence. Let's look at what this means for your future in the <strong>Grand Finale</strong>!
     </p>
-    <a href="/ai-story/" class="btn-story btn-primary" style="text-decoration:none;">
-      Back to Home & All Chapters 🏠
-    </a>
   </div>
 
-  <footer class="page-foot">The Pixel Story — Created for curious minds everywhere</footer>
+  <div class="next" style="margin-top:28px;">
+    <div>
+      <div class="label">Grand Finale</div>
+      <p>Collect your graduation certificate and discover your AI superpower.</p>
+    </div>
+    <a class="tag" href="/ai-story/chapters/12-what-pixel-means-for-you/">Chapter 15 · What Pixel Means for You →</a>
+  </div>
+
+  <footer class="page-foot">The Pixel Story</footer>
 </div>
 
 <script>
@@ -259,29 +260,29 @@
 
   var STEPS = [
     {
-      title: "You now understand AI",
-      text: "You watched Pixel grow from knowing nothing to seeing, reading, reasoning, and taking autonomous action in the physical world.",
-      bubble: "Look how much we learned together! 🎓✨"
+      title: "The old pipeline was clumsy",
+      text: "Old voice assistants were clunky 3-part pipelines: Microphone → Text Transcribe → LLM → Robotic Speech. It was slow and lost all emotional tone.",
+      bubble: "Old pipeline took 3 seconds... 🐌"
     },
     {
-      title: "AI is a tool, not magic",
-      text: "Whenever someone talks about AI like mystical magic, you know the truth: It is <strong>Clues (Inputs) × Knobs (Weights) → Thresholds → Feedback Loops</strong>!",
-      bubble: "No magic—just clever math and feedback! 🎛️💡"
+      title: "Native Multimodal: One Universal Sensory Brain",
+      text: "Modern <strong>Omni models</strong> (like GPT-4o & Gemini) process sights, sounds, and text as musical notes in the exact same neural network!",
+      bubble: "Vision, audio, and text in ONE brain! 🌐✨"
     },
     {
-      title: "Your imagination is the limit",
-      text: "Whether you want to make video games, write fantasy novels, cure diseases, or build green energy systems, AI agents are your tireless assistants.",
-      bubble: "I'm ready to help you build your dreams! 🚀"
+      title: "Hearing emotions in your voice",
+      text: "If you laugh or sound nervous, Pixel hears your pitch and cadence! It doesn't just read words—it feels your conversation tone.",
+      bubble: "I can hear your excitement! 🎙️❤️"
     },
     {
-      title: "Why human judgment matters most",
-      text: "AI has computing power, but humans have <strong>empathy, ethics, taste, and purpose</strong>. You are the conductor; AI is the orchestra.",
-      bubble: "You provide the vision & human heart! ❤️"
+      title: "Seeing through your phone camera",
+      text: "You point your phone at a broken skateboard wheel. Pixel looks directly at the live video stream and says: <em>'Loosen that silver bolt first!'</em>",
+      bubble: "I see your skateboard! Loosen the silver bolt! 🛹👁️"
     },
     {
-      title: "Congratulations, AI Pioneer! 🎉",
-      text: "Thank you for joining Pixel on this journey. Go explore, build something wonderful, and shape the future of technology!",
-      bubble: "You did it! Congratulations! 🌟🎓🎉"
+      title: "Natural, Real-Time Conversations! 🎉",
+      text: "With 250ms response times, you can interrupt, whisper, and laugh together naturally. AI is no longer a text box—it's a real-time partner!",
+      bubble: "We can talk naturally with zero delay! 🌟🚀"
     }
   ];
 

@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Atkinson+Hyperlegible:wght@400;700&family=IBM+Plex+Mono:wght@500;600&display=swap">
-<title>Chapter 7: Pixel Becomes a Know-It-All — The Pixel Story</title>
+<title>Chapter 17: Pixel Goes to the Library — The Pixel Story</title>
 <link rel="stylesheet" href="/ai-story/assets/css/tokens.css">
 <link rel="stylesheet" href="/ai-story/assets/css/base.css">
 <style>
@@ -58,24 +58,7 @@
   .bubble-badge.good { border-color: var(--good); color: var(--good); background: #F0FDF4; }
   .bubble-badge.bad { border-color: var(--bad); color: var(--bad); background: #FEF2F2; }
 
-  /* Token Pills */
-  .token-pill {
-    display: inline-block;
-    padding: 4px 10px;
-    border-radius: 6px;
-    font-family: var(--font-mono);
-    font-size: 0.85rem;
-    font-weight: 600;
-    margin: 2px 4px;
-    border: 1px solid var(--line-strong);
-    background: var(--surface);
-    color: var(--ink);
-  }
-  .token-pill.new {
-    background: #DCFCE7;
-    border-color: var(--good);
-    color: var(--good);
-  }
+  #retrievedDoc { transition: transform 0.5s ease, opacity 0.4s ease; }
 
   .story-body { padding: 28px 24px; }
   .step-eyebrow {
@@ -151,52 +134,75 @@
 <body>
 <div class="page story-container">
   <a class="back-link" href="/ai-story/">&larr; All chapters</a>
-  <div class="eyebrow"><span class="dot"></span> Chapter 7 of 15 &nbsp;&middot;&nbsp; The Pixel Story</div>
+  <div class="eyebrow"><span class="dot"></span> Chapter 17 of 18 &nbsp;&middot;&nbsp; The Pixel Story</div>
 
   <div class="hero">
-    <h1>Pixel Becomes a Know-It-All</h1>
-    <p class="dek">How does an AI write whole essays, recipes, and stories? It doesn't write in one huge leap—it predicts the next word in an infinite loop: Large Language Models (LLMs).</p>
+    <h1>Pixel Goes to the Library</h1>
+    <p class="dek">How do AI models look up private files and today's news without making things up? Discover Retrieval-Augmented Generation (RAG) and Vector Embeddings.</p>
   </div>
 
   <div class="story-card">
     <div class="story-stage">
       <div class="stage-svg-wrap">
-        <svg viewBox="0 0 460 200" width="100%" height="100%" aria-label="Autoregressive generation token loop diagram">
-          <!-- Text Generator Stream Box -->
-          <g transform="translate(30, 30)">
-            <rect x="0" y="0" width="400" height="90" rx="10" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
-            <text x="20" y="24" font-family="var(--font-mono)" font-size="9" fill="var(--muted)">PROMPT & GENERATED TOKENS:</text>
-            
-            <g id="tokensContainer" transform="translate(20, 40)">
-              <!-- Rendered via JS -->
-            </g>
+        <svg viewBox="0 0 460 200" width="100%" height="100%" aria-label="RAG vector library retrieval diagram">
+          <!-- Library Bookshelf (Left) -->
+          <g transform="translate(40, 25)">
+            <rect x="0" y="0" width="160" height="150" rx="8" fill="#78350F" stroke="#451A03" stroke-width="2"/>
+            <rect x="10" y="10" width="140" height="38" rx="4" fill="var(--surface-2)"/>
+            <rect x="10" y="56" width="140" height="38" rx="4" fill="var(--surface-2)"/>
+            <rect x="10" y="102" width="140" height="38" rx="4" fill="var(--surface-2)"/>
+
+            <!-- Books on shelves -->
+            <!-- Top shelf: Space Books -->
+            <rect x="15" y="15" width="22" height="30" rx="2" fill="#3B82F6"/>
+            <rect x="40" y="15" width="26" height="30" rx="2" fill="#0284C7"/>
+            <rect x="69" y="15" width="24" height="30" rx="2" fill="#6366F1"/>
+            <text x="50" y="48" font-family="var(--font-mono)" font-size="7" fill="#FFFFFF" font-weight="700">MARS 2026</text>
+
+            <!-- Middle shelf: Cooking Books -->
+            <rect x="15" y="61" width="25" height="30" rx="2" fill="#EA580C"/>
+            <rect x="43" y="61" width="20" height="30" rx="2" fill="#F97316"/>
+
+            <!-- Bottom shelf: History Books -->
+            <rect x="15" y="107" width="28" height="30" rx="2" fill="#15803D"/>
+            <rect x="46" y="107" width="22" height="30" rx="2" fill="#16A34A"/>
           </g>
 
-          <!-- Autoregressive Feedback Loop Arrow -->
-          <g transform="translate(30, 130)">
-            <!-- Curved loop arrow -->
-            <path d="M350 0 C 350 40, 50 40, 50 0" fill="none" stroke="var(--c)" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="4,4"/>
-            <polygon points="50,0 44,8 56,8" fill="var(--c)"/>
-            <text x="200" y="45" text-anchor="middle" font-family="var(--font-mono)" font-size="10" font-weight="600" fill="var(--c)">
-              🔄 Each new word feeds back into the prompt!
-            </text>
+          <!-- Retrieved Document Flying to Pixel -->
+          <g id="retrievedDoc" transform="translate(140, 45)" opacity="0">
+            <rect x="0" y="0" width="110" height="70" rx="6" fill="#DCFCE7" stroke="var(--good)" stroke-width="2"/>
+            <text x="55" y="20" text-anchor="middle" font-family="var(--font-mono)" font-size="8" font-weight="700" fill="var(--good)">📄 RETRIEVED DOC</text>
+            <text x="55" y="42" text-anchor="middle" font-family="var(--font-display)" font-size="10" font-weight="700" fill="var(--ink)">"Mars Rover found</text>
+            <text x="55" y="58" text-anchor="middle" font-family="var(--font-display)" font-size="10" font-weight="700" fill="var(--ink)">subsurface ice!"</text>
+          </g>
+
+          <!-- Pixel Researcher (Right) -->
+          <g transform="translate(360, 45)">
+            <ellipse cx="25" cy="120" rx="22" ry="5" fill="var(--ink)" opacity="0.07"/>
+            <rect x="12" y="10" width="4" height="14" rx="2" fill="var(--line-strong)"/>
+            <circle cx="14" cy="10" r="4" fill="var(--c)"/>
+            <rect x="0" y="24" width="50" height="60" rx="12" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
+            <!-- Glasses -->
+            <circle cx="18" cy="46" r="8" fill="none" stroke="var(--ink)" stroke-width="2"/>
+            <circle cx="32" cy="46" r="8" fill="none" stroke="var(--ink)" stroke-width="2"/>
+            <line x1="26" y1="46" x2="24" y2="46" stroke="var(--ink)" stroke-width="2"/>
           </g>
         </svg>
       </div>
 
       <div class="pixel-bubble-row">
-        <span style="font-size:1.4rem;">🤖</span>
+        <span style="font-size:1.4rem;">📚</span>
         <div class="bubble-badge" id="stageBubbleBadge">
-          "I write one word at a time!"
+          "What did NASA find on Mars last Tuesday?"
         </div>
       </div>
     </div>
 
     <div class="story-body">
       <div class="step-eyebrow" id="stepCounter">Step 1 of 5</div>
-      <h2 class="step-heading" id="stepTitle">AI writes one word at a time</h2>
+      <h2 class="step-heading" id="stepTitle">The Closed-Book problem</h2>
       <div class="step-text" id="stepDescription">
-        When you ask ChatGPT a question, it doesn't think up the whole paragraph in advance. It writes <strong>one piece (token) at a time</strong>, guessing the most likely next word!
+        Pixel's training finished last year. When asked: <em>"What did the rover discover on Mars last Tuesday?"</em>, Pixel has no memory of last Tuesday. If it tries to guess from memory (closed-book), it will hallucinate!
       </div>
 
       <div class="story-nav-row">
@@ -215,43 +221,43 @@
 
   <div class="section-head" style="margin-top: 36px;">
     <h2>Now you know the grown-up words</h2>
-    <div class="sub">The concepts that make ChatGPT, Gemini, and Claude work:</div>
+    <div class="sub">How enterprise search engines and smart assistants answer questions:</div>
   </div>
 
   <div class="concept-cards-grid">
     <div class="concept-card">
-      <h4>🔤 Token</h4>
-      <p>A bite-sized chunk of text (a word or part of a word) that the AI reads and writes.</p>
+      <h4>📚 RAG (Retrieval-Augmented Generation)</h4>
+      <p>Fetching relevant private or fresh documents from a database and feeding them into the AI's prompt.</p>
     </div>
     <div class="concept-card">
-      <h4>🔄 Autoregressive Generation</h4>
-      <p>The loop of predicting one token, adding it to the story, and predicting the next token based on everything written so far.</p>
+      <h4>🌌 Vector Embedding</h4>
+      <p>Converting sentences into mathematical coordinates where similar ideas land in the same neighborhood.</p>
     </div>
     <div class="concept-card">
-      <h4>📚 LLM (Large Language Model)</h4>
-      <p>A massive transformer network trained on trillions of words to master general conversation.</p>
+      <h4>🗄️ Vector Database</h4>
+      <p>A lightning-fast library designed to search millions of document coordinates in milliseconds.</p>
     </div>
     <div class="concept-card">
-      <h4>🎛️ Temperature (Creativity)</h4>
-      <p>A setting controlling how predictable (low) or wild/creative (high) the next word choices are.</p>
+      <h4>📌 Citation / Grounding</h4>
+      <p>Providing the exact webpage or document source link so users can verify the answer themselves.</p>
     </div>
   </div>
 
   <div style="background:var(--surface-2); border:1px solid var(--line-strong); border-radius:var(--radius-m); padding:20px; margin-top:28px;">
     <h3 style="font-family:var(--font-display); font-size:1.15rem; margin:0 0 8px; color:var(--ink);">
-      🤔 But how do we turn a raw book-reader into a polite helper?
+      🤔 What happens when AI combines Voice, Vision, and Text in real time?
     </h3>
     <p style="margin:0; font-size:0.95rem; color:var(--muted); line-height:1.5;">
-      A raw model trained on the internet will just repeat internet chatter! How do we turn it into a helpful, polite assistant that follows instructions? We use <strong>RLHF & Fine-Tuning</strong> in Chapter 8!
+      Instead of typing back and forth, what if Pixel can see through your camera and talk with expressive emotion? Meet <strong>Multimodal Omni AI</strong> in Chapter 18!
     </p>
   </div>
 
   <div class="next" style="margin-top:28px;">
     <div>
       <div class="label">Coming next</div>
-      <p>Trainee chef to 5-star restaurant: How an AI gets trained for real users (RLHF).</p>
+      <p>Pixel sees, hears, and speaks in real-time: Multimodal Omni AI.</p>
     </div>
-    <a class="tag" href="/ai-story/chapters/14-pixel-opens-for-business/">Chapter 8 · RLHF & Deployment →</a>
+    <a class="tag" href="/ai-story/chapters/18-pixel-sees-hears-and-speaks/">Chapter 18 · Multimodal Omni AI →</a>
   </div>
 
   <footer class="page-foot">The Pixel Story</footer>
@@ -263,34 +269,44 @@
 
   var STEPS = [
     {
-      title: "AI writes one word at a time",
-      text: "You give Pixel a prompt: <em>'Once upon a...'</em>. Pixel calculates the odds of every word in its vocabulary to pick the best next piece!",
-      bubble: "Starting with: 'Once upon a...'",
-      tokens: ["Once", "upon", "a"]
+      title: "The Closed-Book problem",
+      text: "Pixel is asked: <em>'What did NASA find on Mars last Tuesday?'</em> Pixel's weights have no record of last Tuesday. Guessing from memory will produce a fake answer!",
+      bubble: "I didn't memorize last Tuesday! 🧠❓",
+      bubbleClass: "bad",
+      docPos: [140, 45],
+      docOpacity: 0
     },
     {
-      title: "Predicting Token 1: 'time'",
-      text: "After <em>'Once upon a'</em>, the most probable next word on the internet is <strong>'time'</strong> (98% probability!). Pixel emits 'time'.",
-      bubble: "Next token: 'time' ⏳",
-      tokens: ["Once", "upon", "a", "time"]
+      title: "Step 1: Convert question into Idea Coordinates",
+      text: "Pixel converts the question into a <strong>Vector Embedding</strong> (GPS coordinate for meaning). Coordinates for 'NASA' + 'Mars' + 'Tuesday' point straight to the Space Bookshelf!",
+      bubble: "Mapping question to Idea GPS coordinates! 🗺️",
+      bubbleClass: "",
+      docPos: [140, 45],
+      docOpacity: 0
     },
     {
-      title: "The feedback loop: Feed 'time' back into the prompt",
-      text: "Now the input is <em>'Once upon a time'</em>. Pixel feeds the whole sentence back into its brain and predicts the next token: <strong>'there'</strong>.",
-      bubble: "Next token: 'there' 🔄",
-      tokens: ["Once", "upon", "a", "time", ",", "there"]
+      title: "Step 2: Retrieve the exact matching page (RAG)",
+      text: "Pixel dashes to the library, scans the top shelf, and pulls the exact official NASA news report published yesterday!",
+      bubble: "Found the exact Mars report! 📄✨",
+      bubbleClass: "good",
+      docPos: [180, 45],
+      docOpacity: 1
     },
     {
-      title: "Predicting Token 3: 'lived'",
-      text: "Input: <em>'Once upon a time, there'</em> → Next predicted token: <strong>'lived'</strong>! Step by step, the story expands.",
-      bubble: "Next token: 'lived' 🏰",
-      tokens: ["Once", "upon", "a", "time", ",", "there", "lived"]
+      title: "Step 3: Read the document and generate answer",
+      text: "Pixel reads the retrieved report in real time: <em>'NASA Rover Perseverance discovered subsurface ice layers!'</em>",
+      bubble: "Perseverance found subsurface ice! 🚀",
+      bubbleClass: "good",
+      docPos: [230, 45],
+      docOpacity: 1
     },
     {
-      title: "And a story is born! 🐉✨",
-      text: "By repeating this single loop dozens of times, Pixel writes: <em>'Once upon a time, there lived a friendly dragon!'</em> That is how all generative AI creates text!",
-      bubble: "Full story generated! 🐉✨",
-      tokens: ["Once", "upon", "a", "time", ",", "there", "lived", "a", "friendly", "dragon", "!"]
+      title: "100% Accurate with Citations! 🎉",
+      text: "Pixel presents the exact answer with a link to NASA's website. Zero hallucinations, 100% verified! This is <strong>Retrieval-Augmented Generation</strong>.",
+      bubble: "Accurate, fresh, and cited with sources! 📚✨",
+      bubbleClass: "good",
+      docPos: [230, 45],
+      docOpacity: 1
     }
   ];
 
@@ -298,7 +314,7 @@
   var stepTitle = document.getElementById("stepTitle");
   var stepDescription = document.getElementById("stepDescription");
   var stageBubbleBadge = document.getElementById("stageBubbleBadge");
-  var tokensContainer = document.getElementById("tokensContainer");
+  var retrievedDoc = document.getElementById("retrievedDoc");
   var prevBtn = document.getElementById("prevStepBtn");
   var nextBtn = document.getElementById("nextStepBtn");
   var dots = document.querySelectorAll(".step-dot");
@@ -309,48 +325,10 @@
     stepTitle.textContent = s.title;
     stepDescription.innerHTML = s.text;
     stageBubbleBadge.textContent = s.bubble;
+    stageBubbleBadge.className = "bubble-badge " + (s.bubbleClass || "");
 
-    // Render token badges in SVG
-    tokensContainer.innerHTML = "";
-    var currentX = 0;
-    var currentY = 0;
-
-    s.tokens.forEach(function(tok, i) {
-      var isNew = (i === s.tokens.length - 1 && currentStep > 0);
-      var width = Math.max(36, tok.length * 9 + 16);
-      
-      if (currentX + width > 360) {
-        currentX = 0;
-        currentY += 28;
-      }
-
-      var g = document.createElementNS("http://www.w3.org/2000/svg", "g");
-      g.setAttribute("transform", "translate(" + currentX + "," + currentY + ")");
-
-      var rect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
-      rect.setAttribute("width", width);
-      rect.setAttribute("height", "22");
-      rect.setAttribute("rx", "5");
-      rect.setAttribute("fill", isNew ? "#DCFCE7" : "var(--surface-2)");
-      rect.setAttribute("stroke", isNew ? "var(--good)" : "var(--line-strong)");
-      rect.setAttribute("stroke-width", "1.5");
-
-      var text = document.createElementNS("http://www.w3.org/2000/svg", "text");
-      text.setAttribute("x", width / 2);
-      text.setAttribute("y", "15");
-      text.setAttribute("text-anchor", "middle");
-      text.setAttribute("font-family", "var(--font-mono)");
-      text.setAttribute("font-size", "11");
-      text.setAttribute("font-weight", "600");
-      text.setAttribute("fill", isNew ? "var(--good)" : "var(--ink)");
-      text.textContent = tok;
-
-      g.appendChild(rect);
-      g.appendChild(text);
-      tokensContainer.appendChild(g);
-
-      currentX += width + 6;
-    });
+    retrievedDoc.style.transform = "translate(" + s.docPos[0] + "px, " + s.docPos[1] + "px)";
+    retrievedDoc.style.opacity = s.docOpacity;
 
     prevBtn.style.visibility = currentStep === 0 ? "hidden" : "visible";
     nextBtn.textContent = currentStep === STEPS.length - 1 ? "Start Over ↺" : "Next Step →";

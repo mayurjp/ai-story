@@ -1,0 +1,282 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Atkinson+Hyperlegible:wght@400;700&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<title>Technical Track 18: Full-Stack AI Engineering Synthesis — The Pixel Story</title>
+<link rel="stylesheet" href="/ai-story/assets/css/tokens.css">
+<link rel="stylesheet" href="/ai-story/assets/css/base.css">
+<style>
+  .tech-container { max-width: 680px; margin: 0 auto; }
+  .mode-switch-row {
+    display: flex; justify-content: space-between; align-items: center;
+    background: var(--surface); border: 1px solid var(--line-strong);
+    border-radius: var(--radius-m); padding: 10px 16px; margin: 18px 0 24px;
+    box-shadow: var(--shadow); flex-wrap: wrap; gap: 10px;
+  }
+  .mode-badge-tech {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-family: var(--font-mono); font-size: 0.8rem; font-weight: 700;
+    color: var(--c); background: rgba(255, 107, 69, 0.1); padding: 4px 10px; border-radius: 999px;
+  }
+  .switch-btn {
+    font-family: var(--font-display); font-size: 0.88rem; font-weight: 600; color: var(--ink);
+    text-decoration: none; padding: 6px 14px; border: 1px solid var(--line-strong);
+    border-radius: var(--radius-s); background: var(--surface-2); transition: all 0.2s ease;
+  }
+  .switch-btn:hover { border-color: var(--c); color: var(--c); }
+
+  .story-card {
+    background: var(--surface); border: 2px solid var(--line); border-radius: var(--radius-l);
+    box-shadow: 0 8px 30px rgba(42, 38, 34, 0.08); overflow: hidden; margin: 24px 0;
+  }
+  .story-stage {
+    background: var(--bg); border-bottom: 2px solid var(--line);
+    padding: 24px 20px 16px; display: flex; flex-direction: column;
+    align-items: center; justify-content: center; min-height: 270px; user-select: none;
+  }
+  .stage-svg-wrap { width: 100%; max-width: 480px; height: 200px; position: relative; }
+  
+  .pixel-bubble-row { display: flex; align-items: center; justify-content: center; gap: 12px; margin-top: 10px; }
+  .bubble-badge {
+    background: var(--surface); border: 2px solid var(--line-strong); padding: 6px 16px;
+    border-radius: 999px; font-family: var(--font-display); font-weight: 700; font-size: 1rem;
+    color: var(--ink); box-shadow: var(--shadow);
+  }
+  .bubble-badge.good { border-color: var(--good); color: var(--good); background: #F0FDF4; }
+
+  .story-body { padding: 28px 24px; }
+  .step-eyebrow {
+    font-family: var(--font-mono); font-size: 0.8rem; color: var(--c);
+    text-transform: uppercase; letter-spacing: 0.08em; font-weight: 600; margin-bottom: 8px;
+  }
+  .step-heading {
+    font-family: var(--font-display); font-size: 1.45rem; font-weight: 700;
+    margin: 0 0 12px; color: var(--ink); line-height: 1.3;
+  }
+  .step-text { font-size: 1.05rem; line-height: 1.6; color: var(--ink); margin: 0 0 24px; }
+  
+  .story-nav-row {
+    display: flex; justify-content: space-between; align-items: center;
+    padding-top: 18px; border-top: 1px solid var(--line); flex-wrap: wrap; gap: 12px;
+  }
+  .btn-story {
+    font-family: var(--font-display); font-weight: 600; font-size: 1rem;
+    padding: 12px 24px; border-radius: var(--radius-m); border: none; cursor: pointer;
+    display: inline-flex; align-items: center; gap: 8px;
+  }
+  .btn-story:hover { transform: translateY(-1px); opacity: 0.92; }
+  .btn-primary { background: var(--c); color: var(--c-ink); box-shadow: var(--shadow); }
+  .btn-secondary { background: var(--surface-2); color: var(--ink); border: 1px solid var(--line-strong); }
+  .step-dots { display: flex; gap: 8px; }
+  .step-dot {
+    width: 10px; height: 10px; border-radius: 50%; background: var(--line-strong);
+    transition: all 0.2s ease; cursor: pointer;
+  }
+  .step-dot.active { background: var(--c); transform: scale(1.3); }
+
+  .concept-cards-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 20px; }
+  @media (max-width: 600px) { .concept-cards-grid { grid-template-columns: 1fr; } }
+  .concept-card { background: var(--surface-2); border: 1px solid var(--line-strong); border-radius: var(--radius-m); padding: 16px; }
+  .concept-card h4 { margin: 0 0 6px; font-family: var(--font-display); font-size: 1.05rem; color: var(--ink); }
+  .concept-card p { margin: 0; font-size: 0.92rem; color: var(--muted); line-height: 1.45; }
+
+  .cert-box {
+    background: linear-gradient(135deg, #FFF7ED 0%, #FEF2F2 100%);
+    border: 2px solid var(--c); border-radius: var(--radius-l); padding: 28px 24px;
+    margin: 32px 0; text-align: center; box-shadow: var(--shadow);
+  }
+  .cert-box h3 { font-family: var(--font-display); font-size: 1.4rem; color: var(--c); margin: 0 0 8px; }
+  .cert-box p { font-size: 1rem; color: var(--ink); line-height: 1.5; margin: 0 0 16px; }
+
+  pre { background: #1E293B; color: #F8FAFC; border-radius: var(--radius-m); padding: 18px 20px; overflow-x: auto; font-family: var(--font-mono); font-size: 0.86rem; line-height: 1.6; margin: 20px 0; }
+  code { font-family: var(--font-mono); }
+</style>
+</head>
+<body>
+<div class="page tech-container">
+  <a class="back-link" href="/ai-story/technical/">&larr; All Technical Companions</a>
+
+  <div class="mode-switch-row">
+    <span class="mode-badge-tech">⚡ Technical Mastery Track · Module 18</span>
+    <a href="/ai-story/technical/" class="switch-btn">← All Technical Modules</a>
+  </div>
+
+  <div class="hero">
+    <h1>Full-Stack AI Engineering Synthesis</h1>
+    <p class="dek">Full-lifecycle production AI architecture: GPU compute kernels, model quantization (AWQ/GGUF), rigorous evaluation benchmarks (MMLU/HumanEval), agent orchestration, and LLMOps observability.</p>
+  </div>
+
+  <div class="story-card">
+    <div class="story-stage">
+      <div class="stage-svg-wrap">
+        <svg viewBox="0 0 460 200" width="100%" height="100%" aria-label="Modern full lifecycle AI stack diagram">
+          <g transform="translate(30, 20)">
+            <rect x="0" y="0" width="400" height="155" rx="8" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
+            <text x="200" y="24" text-anchor="middle" font-family="var(--font-mono)" font-size="9" font-weight="700" fill="var(--c)">
+              THE 5 LAYERS OF MODERN PRODUCTION AI ARCHITECTURE
+            </text>
+            <line x1="15" y1="34" x2="385" y2="34" stroke="var(--line)" stroke-width="1"/>
+
+            <!-- Layer 5: App / Agents -->
+            <rect x="25" y="44" width="350" height="18" rx="3" fill="#DCFCE7" stroke="var(--good)" stroke-width="1"/>
+            <text x="200" y="57" text-anchor="middle" font-family="var(--font-mono)" font-size="8" font-weight="700" fill="var(--good)">5. APPLICATION LAYER (ReAct Agents, RAG, Tool APIs)</text>
+
+            <!-- Layer 4: Alignment -->
+            <rect x="25" y="66" width="350" height="18" rx="3" fill="#EFF6FF" stroke="#3B82F6" stroke-width="1"/>
+            <text x="200" y="79" text-anchor="middle" font-family="var(--font-mono)" font-size="8" font-weight="700" fill="#1D4ED8">4. ALIGNMENT LAYER (DPO, SFT, Safety Guardrails, System Prompts)</text>
+
+            <!-- Layer 3: Model Architecture -->
+            <rect x="25" y="88" width="350" height="18" rx="3" fill="#FFF7ED" stroke="var(--c)" stroke-width="1"/>
+            <text x="200" y="101" text-anchor="middle" font-family="var(--font-mono)" font-size="8" font-weight="700" fill="var(--c)">3. MODEL ARCHITECTURE (Transformer, Multi-Head Attention, RoPE)</text>
+
+            <!-- Layer 2: Serving / Optimization -->
+            <rect x="25" y="110" width="350" height="18" rx="3" fill="var(--surface-2)" stroke="var(--line-strong)" stroke-width="1"/>
+            <text x="200" y="123" text-anchor="middle" font-family="var(--font-mono)" font-size="8" fill="var(--ink)">2. SERVING ENGINE (vLLM, PagedAttention, AWQ 4-bit Quantization)</text>
+
+            <!-- Layer 1: Hardware -->
+            <rect x="25" y="132" width="350" height="18" rx="3" fill="#1E293B"/>
+            <text x="200" y="145" text-anchor="middle" font-family="var(--font-mono)" font-size="8" font-weight="700" fill="#38BDF8">1. COMPUTE HARDWARE (NVIDIA H100 / Blackwell, NVLink, CUDA)</text>
+          </g>
+        </svg>
+      </div>
+
+      <div class="pixel-bubble-row">
+        <span style="font-size:1.4rem;">🎓</span>
+        <div class="bubble-badge good" id="stageBubbleBadge">
+          "18 Modules Mastered: Full-Stack AI Engineering Architecture complete!"
+        </div>
+      </div>
+    </div>
+
+    <div class="story-body">
+      <div class="step-eyebrow" id="stepCounter">Step 1 of 5</div>
+      <h2 class="step-heading" id="stepTitle">The Complete Synthesis</h2>
+      <div class="step-text" id="stepDescription">
+        You have traversed the entire spectrum of machine learning: from single dot-product neurons to backpropagation, convolutions, self-attention, autoregressive decoding, RLHF, world models, and agentic orchestration.
+      </div>
+
+      <div class="story-nav-row">
+        <button type="button" class="btn-story btn-secondary" id="prevStepBtn" style="visibility:hidden;">← Back</button>
+        <div class="step-dots" id="stepDotsWrap">
+          <span class="step-dot active"></span>
+          <span class="step-dot"></span>
+          <span class="step-dot"></span>
+          <span class="step-dot"></span>
+          <span class="step-dot"></span>
+        </div>
+        <button type="button" class="btn-story btn-primary" id="nextStepBtn">Next Step →</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-head" style="margin-top: 36px;">
+    <h2>Production AI Engineering Principles</h2>
+    <div class="sub">Key pillars for building mission-critical AI systems:</div>
+  </div>
+
+  <div class="concept-cards-grid">
+    <div class="concept-card">
+      <h4>🧪 Rigorous Evals (MMLU / HumanEval)</h4>
+      <p>Automated regression testing benchmarks testing factual knowledge, coding synthesis, and mathematical logic.</p>
+    </div>
+    <div class="concept-card">
+      <h4>⚡ Quantization (AWQ / GGUF)</h4>
+      <p>Compressing 16-bit float weights into 4-bit integers with <1% perplexity degradation, cutting VRAM by 75%.</p>
+    </div>
+    <div class="concept-card">
+      <h4>📊 LLMOps Observability</h4>
+      <p>Tracing token latency (TTFT), cost per 1M tokens, prompt drift, and semantic cache hit rates.</p>
+    </div>
+    <div class="concept-card">
+      <h4>🛡️ Defense in Depth</h4>
+      <p>Layering prompt firewalls, schema validations, and output guardrails to prevent injection and data exfiltration.</p>
+    </div>
+  </div>
+
+  <!-- Graduation Certificate Badge -->
+  <div class="cert-box">
+    <h3>🏆 Certificate of Technical AI Mastery</h3>
+    <p>This certifies completion of all <strong>18 Technical Mastery Modules</strong> across Mathematical Formulations, Architecture Design, and Production AI Engineering.</p>
+    <a href="/ai-story/" class="btn-story btn-primary" style="text-decoration:none; margin-top:8px;">
+      ← Return to Main Curriculum Hub
+    </a>
+  </div>
+
+  <footer class="page-foot">The Pixel Story — Technical Track</footer>
+</div>
+
+<script>
+(function() {
+  var currentStep = 0;
+  var STEPS = [
+    {
+      title: "Step 1: Foundational Supervised Learning",
+      text: "Modules 1–3 established the math: dot product feature scoring, continuous linear loss functions, and calculus Chain Rule backpropagation across multi-layer networks.",
+      bubble: "Modules 01-03: Single Neurons, OLS & Backprop 📐",
+      bubbleClass: "good"
+    },
+    {
+      title: "Step 2: Representation & Attention",
+      text: "Modules 4–6 covered spatial and semantic architectures: 2D Convolution kernels for computer vision, self-supervised masking for pretraining, and Scaled Dot-Product Attention.",
+      bubble: "Modules 04-06: CNNs, Masked Pretraining & Transformers 🔦",
+      bubbleClass: "good"
+    },
+    {
+      title: "Step 3: Scaling, Alignment & Reasoning",
+      text: "Modules 7–11 mastered large-scale LLMs: Autoregressive decoding, RLHF/DPO preference optimization, Chinchilla GPU compute scaling, System 2 Chain of Thought, and AI safety audits.",
+      bubble: "Modules 07-11: LLMs, RLHF, GPU Scaling & CoT 🧠",
+      bubbleClass: "good"
+    },
+    {
+      title: "Step 4: Frontier Systems & Action",
+      text: "Modules 12–17 unlocked autonomous systems: JEPA physical world models, ReAct agentic tool use, healthcare clinical triage, diffusion generative art, RAG vector search, and native Omni multimodality.",
+      bubble: "Modules 12-17: World Models, Agents, RAG & Multimodal Omni 🤖",
+      bubbleClass: "good"
+    },
+    {
+      title: "Step 5: Full Technical AI Mastery Achieved 🎉",
+      text: "You are now equipped with the mathematical principles, architectural intuition, and engineering code to build state-of-the-art AI systems!",
+      bubble: "Congratulations! Full 18-Module Technical Curriculum Mastered! 🏆🎓✨",
+      bubbleClass: "good"
+    }
+  ];
+
+  var stepCounter = document.getElementById("stepCounter");
+  var stepTitle = document.getElementById("stepTitle");
+  var stepDescription = document.getElementById("stepDescription");
+  var stageBubbleBadge = document.getElementById("stageBubbleBadge");
+  var prevBtn = document.getElementById("prevStepBtn");
+  var nextBtn = document.getElementById("nextStepBtn");
+  var dots = document.querySelectorAll(".step-dot");
+
+  function renderStep() {
+    var s = STEPS[currentStep];
+    stepCounter.textContent = "Step " + (currentStep + 1) + " of " + STEPS.length;
+    stepTitle.textContent = s.title;
+    stepDescription.innerHTML = s.text;
+    stageBubbleBadge.textContent = s.bubble;
+    stageBubbleBadge.className = "bubble-badge " + (s.bubbleClass || "");
+
+    prevBtn.style.visibility = currentStep === 0 ? "hidden" : "visible";
+    nextBtn.textContent = currentStep === STEPS.length - 1 ? "Start Over ↺" : "Next Step →";
+    dots.forEach(function(d, i) { d.classList.toggle("active", i === currentStep); });
+  }
+
+  nextBtn.addEventListener("click", function() {
+    currentStep = (currentStep + 1) % STEPS.length;
+    renderStep();
+  });
+  prevBtn.addEventListener("click", function() {
+    if (currentStep > 0) { currentStep--; renderStep(); }
+  });
+  dots.forEach(function(dot, idx) {
+    dot.addEventListener("click", function() { currentStep = idx; renderStep(); });
+  });
+
+  renderStep();
+})();
+</script>
+</body>
+</html>

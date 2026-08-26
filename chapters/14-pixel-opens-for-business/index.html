@@ -4,197 +4,334 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Atkinson+Hyperlegible:wght@400;700&family=IBM+Plex+Mono:wght@500;600&display=swap">
-<title>Pixel Opens for Business — The Pixel Story</title>
+<title>Chapter 8: Pixel Opens for Business — The Pixel Story</title>
 <link rel="stylesheet" href="/ai-story/assets/css/tokens.css">
 <link rel="stylesheet" href="/ai-story/assets/css/base.css">
 <style>
-  .star { transition: fill 0.35s ease; }
-  #signGroup { opacity: 0; transition: opacity 0.35s ease; }
-  #signGroup.show { opacity: 1; }
-  @media (prefers-reduced-motion: reduce) { .star, #signGroup { transition: none; } }
+  .story-container { max-width: 680px; margin: 0 auto; }
+  .story-card {
+    background: var(--surface);
+    border: 2px solid var(--line);
+    border-radius: var(--radius-l);
+    box-shadow: 0 8px 30px rgba(42, 38, 34, 0.08);
+    overflow: hidden;
+    margin: 24px 0;
+    transition: all 0.3s ease;
+  }
+  .story-stage {
+    background: var(--bg);
+    border-bottom: 2px solid var(--line);
+    padding: 24px 20px 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 270px;
+    position: relative;
+    user-select: none;
+  }
+  .stage-svg-wrap {
+    width: 100%;
+    max-width: 480px;
+    height: 200px;
+    position: relative;
+  }
+  .pixel-bubble-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 10px;
+  }
+  .bubble-badge {
+    background: var(--surface);
+    border: 2px solid var(--line-strong);
+    padding: 6px 16px;
+    border-radius: 999px;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1rem;
+    color: var(--ink);
+    box-shadow: var(--shadow);
+    transition: all 0.25s ease;
+  }
+  .bubble-badge.good { border-color: var(--good); color: var(--good); background: #F0FDF4; }
+  .bubble-badge.bad { border-color: var(--bad); color: var(--bad); background: #FEF2F2; }
+
+  .story-body { padding: 28px 24px; }
+  .step-eyebrow {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--c);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+  .step-heading {
+    font-family: var(--font-display);
+    font-size: 1.45rem;
+    font-weight: 700;
+    margin: 0 0 12px;
+    color: var(--ink);
+    line-height: 1.3;
+  }
+  .step-text { font-size: 1.05rem; line-height: 1.6; color: var(--ink); margin: 0 0 24px; }
+  .story-nav-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 18px;
+    border-top: 1px solid var(--line);
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .btn-story {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 1rem;
+    padding: 12px 24px;
+    border-radius: var(--radius-m);
+    border: none;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: transform 0.15s ease, opacity 0.15s ease;
+  }
+  .btn-story:hover { transform: translateY(-1px); opacity: 0.92; }
+  .btn-primary { background: var(--c); color: var(--c-ink); box-shadow: var(--shadow); }
+  .btn-secondary { background: var(--surface-2); color: var(--ink); border: 1px solid var(--line-strong); }
+  .step-dots { display: flex; gap: 8px; }
+  .step-dot {
+    width: 10px; height: 10px; border-radius: 50%;
+    background: var(--line-strong); transition: all 0.2s ease; cursor: pointer;
+  }
+  .step-dot.active { background: var(--c); transform: scale(1.3); }
+
+  .concept-cards-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-top: 20px;
+  }
+  @media (max-width: 600px) { .concept-cards-grid { grid-template-columns: 1fr; } }
+  .concept-card {
+    background: var(--surface-2);
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius-m);
+    padding: 16px;
+  }
+  .concept-card h4 {
+    margin: 0 0 6px; font-family: var(--font-display); font-size: 1.05rem;
+    color: var(--ink); display: flex; align-items: center; gap: 6px;
+  }
+  .concept-card p { margin: 0; font-size: 0.92rem; color: var(--muted); line-height: 1.45; }
 </style>
 </head>
 <body>
-<div class="page">
+<div class="page story-container">
   <a class="back-link" href="/ai-story/">&larr; All chapters</a>
-
   <div class="eyebrow"><span class="dot"></span> Chapter 8 of 15 &nbsp;&middot;&nbsp; The Pixel Story</div>
 
   <div class="hero">
-    <h1>Pixel Opens for Business.</h1>
-    <p class="dek">You've watched Pixel learn to read, listen, and predict. Here's how all of that actually gets turned into something you can use — trainee chef to open restaurant.</p>
+    <h1>Pixel Opens for Business</h1>
+    <p class="dek">How does a raw AI model go from reading internet text to becoming a safe, polite assistant you can talk to? Meet Fine-Tuning and RLHF.</p>
   </div>
 
-  <div class="learn-grid">
-  <div class="learn-col-strip">
-  <div class="section-head">
-    <h2>How Pixel actually gets built</h2>
-    <div class="sub">Six steps. Watch it play, or use the arrows to go at your own pace.</div>
-  </div>
-
-  <div class="strip">
-    <div class="stage">
-      <svg viewBox="0 0 320 220" role="img" aria-label="Illustration of Pixel training as a chef, getting feedback, then opening a restaurant">
-        <!-- cookbook stack, always present -->
-        <g id="bookStack">
-          <rect x="18" y="150" width="40" height="8" rx="2" fill="var(--line-strong)"/>
-          <rect x="22" y="140" width="34" height="8" rx="2" fill="var(--line-strong)"/>
-          <rect x="16" y="130" width="42" height="8" rx="2" fill="var(--c)"/>
-        </g>
-
-        <!-- plate of food, always present -->
-        <g id="plateGroup">
-          <ellipse cx="150" cy="150" rx="30" ry="9" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
-          <ellipse id="foodMound" cx="150" cy="143" rx="19" ry="10" fill="var(--surface-2)" stroke="var(--line-strong)" stroke-width="2"/>
-          <path d="M142 128 q3 -8 0 -14 M150 128 q3 -8 0 -14 M158 128 q3 -8 0 -14" fill="none" stroke="var(--muted)" stroke-width="1.4" stroke-linecap="round" opacity="0.6"/>
-        </g>
-
-        <!-- rating stars -->
-        <g id="starsGroup" class="decor">
-          <path class="star" data-i="0" d="M108 92 l3 7 8 1 -6 5 2 8 -7 -4 -7 4 2 -8 -6 -5 8 -1 z" fill="var(--line-strong)"/>
-          <path class="star" data-i="1" d="M150 88 l3 7 8 1 -6 5 2 8 -7 -4 -7 4 2 -8 -6 -5 8 -1 z" fill="var(--line-strong)"/>
-          <path class="star" data-i="2" d="M192 92 l3 7 8 1 -6 5 2 8 -7 -4 -7 4 2 -8 -6 -5 8 -1 z" fill="var(--line-strong)"/>
-        </g>
-
-        <!-- open sign -->
-        <g id="signGroup">
-          <rect x="220" y="120" width="70" height="34" rx="6" fill="var(--surface)" stroke="var(--good)" stroke-width="2.5"/>
-          <text x="255" y="142" text-anchor="middle" font-family="var(--font-display)" font-weight="700" font-size="16" fill="var(--good)">OPEN</text>
-        </g>
-
-        <g transform="translate(50,10)">
-          <!-- Pixel base figure (unchanged geometry, repositioned via translate) -->
-          <g id="pixelBase">
-            <ellipse cx="205" cy="196" rx="46" ry="7" fill="var(--ink)" opacity="0.07"/>
-            <rect x="163" y="34" width="7" height="24" rx="3.5" fill="var(--line-strong)"/>
-            <circle cx="166.5" cy="34" r="6.5" fill="var(--c)"/>
-            <rect x="150" y="58" width="112" height="94" rx="26" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
-            <circle cx="206" cy="102" r="32" fill="var(--surface-2)" stroke="var(--line-strong)" stroke-width="2"/>
-            <circle id="facePupil" cx="206" cy="102" r="14" fill="var(--ink)"/>
-            <circle cx="200" cy="96" r="3.6" fill="var(--surface)"/>
-            <rect x="180" y="140" width="52" height="8" rx="4" fill="var(--line-strong)"/>
+  <div class="story-card">
+    <div class="story-stage">
+      <div class="stage-svg-wrap">
+        <svg viewBox="0 0 460 200" width="100%" height="100%" aria-label="AI chef training and restaurant deployment diagram">
+          <!-- Pixel Chef Figure (Left) -->
+          <g transform="translate(60, 45)">
+            <ellipse cx="25" cy="120" rx="24" ry="5" fill="var(--ink)" opacity="0.07"/>
+            <!-- Chef Hat -->
+            <path d="M12 20 C 12 5, 20 0, 25 0 C 30 0, 38 5, 38 20 Z" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
+            <rect x="10" y="16" width="30" height="8" rx="2" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="1.5"/>
+            <!-- Body -->
+            <rect x="0" y="24" width="50" height="60" rx="12" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
+            <circle cx="25" cy="46" r="14" fill="var(--surface-2)" stroke="var(--line-strong)" stroke-width="1.5"/>
+            <circle id="chefPupil" cx="25" cy="46" r="6" fill="var(--ink)"/>
+            <circle id="antennaDot" cx="25" cy="18" r="3" fill="var(--c)"/>
           </g>
 
-          <!-- decor 1: question bubble -->
-          <g id="ov1" class="decor">
-            <circle cx="150" cy="52" r="5" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
-            <circle cx="160" cy="42" r="7" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
-            <rect x="148" y="8" width="64" height="30" rx="14" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
-            <text x="180" y="30" text-anchor="middle" font-family="var(--font-display)" font-weight="700" font-size="20" fill="var(--muted)">?</text>
+          <!-- Middle: Training Stage Graphics -->
+          <g id="trainingGraphic" transform="translate(160, 40)">
+            <!-- Stage Card -->
+            <rect x="0" y="0" width="240" height="100" rx="10" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
+            <text id="stageGraphicTitle" x="120" y="26" text-anchor="middle" font-family="var(--font-mono)" font-size="10" font-weight="700" fill="var(--c)">STAGE 1: BASE MODEL</text>
+            <text id="stageGraphicDetail" x="120" y="55" text-anchor="middle" font-family="var(--font-display)" font-size="14" font-weight="600" fill="var(--ink)">📚 Reading 100,000 Cookbooks</text>
+            <text id="stageGraphicSub" x="120" y="80" text-anchor="middle" font-family="var(--font-mono)" font-size="10" fill="var(--muted)">Raw facts, but not yet polite</text>
           </g>
-
-          <!-- decor 3: unimpressed bubble -->
-          <g id="ov3" class="decor">
-            <circle cx="150" cy="52" r="5" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
-            <circle cx="160" cy="42" r="7" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
-            <rect x="140" y="4" width="86" height="34" rx="16" fill="var(--surface)" stroke="var(--bad)" stroke-width="2"/>
-            <path d="M155 21 h30" fill="none" stroke="var(--muted)" stroke-width="2.2" stroke-linecap="round"/>
-            <circle cx="216" cy="14" r="11" fill="var(--bad)"/>
-            <path d="M212 10 L220 18 M220 10 L212 18" stroke="white" stroke-width="2.4" stroke-linecap="round"/>
-          </g>
-
-          <!-- decor 4: gathering feedback -->
-          <g id="ov4" class="decor">
-            <circle cx="150" cy="52" r="5" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
-            <circle cx="160" cy="42" r="7" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
-            <rect x="148" y="8" width="64" height="30" rx="14" fill="var(--surface)" stroke="var(--c)" stroke-width="2"/>
-            <path d="M164 24 v-8 a4 4 0 0 1 8 0 v4 h8 a3 3 0 0 1 3 4 l-2 6 a3 3 0 0 1 -3 2 h-13 a2 2 0 0 1 -2 -2 v-6 Z" fill="none" stroke="var(--c)" stroke-width="1.6" stroke-linejoin="round"/>
-          </g>
-
-          <!-- decor 5: right bubble -->
-          <g id="ov5" class="decor">
-            <circle cx="150" cy="52" r="5" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
-            <circle cx="160" cy="42" r="7" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
-            <rect x="140" y="4" width="86" height="34" rx="16" fill="var(--surface)" stroke="var(--good)" stroke-width="2"/>
-            <text x="173" y="27" text-anchor="middle" font-family="var(--font-display)" font-weight="700" font-size="11" fill="var(--ink)">tastes great!</text>
-            <circle cx="216" cy="14" r="11" fill="var(--good)"/>
-            <path d="M211 14 L215 18 L222 10" fill="none" stroke="white" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
-          </g>
-
-          <!-- decor 6: mastery sparkles -->
-          <g id="ov6" class="decor">
-            <circle cx="206" cy="102" r="38" fill="none" stroke="var(--good)" stroke-width="2" opacity="0.55"/>
-            <path d="M120 40 l4 10 10 4 -10 4 -4 10 -4 -10 -10 -4 10 -4 z" fill="var(--c)"/>
-          </g>
-        </g>
-      </svg>
-    </div>
-
-    <div class="step-meta">
-      <span id="stepLabel">Step 1 of 6</span>
-      <span id="playLabel">▶ playing</span>
-    </div>
-    <div class="caption" id="captionText">Pixel starts as a trainee chef who's read every cookbook there is.</div>
-
-    <div class="controls">
-      <div class="nav-btns">
-        <button type="button" class="icon" id="prevBtn" aria-label="Previous step">‹</button>
-        <button type="button" class="icon" id="nextBtn" aria-label="Next step">›</button>
-        <button type="button" class="ghost" id="playPauseBtn">⏸ Pause</button>
+        </svg>
       </div>
-      <div class="dots" id="dots"></div>
+
+      <div class="pixel-bubble-row">
+        <span style="font-size:1.4rem;">👨‍🍳</span>
+        <div class="bubble-badge" id="stageBubbleBadge">
+          "I have read every cookbook in the world!"
+        </div>
+      </div>
+    </div>
+
+    <div class="story-body">
+      <div class="step-eyebrow" id="stepCounter">Step 1 of 5</div>
+      <h2 class="step-heading" id="stepTitle">The Trainee Chef (Base Model)</h2>
+      <div class="step-text" id="stepDescription">
+        Pixel has read 100,000 cookbooks (Pretraining). It knows the chemical recipe for every meal on Earth. But if a customer says <em>"Hello!"</em>, Pixel might just recite a cookbook index! It needs customer service training.
+      </div>
+
+      <div class="story-nav-row">
+        <button type="button" class="btn-story btn-secondary" id="prevStepBtn" style="visibility:hidden;">← Back</button>
+        <div class="step-dots" id="stepDotsWrap">
+          <span class="step-dot active"></span>
+          <span class="step-dot"></span>
+          <span class="step-dot"></span>
+          <span class="step-dot"></span>
+          <span class="step-dot"></span>
+        </div>
+        <button type="button" class="btn-story btn-primary" id="nextStepBtn">Next Step →</button>
+      </div>
     </div>
   </div>
-  </div>
 
-  <div class="learn-col-vocab">
-  <div class="section-head">
+  <div class="section-head" style="margin-top: 36px;">
     <h2>Now you know the grown-up words</h2>
-    <div class="sub">Tap one to see what it means.</div>
+    <div class="sub">How raw AI models get polished into finished products:</div>
   </div>
 
-  <div class="vocab">
-    <details class="chip">
-      <summary>Base model <span class="plus">+</span></summary>
-      <div class="def">Pixel in <button type="button" class="step-ref" data-step="1">step 1</button> — after all that cookbook-reading, but before ever meeting a real customer. It knows a huge amount, but hasn't been shaped for any one job yet. That starting-point version, loaded with knowledge but not yet specialized, is called a base model.</div>
-    </details>
-    <details class="chip">
-      <summary>RLHF <span class="plus">+</span></summary>
-      <div class="def">The rating-and-adjusting loop in <button type="button" class="step-ref" data-step="4">step 4</button>: real people rate different dishes, and Pixel's recipe shifts toward whatever got rated best. Learning from a stream of human ratings like this is called RLHF — reinforcement learning from human feedback.</div>
-    </details>
-    <details class="chip">
-      <summary>Deployment <span class="plus">+</span></summary>
-      <div class="def">What happens in <button type="button" class="step-ref" data-step="6">step 6</button> — the doors open, and people outside the training kitchen actually get to use what Pixel makes. Releasing a trained system for real people to use is called deployment.</div>
-    </details>
-  </div>
-  </div>
+  <div class="concept-cards-grid">
+    <div class="concept-card">
+      <h4>📚 Base Model</h4>
+      <p>The raw AI loaded with internet knowledge, before any conversational or safety shaping.</p>
+    </div>
+    <div class="concept-card">
+      <h4>🎯 Instruction Fine-Tuning</h4>
+      <p>Teaching the model how to follow commands and format answers like a helpful assistant.</p>
+    </div>
+    <div class="concept-card">
+      <h4>👍 RLHF (Human Feedback)</h4>
+      <p>Reinforcement Learning from Human Feedback: Human testers rank answers to reward helpfulness and honesty.</p>
+    </div>
+    <div class="concept-card">
+      <h4>🚀 Deployment</h4>
+      <p>Hosting the polished, safe model in high-speed cloud servers so millions of users can chat with it.</p>
+    </div>
   </div>
 
-  <div class="next">
+  <div style="background:var(--surface-2); border:1px solid var(--line-strong); border-radius:var(--radius-m); padding:20px; margin-top:28px;">
+    <h3 style="font-family:var(--font-display); font-size:1.15rem; margin:0 0 8px; color:var(--ink);">
+      🤔 How much power does it take to run all these calculations?
+    </h3>
+    <p style="margin:0; font-size:0.95rem; color:var(--muted); line-height:1.5;">
+      Training a massive AI model takes thousands of specialized computer chips running day and night. Where does all that computing power come from? Meet <strong>GPUs, Compute & Scaling</strong> in Chapter 9!
+    </p>
+  </div>
+
+  <div class="next" style="margin-top:28px;">
     <div>
       <div class="label">Coming next</div>
-      <p>All that training and shipping takes real machines — see what it actually costs.</p>
+      <p>Pixel needs giant data centers and GPU chips to think faster: Compute & Scaling.</p>
     </div>
-    <a class="tag" href="/ai-story/chapters/11-pixel-needs-a-bigger-brain/">Chapter 9 · Compute &amp; data centers</a>
+    <a class="tag" href="/ai-story/chapters/11-pixel-needs-a-bigger-brain/">Chapter 9 · GPUs & Compute Scaling →</a>
   </div>
 
   <footer class="page-foot">The Pixel Story</footer>
 </div>
 
-<script src="/ai-story/assets/js/stepper.js"></script>
 <script>
-(function () {
-  var FRAMES = [
-    { caption: "Pixel starts as a trainee chef who's read every cookbook there is.", ov: "ov1", pupilX: 206, stars: 0, sign: false },
-    { caption: "It's put in a real kitchen and asked to cook for customers.", ov: "ov1", pupilX: 196, stars: 0, sign: false },
-    { caption: "The dishes are edible, but nobody's ordering seconds.", ov: "ov3", pupilX: 214, stars: 0, sign: false },
-    { caption: "So real customers taste-test the dishes and rate what they liked.", ov: "ov4", pupilX: 196, stars: 2, sign: false },
-    { caption: "Pixel adjusts the recipe based on what got rated highest.", ov: "ov5", pupilX: 200, stars: 3, sign: false },
-    { caption: "The doors open — Pixel is cooking for the public now.", ov: "ov6", pupilX: 206, stars: 3, sign: true }
+(function() {
+  var currentStep = 0;
+
+  var STEPS = [
+    {
+      title: "The Trainee Chef (Base Model)",
+      text: "Pixel has read 100,000 cookbooks (Pretraining). It knows every recipe on Earth, but doesn't know how to follow orders or talk politely to guests.",
+      bubble: "I know all the recipes in the world! 📚",
+      bubbleClass: "",
+      stageTitle: "STAGE 1: BASE MODEL",
+      stageDetail: "📚 100,000 Cookbooks Read",
+      stageSub: "Raw knowledge, but no manners yet"
+    },
+    {
+      title: "Learning to take orders (Fine-Tuning)",
+      text: "A head chef demonstrates: <em>'When a guest orders soup, bring a spoon and smile.'</em> Teaching high-quality dialogue examples is called <strong>Instruction Fine-Tuning</strong>.",
+      bubble: "Practicing polite conversation! 📋",
+      bubbleClass: "",
+      stageTitle: "STAGE 2: INSTRUCTION TUNING",
+      stageDetail: "💬 Q&A Dialog Examples",
+      stageSub: "Learning to act as a helpful assistant"
+    },
+    {
+      title: "Taste Testers give feedback (RLHF)",
+      text: "Human food critics taste Pixel's dishes and vote: Thumbs Up 👍 for delicious pasta, Thumbs Down 👎 for salty soup. This is <strong>RLHF (Reinforcement Learning from Human Feedback)</strong>!",
+      bubble: "Learning what humans love best! 👍👎",
+      bubbleClass: "good",
+      stageTitle: "STAGE 3: RLHF FEEDBACK",
+      stageDetail: "👍 Thumbs Up vs 👎 Thumbs Down",
+      stageSub: "Reinforcing helpful, high-quality answers"
+    },
+    {
+      title: "Installing Safety Guardrails",
+      text: "A customer asks: <em>'Can you cook with expired poison mushrooms?'</em> Pixel politely declines: <em>'I cannot serve unsafe ingredients.'</em> Guardrails keep the AI aligned!",
+      bubble: "Safety rules in place! 🛡️✨",
+      bubbleClass: "good",
+      stageTitle: "STAGE 4: SAFETY & ALIGNMENT",
+      stageDetail: "🛡️ Safety Guardrails Active",
+      stageSub: "Refuses harmful or dangerous prompts"
+    },
+    {
+      title: "Grand Opening! (Deployment) 🎉",
+      text: "Pixel opens its 5-star restaurant! Millions of hungry guests get fast, polite, helpful meals simultaneously. The model is now <strong>Deployed</strong> to the world!",
+      bubble: "Welcome to Pixel's Diner! 🍽️✨",
+      bubbleClass: "good",
+      stageTitle: "STAGE 5: DEPLOYMENT",
+      stageDetail: "🚀 Serving Millions of Users",
+      stageSub: "Live on cloud servers 24/7!"
+    }
   ];
 
-  var stars = Array.prototype.slice.call(document.querySelectorAll(".star"));
-  var signGroup = document.getElementById("signGroup");
+  var stepCounter = document.getElementById("stepCounter");
+  var stepTitle = document.getElementById("stepTitle");
+  var stepDescription = document.getElementById("stepDescription");
+  var stageBubbleBadge = document.getElementById("stageBubbleBadge");
+  var stageGraphicTitle = document.getElementById("stageGraphicTitle");
+  var stageGraphicDetail = document.getElementById("stageGraphicDetail");
+  var stageGraphicSub = document.getElementById("stageGraphicSub");
+  var prevBtn = document.getElementById("prevStepBtn");
+  var nextBtn = document.getElementById("nextStepBtn");
+  var dots = document.querySelectorAll(".step-dot");
 
-  function applyFrame(f) {
-    stars.forEach(function (s) {
-      var i = parseInt(s.getAttribute("data-i"), 10);
-      s.setAttribute("fill", i < f.stars ? "var(--good)" : "var(--line-strong)");
-    });
-    signGroup.classList.toggle("show", f.sign);
+  function renderStep() {
+    var s = STEPS[currentStep];
+    stepCounter.textContent = "Step " + (currentStep + 1) + " of " + STEPS.length;
+    stepTitle.textContent = s.title;
+    stepDescription.innerHTML = s.text;
+    stageBubbleBadge.textContent = s.bubble;
+    stageBubbleBadge.className = "bubble-badge " + (s.bubbleClass || "");
+
+    stageGraphicTitle.textContent = s.stageTitle;
+    stageGraphicDetail.textContent = s.stageDetail;
+    stageGraphicSub.textContent = s.stageSub;
+
+    prevBtn.style.visibility = currentStep === 0 ? "hidden" : "visible";
+    nextBtn.textContent = currentStep === STEPS.length - 1 ? "Start Over ↺" : "Next Step →";
+    dots.forEach(function(d, i) { d.classList.toggle("active", i === currentStep); });
   }
 
-  window.PixelStepper({ frames: FRAMES, applyFrame: applyFrame });
+  nextBtn.addEventListener("click", function() {
+    currentStep = (currentStep + 1) % STEPS.length;
+    renderStep();
+  });
+  prevBtn.addEventListener("click", function() {
+    if (currentStep > 0) { currentStep--; renderStep(); }
+  });
+  dots.forEach(function(dot, idx) {
+    dot.addEventListener("click", function() { currentStep = idx; renderStep(); });
+  });
+
+  renderStep();
 })();
 </script>
 </body>

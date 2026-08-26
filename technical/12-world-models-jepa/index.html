@@ -1,0 +1,319 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Atkinson+Hyperlegible:wght@400;700&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<title>Technical Track 12: World Models & JEPA Architecture — The Pixel Story</title>
+<link rel="stylesheet" href="/ai-story/assets/css/tokens.css">
+<link rel="stylesheet" href="/ai-story/assets/css/base.css">
+<style>
+  .tech-container { max-width: 680px; margin: 0 auto; }
+  .mode-switch-row {
+    display: flex; justify-content: space-between; align-items: center;
+    background: var(--surface); border: 1px solid var(--line-strong);
+    border-radius: var(--radius-m); padding: 10px 16px; margin: 18px 0 24px;
+    box-shadow: var(--shadow); flex-wrap: wrap; gap: 10px;
+  }
+  .mode-badge-tech {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-family: var(--font-mono); font-size: 0.8rem; font-weight: 700;
+    color: var(--c); background: rgba(255, 107, 69, 0.1); padding: 4px 10px; border-radius: 999px;
+  }
+  .switch-btn {
+    font-family: var(--font-display); font-size: 0.88rem; font-weight: 600; color: var(--ink);
+    text-decoration: none; padding: 6px 14px; border: 1px solid var(--line-strong);
+    border-radius: var(--radius-s); background: var(--surface-2); transition: all 0.2s ease;
+  }
+  .switch-btn:hover { border-color: var(--c); color: var(--c); }
+
+  .story-card {
+    background: var(--surface); border: 2px solid var(--line); border-radius: var(--radius-l);
+    box-shadow: 0 8px 30px rgba(42, 38, 34, 0.08); overflow: hidden; margin: 24px 0;
+  }
+  .story-stage {
+    background: var(--bg); border-bottom: 2px solid var(--line);
+    padding: 24px 20px 16px; display: flex; flex-direction: column;
+    align-items: center; justify-content: center; min-height: 270px; user-select: none;
+  }
+  .stage-svg-wrap { width: 100%; max-width: 480px; height: 200px; position: relative; }
+  
+  .pixel-bubble-row { display: flex; align-items: center; justify-content: center; gap: 12px; margin-top: 10px; }
+  .bubble-badge {
+    background: var(--surface); border: 2px solid var(--line-strong); padding: 6px 16px;
+    border-radius: 999px; font-family: var(--font-display); font-weight: 700; font-size: 1rem;
+    color: var(--ink); box-shadow: var(--shadow);
+  }
+  .bubble-badge.good { border-color: var(--good); color: var(--good); background: #F0FDF4; }
+
+  .story-body { padding: 28px 24px; }
+  .step-eyebrow {
+    font-family: var(--font-mono); font-size: 0.8rem; color: var(--c);
+    text-transform: uppercase; letter-spacing: 0.08em; font-weight: 600; margin-bottom: 8px;
+  }
+  .step-heading {
+    font-family: var(--font-display); font-size: 1.45rem; font-weight: 700;
+    margin: 0 0 12px; color: var(--ink); line-height: 1.3;
+  }
+  .step-text { font-size: 1.05rem; line-height: 1.6; color: var(--ink); margin: 0 0 24px; }
+  
+  .story-nav-row {
+    display: flex; justify-content: space-between; align-items: center;
+    padding-top: 18px; border-top: 1px solid var(--line); flex-wrap: wrap; gap: 12px;
+  }
+  .btn-story {
+    font-family: var(--font-display); font-weight: 600; font-size: 1rem;
+    padding: 12px 24px; border-radius: var(--radius-m); border: none; cursor: pointer;
+    display: inline-flex; align-items: center; gap: 8px;
+  }
+  .btn-story:hover { transform: translateY(-1px); opacity: 0.92; }
+  .btn-primary { background: var(--c); color: var(--c-ink); box-shadow: var(--shadow); }
+  .btn-secondary { background: var(--surface-2); color: var(--ink); border: 1px solid var(--line-strong); }
+  .step-dots { display: flex; gap: 8px; }
+  .step-dot {
+    width: 10px; height: 10px; border-radius: 50%; background: var(--line-strong);
+    transition: all 0.2s ease; cursor: pointer;
+  }
+  .step-dot.active { background: var(--c); transform: scale(1.3); }
+
+  .concept-cards-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 20px; }
+  @media (max-width: 600px) { .concept-cards-grid { grid-template-columns: 1fr; } }
+  .concept-card { background: var(--surface-2); border: 1px solid var(--line-strong); border-radius: var(--radius-m); padding: 16px; }
+  .concept-card h4 { margin: 0 0 6px; font-family: var(--font-display); font-size: 1.05rem; color: var(--ink); }
+  .concept-card p { margin: 0; font-size: 0.92rem; color: var(--muted); line-height: 1.45; }
+
+  pre { background: #1E293B; color: #F8FAFC; border-radius: var(--radius-m); padding: 18px 20px; overflow-x: auto; font-family: var(--font-mono); font-size: 0.86rem; line-height: 1.6; margin: 20px 0; }
+  code { font-family: var(--font-mono); }
+</style>
+</head>
+<body>
+<div class="page tech-container">
+  <a class="back-link" href="/ai-story/technical/">&larr; All Technical Companions</a>
+
+  <div class="mode-switch-row">
+    <span class="mode-badge-tech">⚡ Technical Mastery Track · Module 12</span>
+    <a href="/ai-story/technical/" class="switch-btn">← All Technical Modules</a>
+  </div>
+
+  <div class="hero">
+    <h1>World Models & JEPA Architecture</h1>
+    <p class="dek">Self-supervised physical world modeling: Joint Embedding Predictive Architecture (I-JEPA / V-JEPA, LeCun 2023), abstract latent state prediction, Exponential Moving Average teachers, and non-generative trajectory estimation.</p>
+  </div>
+
+  <div class="story-card">
+    <div class="story-stage">
+      <div class="stage-svg-wrap">
+        <svg viewBox="0 0 460 200" width="100%" height="100%" aria-label="JEPA latent space prediction architecture diagram">
+          <!-- Input Context Video Frame x -->
+          <g transform="translate(30, 30)">
+            <rect x="0" y="0" width="90" height="70" rx="6" fill="var(--surface-2)" stroke="var(--line-strong)" stroke-width="1.5"/>
+            <text x="45" y="24" text-anchor="middle" font-family="var(--font-mono)" font-size="9" fill="var(--muted)">FRAME x</text>
+            <circle cx="45" cy="48" r="10" fill="#EF4444"/>
+            <text x="45" y="90" text-anchor="middle" font-family="var(--font-mono)" font-size="8" fill="var(--muted)">Encoder E_x</text>
+          </g>
+
+          <!-- Latent Space s_x -->
+          <g transform="translate(145, 45)">
+            <circle cx="20" cy="20" r="16" fill="#FFF7ED" stroke="var(--c)" stroke-width="2"/>
+            <text x="20" y="24" text-anchor="middle" font-family="var(--font-mono)" font-size="10" font-weight="700" fill="var(--c)">s_x</text>
+            <text x="20" y="55" text-anchor="middle" font-family="var(--font-mono)" font-size="8" fill="var(--muted)">Latent State</text>
+          </g>
+
+          <!-- Predictor Model (Physics) -->
+          <g transform="translate(205, 40)">
+            <rect x="0" y="0" width="80" height="48" rx="6" fill="var(--surface)" stroke="var(--c)" stroke-width="2"/>
+            <text x="40" y="22" text-anchor="middle" font-family="var(--font-mono)" font-size="9" font-weight="700" fill="var(--c)">PREDICTOR</text>
+            <text x="40" y="38" text-anchor="middle" font-family="var(--font-mono)" font-size="8" fill="var(--muted)">(Physics Net)</text>
+          </g>
+
+          <!-- Predicted Latent s_y vs Target Latent s_y -->
+          <g transform="translate(310, 45)">
+            <circle cx="20" cy="20" r="16" fill="#DCFCE7" stroke="var(--good)" stroke-width="2"/>
+            <text x="20" y="24" text-anchor="middle" font-family="var(--font-mono)" font-size="10" font-weight="700" fill="var(--good)">ŝ_y</text>
+            <text x="20" y="55" text-anchor="middle" font-family="var(--font-mono)" font-size="8" fill="var(--muted)">Predicted</text>
+          </g>
+
+          <!-- Loss (L2 in Latent Space) -->
+          <g transform="translate(365, 52)">
+            <text x="0" y="12" font-family="var(--font-mono)" font-size="10" font-weight="700" fill="var(--good)">⟷ L₂ Loss</text>
+          </g>
+
+          <!-- Status Bar -->
+          <g transform="translate(40, 140)">
+            <rect x="0" y="0" width="380" height="35" rx="6" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="1.5"/>
+            <text id="jepaStatus" x="190" y="22" text-anchor="middle" font-family="var(--font-mono)" font-size="9" font-weight="700" fill="var(--good)">
+              JEPA Loss = D(ŝ_y, s_y): Predicting physical abstract motion without pixel noise!
+            </text>
+          </g>
+        </svg>
+      </div>
+
+      <div class="pixel-bubble-row">
+        <span style="font-size:1.4rem;">🌍</span>
+        <div class="bubble-badge good" id="stageBubbleBadge">
+          "JEPA: Predicting abstract physical states in latent space"
+        </div>
+      </div>
+    </div>
+
+    <div class="story-body">
+      <div class="step-eyebrow" id="stepCounter">Step 1 of 5</div>
+      <h2 class="step-heading" id="stepTitle">The Flaw of Pixel-Level Generation</h2>
+      <div class="step-text" id="stepDescription">
+        Generative video models waste massive compute trying to predict every leaf blowing in the wind. Yann LeCun's <strong>JEPA</strong> predicts abstract high-level physical representations in latent space rather than noisy raw pixels.
+      </div>
+
+      <div class="story-nav-row">
+        <button type="button" class="btn-story btn-secondary" id="prevStepBtn" style="visibility:hidden;">← Back</button>
+        <div class="step-dots" id="stepDotsWrap">
+          <span class="step-dot active"></span>
+          <span class="step-dot"></span>
+          <span class="step-dot"></span>
+          <span class="step-dot"></span>
+          <span class="step-dot"></span>
+        </div>
+        <button type="button" class="btn-story btn-primary" id="nextStepBtn">Next Step →</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-head" style="margin-top: 36px;">
+    <h2>Mathematical Architecture</h2>
+    <div class="sub">Joint Embedding Predictive Architecture (LeCun, 2023):</div>
+  </div>
+
+  <div class="concept-cards-grid">
+    <div class="concept-card">
+      <h4>🌐 Latent Encoder (E_x)</h4>
+      <p>Transforms raw high-dimensional video frames into compact semantic state vectors: <code>s_x = E_x(x)</code>.</p>
+    </div>
+    <div class="concept-card">
+      <h4>🔮 World Predictor (P)</h4>
+      <p>Predicts the future latent representation conditioned on an action or time step: <code>ŝ_y = P(s_x, z)</code>.</p>
+    </div>
+    <div class="concept-card">
+      <h4>📉 Latent Distance Loss</h4>
+      <p><code>L = D(ŝ_y, s_y) = ||ŝ_y - E_y(y)||²</code>. Computed in abstract feature space, completely ignoring pixel noise.</p>
+    </div>
+    <div class="concept-card">
+      <h4>🛑 Representation Collapse Defense</h4>
+      <p>Using Exponential Moving Average (EMA) teacher encoders and variance-invariance-covariance (VICReg) constraints.</p>
+    </div>
+  </div>
+
+  <h3 style="font-family:var(--font-display); font-size:1.25rem; margin:32px 0 12px; color:var(--ink);">
+    PyTorch I-JEPA Latent Loss Implementation
+  </h3>
+  <pre><code>import torch
+import torch.nn as nn
+import torch.nn.functional as F
+
+class JEPALoss(nn.Module):
+    def __init__(self):
+        super().__init__()
+
+    def forward(self, pred_latent, target_latent):
+        """
+        Computes L1 / Smooth L1 loss in abstract embedding space
+        """
+        # 1. Normalize latent representations
+        pred_norm = F.normalize(pred_latent, dim=-1)
+        target_norm = F.normalize(target_latent, dim=-1)
+        
+        # 2. Latent distance loss
+        loss = F.smooth_l1_loss(pred_norm, target_norm)
+        return loss
+
+# Example: Latent vectors of dimension 256 for 4 video clips
+predicted_state = torch.randn(4, 256)
+ground_truth_state = torch.randn(4, 256)
+
+loss_calc = JEPALoss()
+loss = loss_calc(predicted_state, ground_truth_state)
+print(f"I-JEPA Latent Prediction Loss: {loss.item():.4f}")</code></pre>
+
+  <div class="next" style="margin-top:28px;">
+    <div>
+      <div class="label">Next Technical Companion</div>
+      <p>Agentic AI, ReAct Action Loops & JSON Tool Calling.</p>
+    </div>
+    <a class="tag" href="/ai-story/technical/13-agentic-tool-use/">Module 13 · Agentic AI & Tool Calling Loops →</a>
+  </div>
+
+  <footer class="page-foot">The Pixel Story — Technical Track</footer>
+</div>
+
+<script>
+(function() {
+  var currentStep = 0;
+  var STEPS = [
+    {
+      title: "Step 1: Video Frame Encoding",
+      text: "Context frame <code>x</code> (an apple at table edge) is encoded by Vision Transformer <code>E_x</code> into compact latent vector <code>s_x ∈ R⁷⁶⁸</code>.",
+      bubble: "Encoded frame x into latent state s_x 🌐",
+      status: "Frame x encoded into compact semantic latent vector s_x"
+    },
+    {
+      title: "Step 2: Physics Predictor Forward Pass",
+      text: "The Predictor network <code>P</code> takes latent state <code>s_x</code> and time delta <code>Δt</code> to predict future latent state <code>ŝ_y</code> without generating any image pixels.",
+      bubble: "Predicting future physical state ŝ_y in latent space 🔮",
+      status: "Predictor P(s_x, Δt) -> ŝ_y (Downward velocity +1.2 m/s)"
+    },
+    {
+      title: "Step 3: Target Frame EMA Encoding",
+      text: "The ground truth future video frame <code>y</code> is passed through an Exponential Moving Average (EMA) teacher encoder to produce target <code>s_y</code>.",
+      bubble: "Teacher EMA encoder extracts target vector s_y 📐",
+      status: "Ground truth future state s_y computed via EMA teacher"
+    },
+    {
+      title: "Step 4: Latent Distance Optimization (L2)",
+      text: "Loss is calculated directly between vectors: <code>L = ||ŝ_y - s_y||²</code>. The model learns gravity and rigid body dynamics with 10× less compute than generative models!",
+      bubble: "Minimizing latent error: ||ŝ_y - s_y||² -> 0 📉",
+      status: "L2 Loss in latent space: Eliminates pixel noise & blur!"
+    },
+    {
+      title: "Step 5: Common Sense World Model Acquired 🎉",
+      text: "The system now has intuitive physical reasoning for robotics, self-driving cars, and autonomous drone navigation without hallucinating pixel details!",
+      bubble: "Physical World Model Mastered! Zero pixel hallucination 🚀✨",
+      status: "Autonomous physical world model ready for robotics & planning"
+    }
+  ];
+
+  var stepCounter = document.getElementById("stepCounter");
+  var stepTitle = document.getElementById("stepTitle");
+  var stepDescription = document.getElementById("stepDescription");
+  var stageBubbleBadge = document.getElementById("stageBubbleBadge");
+  var jepaStatus = document.getElementById("jepaStatus");
+  var prevBtn = document.getElementById("prevStepBtn");
+  var nextBtn = document.getElementById("nextStepBtn");
+  var dots = document.querySelectorAll(".step-dot");
+
+  function renderStep() {
+    var s = STEPS[currentStep];
+    stepCounter.textContent = "Step " + (currentStep + 1) + " of " + STEPS.length;
+    stepTitle.textContent = s.title;
+    stepDescription.innerHTML = s.text;
+    stageBubbleBadge.textContent = s.bubble;
+    jepaStatus.textContent = s.status;
+
+    prevBtn.style.visibility = currentStep === 0 ? "hidden" : "visible";
+    nextBtn.textContent = currentStep === STEPS.length - 1 ? "Start Over ↺" : "Next Step →";
+    dots.forEach(function(d, i) { d.classList.toggle("active", i === currentStep); });
+  }
+
+  nextBtn.addEventListener("click", function() {
+    currentStep = (currentStep + 1) % STEPS.length;
+    renderStep();
+  });
+  prevBtn.addEventListener("click", function() {
+    if (currentStep > 0) { currentStep--; renderStep(); }
+  });
+  dots.forEach(function(dot, idx) {
+    dot.addEventListener("click", function() { currentStep = idx; renderStep(); });
+  });
+
+  renderStep();
+})();
+</script>
+</body>
+</html>

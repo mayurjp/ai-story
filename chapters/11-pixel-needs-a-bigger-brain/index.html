@@ -4,202 +4,344 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Atkinson+Hyperlegible:wght@400;700&family=IBM+Plex+Mono:wght@500;600&display=swap">
-<title>Pixel Needs a Bigger Brain — The Pixel Story</title>
+<title>Chapter 9: Pixel Needs a Bigger Brain — The Pixel Story</title>
 <link rel="stylesheet" href="/ai-story/assets/css/tokens.css">
 <link rel="stylesheet" href="/ai-story/assets/css/base.css">
 <style>
-  #smallChip { transition: opacity 0.35s ease; }
-  #smallChip.show { opacity: 1; }
-  #bigRack { opacity: 0; transition: opacity 0.35s ease; }
-  #bigRack.show { opacity: 1; }
-  @media (prefers-reduced-motion: reduce) { #smallChip, #bigRack { transition: none; } }
+  .story-container { max-width: 680px; margin: 0 auto; }
+  .story-card {
+    background: var(--surface);
+    border: 2px solid var(--line);
+    border-radius: var(--radius-l);
+    box-shadow: 0 8px 30px rgba(42, 38, 34, 0.08);
+    overflow: hidden;
+    margin: 24px 0;
+    transition: all 0.3s ease;
+  }
+  .story-stage {
+    background: var(--bg);
+    border-bottom: 2px solid var(--line);
+    padding: 24px 20px 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 270px;
+    position: relative;
+    user-select: none;
+  }
+  .stage-svg-wrap {
+    width: 100%;
+    max-width: 480px;
+    height: 200px;
+    position: relative;
+  }
+  .pixel-bubble-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 10px;
+  }
+  .bubble-badge {
+    background: var(--surface);
+    border: 2px solid var(--line-strong);
+    padding: 6px 16px;
+    border-radius: 999px;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1rem;
+    color: var(--ink);
+    box-shadow: var(--shadow);
+    transition: all 0.25s ease;
+  }
+  .bubble-badge.good { border-color: var(--good); color: var(--good); background: #F0FDF4; }
+  .bubble-badge.bad { border-color: var(--bad); color: var(--bad); background: #FEF2F2; }
+
+  .story-body { padding: 28px 24px; }
+  .step-eyebrow {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--c);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+  .step-heading {
+    font-family: var(--font-display);
+    font-size: 1.45rem;
+    font-weight: 700;
+    margin: 0 0 12px;
+    color: var(--ink);
+    line-height: 1.3;
+  }
+  .step-text { font-size: 1.05rem; line-height: 1.6; color: var(--ink); margin: 0 0 24px; }
+  .story-nav-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 18px;
+    border-top: 1px solid var(--line);
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .btn-story {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 1rem;
+    padding: 12px 24px;
+    border-radius: var(--radius-m);
+    border: none;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: transform 0.15s ease, opacity 0.15s ease;
+  }
+  .btn-story:hover { transform: translateY(-1px); opacity: 0.92; }
+  .btn-primary { background: var(--c); color: var(--c-ink); box-shadow: var(--shadow); }
+  .btn-secondary { background: var(--surface-2); color: var(--ink); border: 1px solid var(--line-strong); }
+  .step-dots { display: flex; gap: 8px; }
+  .step-dot {
+    width: 10px; height: 10px; border-radius: 50%;
+    background: var(--line-strong); transition: all 0.2s ease; cursor: pointer;
+  }
+  .step-dot.active { background: var(--c); transform: scale(1.3); }
+
+  .concept-cards-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-top: 20px;
+  }
+  @media (max-width: 600px) { .concept-cards-grid { grid-template-columns: 1fr; } }
+  .concept-card {
+    background: var(--surface-2);
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius-m);
+    padding: 16px;
+  }
+  .concept-card h4 {
+    margin: 0 0 6px; font-family: var(--font-display); font-size: 1.05rem;
+    color: var(--ink); display: flex; align-items: center; gap: 6px;
+  }
+  .concept-card p { margin: 0; font-size: 0.92rem; color: var(--muted); line-height: 1.45; }
 </style>
 </head>
 <body>
-<div class="page">
+<div class="page story-container">
   <a class="back-link" href="/ai-story/">&larr; All chapters</a>
-
   <div class="eyebrow"><span class="dot"></span> Chapter 9 of 15 &nbsp;&middot;&nbsp; The Pixel Story</div>
 
   <div class="hero">
-    <h1>Pixel Needs a Bigger Brain.</h1>
-    <p class="dek">Pixel wants to think faster — but its little setup can't keep up. Watch what it actually takes, in machines and electricity, to make that happen.</p>
+    <h1>Pixel Needs a Bigger Brain</h1>
+    <p class="dek">Thinking takes enormous amounts of electricity and math. How do thousands of GPU chips and data centers give AI the power to scale?</p>
   </div>
 
-  <div class="learn-grid">
-  <div class="learn-col-strip">
-  <div class="section-head">
-    <h2>How Pixel gets faster</h2>
-    <div class="sub">Six steps. Watch it play, or use the arrows to go at your own pace.</div>
-  </div>
+  <div class="story-card">
+    <div class="story-stage">
+      <div class="stage-svg-wrap">
+        <svg viewBox="0 0 460 200" width="100%" height="100%" aria-label="GPU array and data center compute scaling diagram">
+          <!-- Server Rack Housing -->
+          <g transform="translate(60, 20)">
+            <rect x="0" y="0" width="340" height="150" rx="10" fill="var(--surface-2)" stroke="var(--line-strong)" stroke-width="2"/>
+            <rect x="10" y="10" width="320" height="24" rx="4" fill="var(--surface)" stroke="var(--line)" stroke-width="1.5"/>
+            <rect x="10" y="42" width="320" height="24" rx="4" fill="var(--surface)" stroke="var(--line)" stroke-width="1.5"/>
+            <rect x="10" y="74" width="320" height="24" rx="4" fill="var(--surface)" stroke="var(--line)" stroke-width="1.5"/>
+            <rect x="10" y="106" width="320" height="34" rx="4" fill="var(--surface)" stroke="var(--line)" stroke-width="1.5"/>
 
-  <div class="strip">
-    <div class="stage">
-      <svg viewBox="0 0 320 220" role="img" aria-label="Illustration of Pixel's small chip growing into a data center">
-        <!-- small chip, visible early on -->
-        <g id="smallChip" class="show">
-          <rect x="45" y="110" width="34" height="26" rx="4" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
-          <line x1="52" y1="136" x2="52" y2="144" stroke="var(--line-strong)" stroke-width="2"/>
-          <line x1="62" y1="136" x2="62" y2="144" stroke="var(--line-strong)" stroke-width="2"/>
-          <line x1="72" y1="136" x2="72" y2="144" stroke="var(--line-strong)" stroke-width="2"/>
-        </g>
-
-        <!-- big server rack, revealed once Pixel is plugged in -->
-        <g id="bigRack">
-          <rect x="24" y="52" width="70" height="126" rx="6" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
-          <rect x="34" y="64" width="50" height="16" rx="3" fill="var(--surface-2)" stroke="var(--line-strong)" stroke-width="1.3"/>
-          <rect x="34" y="86" width="50" height="16" rx="3" fill="var(--surface-2)" stroke="var(--line-strong)" stroke-width="1.3"/>
-          <rect x="34" y="108" width="50" height="16" rx="3" fill="var(--surface-2)" stroke="var(--line-strong)" stroke-width="1.3"/>
-          <rect x="34" y="130" width="50" height="16" rx="3" fill="var(--surface-2)" stroke="var(--line-strong)" stroke-width="1.3"/>
-          <rect x="34" y="152" width="50" height="16" rx="3" fill="var(--surface-2)" stroke="var(--line-strong)" stroke-width="1.3"/>
-          <circle cx="80" cy="72" r="3" fill="var(--good)"/>
-          <circle cx="80" cy="94" r="3" fill="var(--good)"/>
-          <circle cx="80" cy="116" r="3" fill="var(--good)"/>
-          <circle cx="80" cy="138" r="3" fill="var(--good)"/>
-          <circle cx="80" cy="160" r="3" fill="var(--good)"/>
-        </g>
-
-        <!-- power bolt icon -->
-        <g id="powerBolt" class="decor">
-          <path d="M104 100 l-10 16 h8 l-6 14 16 -18 h-8 z" fill="var(--c)"/>
-        </g>
-
-        <!-- cost icon -->
-        <g id="costIcon" class="decor">
-          <circle cx="105" cy="60" r="13" fill="none" stroke="var(--muted)" stroke-width="2"/>
-          <text x="105" y="65" text-anchor="middle" font-family="var(--font-mono)" font-weight="700" font-size="14" fill="var(--muted)">$</text>
-        </g>
-
-        <g transform="translate(70,15)">
-          <!-- Pixel base figure (unchanged geometry, repositioned via translate) -->
-          <g id="pixelBase">
-            <ellipse cx="205" cy="196" rx="46" ry="7" fill="var(--ink)" opacity="0.07"/>
-            <rect x="163" y="34" width="7" height="24" rx="3.5" fill="var(--line-strong)"/>
-            <circle cx="166.5" cy="34" r="6.5" fill="var(--c)"/>
-            <rect x="150" y="58" width="112" height="94" rx="26" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
-            <circle cx="206" cy="102" r="32" fill="var(--surface-2)" stroke="var(--line-strong)" stroke-width="2"/>
-            <circle id="facePupil" cx="206" cy="102" r="14" fill="var(--ink)"/>
-            <circle cx="200" cy="96" r="3.6" fill="var(--surface)"/>
-            <rect x="180" y="140" width="52" height="8" rx="4" fill="var(--line-strong)"/>
+            <!-- GPU Array Glowing Cores -->
+            <g id="gpuCoresGrid">
+              <!-- Rendered via JS based on compute scale -->
+            </g>
           </g>
 
-          <!-- decor 1: question bubble -->
-          <g id="ov1" class="decor">
-            <circle cx="150" cy="52" r="5" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
-            <circle cx="160" cy="42" r="7" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
-            <rect x="148" y="8" width="64" height="30" rx="14" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
-            <text x="180" y="30" text-anchor="middle" font-family="var(--font-display)" font-weight="700" font-size="20" fill="var(--muted)">?</text>
+          <g transform="translate(30, 180)">
+            <text id="computeStatsText" x="200" y="10" text-anchor="middle" font-family="var(--font-mono)" font-size="11" font-weight="600" fill="var(--c)">
+              Compute: 1 GPU Core | Speed: 0.1 tokens/sec
+            </text>
           </g>
-
-          <!-- decor 3: struggling bubble -->
-          <g id="ov3" class="decor">
-            <circle cx="150" cy="52" r="5" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
-            <circle cx="160" cy="42" r="7" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
-            <rect x="140" y="4" width="86" height="34" rx="16" fill="var(--surface)" stroke="var(--bad)" stroke-width="2"/>
-            <path d="M155 21 q6 -8 12 0 q6 -8 12 0 q6 -8 12 0" fill="none" stroke="var(--muted)" stroke-width="2.2" stroke-linecap="round"/>
-            <circle cx="216" cy="14" r="11" fill="var(--bad)"/>
-            <path d="M212 10 L220 18 M220 10 L212 18" stroke="white" stroke-width="2.4" stroke-linecap="round"/>
-          </g>
-
-          <!-- decor 5: right bubble -->
-          <g id="ov5" class="decor">
-            <circle cx="150" cy="52" r="5" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
-            <circle cx="160" cy="42" r="7" fill="var(--surface)" stroke="var(--line-strong)" stroke-width="2"/>
-            <rect x="140" y="4" width="86" height="34" rx="16" fill="var(--surface)" stroke="var(--good)" stroke-width="2"/>
-            <text x="173" y="27" text-anchor="middle" font-family="var(--font-display)" font-weight="700" font-size="11" fill="var(--ink)">so fast!</text>
-            <circle cx="216" cy="14" r="11" fill="var(--good)"/>
-            <path d="M211 14 L215 18 L222 10" fill="none" stroke="white" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
-          </g>
-
-          <!-- decor 6: mastery sparkles -->
-          <g id="ov6" class="decor">
-            <circle cx="206" cy="102" r="38" fill="none" stroke="var(--good)" stroke-width="2" opacity="0.55"/>
-            <path d="M120 40 l4 10 10 4 -10 4 -4 10 -4 -10 -10 -4 10 -4 z" fill="var(--c)"/>
-          </g>
-        </g>
-      </svg>
-    </div>
-
-    <div class="step-meta">
-      <span id="stepLabel">Step 1 of 6</span>
-      <span id="playLabel">▶ playing</span>
-    </div>
-    <div class="caption" id="captionText">Pixel wants to learn even faster now.</div>
-
-    <div class="controls">
-      <div class="nav-btns">
-        <button type="button" class="icon" id="prevBtn" aria-label="Previous step">‹</button>
-        <button type="button" class="icon" id="nextBtn" aria-label="Next step">›</button>
-        <button type="button" class="ghost" id="playPauseBtn">⏸ Pause</button>
+        </svg>
       </div>
-      <div class="dots" id="dots"></div>
+
+      <div class="pixel-bubble-row">
+        <span style="font-size:1.4rem;">⚡</span>
+        <div class="bubble-badge" id="stageBubbleBadge">
+          "My tiny single chip is smoking hot!"
+        </div>
+      </div>
+    </div>
+
+    <div class="story-body">
+      <div class="step-eyebrow" id="stepCounter">Step 1 of 5</div>
+      <h2 class="step-heading" id="stepTitle">The single chip bottleneck</h2>
+      <div class="step-text" id="stepDescription">
+        Pixel is trying to multiply a trillion weights using a regular laptop CPU. It takes 10 minutes to generate a single word, and the fan is screaming! Pixel needs a completely different kind of brain chip.
+      </div>
+
+      <div class="story-nav-row">
+        <button type="button" class="btn-story btn-secondary" id="prevStepBtn" style="visibility:hidden;">← Back</button>
+        <div class="step-dots" id="stepDotsWrap">
+          <span class="step-dot active"></span>
+          <span class="step-dot"></span>
+          <span class="step-dot"></span>
+          <span class="step-dot"></span>
+          <span class="step-dot"></span>
+        </div>
+        <button type="button" class="btn-story btn-primary" id="nextStepBtn">Next Step →</button>
+      </div>
     </div>
   </div>
-  </div>
 
-  <div class="learn-col-vocab">
-  <div class="section-head">
+  <div class="section-head" style="margin-top: 36px;">
     <h2>Now you know the grown-up words</h2>
-    <div class="sub">Tap one to see what it means.</div>
+    <div class="sub">The physical hardware and economics powering modern AI:</div>
   </div>
 
-  <div class="vocab">
-    <details class="chip">
-      <summary>Compute <span class="plus">+</span></summary>
-      <div class="def">The raw amount of calculating power Pixel has to think with. It has very little in <button type="button" class="step-ref" data-step="3">step 3</button>, and a huge amount once it's plugged in during <button type="button" class="step-ref" data-step="4">step 4</button>. That raw calculating capacity is called compute.</div>
-    </details>
-    <details class="chip">
-      <summary>GPU <span class="plus">+</span></summary>
-      <div class="def">The actual kind of chip filling the machine room in <button type="button" class="step-ref" data-step="4">step 4</button> — built to do huge numbers of small calculations at once, which happens to be exactly the kind of math weights and knobs need. That chip is called a GPU, or graphics processing unit — originally built for video games, now the workhorse of AI.</div>
-    </details>
-    <details class="chip">
-      <summary>Data center <span class="plus">+</span></summary>
-      <div class="def">The actual building full of racks of these chips, running day and night, that Pixel gets plugged into in <button type="button" class="step-ref" data-step="4">step 4</button>. That building is called a data center.</div>
-    </details>
-    <details class="chip">
-      <summary>Scaling <span class="plus">+</span></summary>
-      <div class="def">What actually made Pixel faster in <button type="button" class="step-ref" data-step="5">step 5</button> — not a cleverer idea, just far more compute and far more data to think with. Getting better mostly by adding more compute and data, rather than a smarter trick, is called scaling.</div>
-    </details>
-  </div>
-  </div>
+  <div class="concept-cards-grid">
+    <div class="concept-card">
+      <h4>🎮 GPU (Graphics Processing Unit)</h4>
+      <p>A specialized chip with thousands of tiny cores designed to perform simple math multiplications in parallel.</p>
+    </div>
+    <div class="concept-card">
+      <h4>⚡ Compute</h4>
+      <p>The total raw mathematical power (measured in FLOPs) available to train and run AI models.</p>
+    </div>
+    <div class="concept-card">
+      <h4>🏢 Data Center</h4>
+      <p>Giant warehouse facilities packed with tens of thousands of networked GPUs and cooling systems.</p>
+    </div>
+    <div class="concept-card">
+      <h4>📈 Scaling Laws</h4>
+      <p>The scientific observation that making models bigger (more compute + more data) reliably makes them smarter.</p>
+    </div>
   </div>
 
-  <div class="next">
+  <div style="background:var(--surface-2); border:1px solid var(--line-strong); border-radius:var(--radius-m); padding:20px; margin-top:28px;">
+    <h3 style="font-family:var(--font-display); font-size:1.15rem; margin:0 0 8px; color:var(--ink);">
+      🤔 If Pixel is so smart, why does it sometimes make silly mistakes?
+    </h3>
+    <p style="margin:0; font-size:0.95rem; color:var(--muted); line-height:1.5;">
+      Even with massive compute, an LLM can sound 100% confident while making up fake facts! Why do AI models hallucinate? Meet <strong>Hallucinations & System 1 vs 2</strong> in Chapter 10!
+    </p>
+  </div>
+
+  <div class="next" style="margin-top:28px;">
     <div>
       <div class="label">Coming next</div>
-      <p>Pixel says something confidently wrong — and finds out what it still doesn't know.</p>
+      <p>Pixel sounds confident but makes up fake facts: Hallucinations and Reasoning.</p>
     </div>
-    <a class="tag" href="/ai-story/chapters/07-pixel-embarrasses-itself/">Chapter 10 · Limits of an LLM</a>
+    <a class="tag" href="/ai-story/chapters/07-pixel-embarrasses-itself/">Chapter 10 · Hallucinations & Limitations →</a>
   </div>
 
   <footer class="page-foot">The Pixel Story</footer>
 </div>
 
-<script src="/ai-story/assets/js/stepper.js"></script>
 <script>
-(function () {
-  var FRAMES = [
-    { caption: "Pixel wants to learn even faster now.", ov: "ov1", pupilX: 206, rack: false, bolt: false, cost: false },
-    { caption: "It tries thinking harder on its same small setup.", ov: "ov1", pupilX: 196, rack: false, bolt: false, cost: false },
-    { caption: "It's too slow — Pixel's little brain can't keep up.", ov: "ov3", pupilX: 214, rack: false, bolt: false, cost: false },
-    { caption: "So Pixel gets plugged into a much bigger machine room.", ov: null, pupilX: 196, rack: true, bolt: true, cost: false },
-    { caption: "Now Pixel can think thousands of times faster.", ov: "ov5", pupilX: 200, rack: true, bolt: false, cost: false },
-    { caption: "All that speed costs real electricity — someone has to pay for it.", ov: "ov6", pupilX: 206, rack: true, bolt: false, cost: true }
+(function() {
+  var currentStep = 0;
+
+  var STEPS = [
+    {
+      title: "The single chip bottleneck",
+      text: "Pixel is running a trillion math problems on 1 single laptop CPU. It takes 10 minutes to generate 1 word! <em>'CPU = 1 genius doing one math problem at a time.'</em>",
+      bubble: "I'm thinking so slowly... 🐌",
+      bubbleClass: "bad",
+      coresCount: 1,
+      stats: "Compute: 1 CPU Core | Speed: 0.1 tokens/sec"
+    },
+    {
+      title: "Enter the GPU: 10,000 tiny helpers",
+      text: "Instead of 1 genius, a <strong>GPU</strong> is an army of 10,000 workers adding simple numbers together simultaneously! The calculations happen in parallel.",
+      bubble: "10,000 cores working at once! 🎮✨",
+      bubbleClass: "good",
+      coresCount: 16,
+      stats: "Compute: 1 GPU (10,000 Cores) | Speed: 25 tokens/sec"
+    },
+    {
+      title: "Stacking Server Racks (Clusters)",
+      text: "To train GPT-4 class models, thousands of GPUs are bolted into metal racks and linked by light-speed fiber optic cables.",
+      bubble: "Server rack connected! ⚡",
+      bubbleClass: "good",
+      coresCount: 32,
+      stats: "Compute: 8 GPUs Clustered | Speed: 200 tokens/sec"
+    },
+    {
+      title: "Giant Data Centers (Scaling)",
+      text: "Warehouses powered by hydroelectric and nuclear power run 50,000 GPUs day and night. The <strong>Scaling Laws</strong> prove: more compute makes the AI noticeably smarter!",
+      bubble: "Gigawatt AI Data Center online! 🏢⚡",
+      bubbleClass: "good",
+      coresCount: 64,
+      stats: "Compute: 50,000 GPUs | Speed: Trillions of FLOPs/sec"
+    },
+    {
+      title: "The Supercomputer Mind 🎉",
+      text: "With a massive supercomputing cluster behind it, Pixel answers millions of questions instantly across the globe!",
+      bubble: "I can serve the whole world instantly! 🌍✨",
+      bubbleClass: "good",
+      coresCount: 64,
+      stats: "Supercluster Online ✨ | 100% Scaled"
+    }
   ];
 
-  var smallChip = document.getElementById("smallChip");
-  var bigRack = document.getElementById("bigRack");
-  var powerBolt = document.getElementById("powerBolt");
-  var costIcon = document.getElementById("costIcon");
+  var stepCounter = document.getElementById("stepCounter");
+  var stepTitle = document.getElementById("stepTitle");
+  var stepDescription = document.getElementById("stepDescription");
+  var stageBubbleBadge = document.getElementById("stageBubbleBadge");
+  var computeStatsText = document.getElementById("computeStatsText");
+  var gpuCoresGrid = document.getElementById("gpuCoresGrid");
+  var prevBtn = document.getElementById("prevStepBtn");
+  var nextBtn = document.getElementById("nextStepBtn");
+  var dots = document.querySelectorAll(".step-dot");
 
-  function applyFrame(f) {
-    smallChip.classList.toggle("show", !f.rack);
-    bigRack.classList.toggle("show", f.rack);
-    powerBolt.classList.toggle("show", f.bolt);
-    costIcon.classList.toggle("show", f.cost);
+  function renderStep() {
+    var s = STEPS[currentStep];
+    stepCounter.textContent = "Step " + (currentStep + 1) + " of " + STEPS.length;
+    stepTitle.textContent = s.title;
+    stepDescription.innerHTML = s.text;
+    stageBubbleBadge.textContent = s.bubble;
+    stageBubbleBadge.className = "bubble-badge " + (s.bubbleClass || "");
+    computeStatsText.textContent = s.stats;
+
+    // Render glowing cores in SVG
+    gpuCoresGrid.innerHTML = "";
+    var total = s.coresCount;
+    var rows = 4;
+    var cols = 16;
+
+    for (var r = 0; r < rows; r++) {
+      for (var c = 0; c < cols; c++) {
+        var idx = r * cols + c;
+        if (idx < total) {
+          var circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+          circle.setAttribute("cx", 25 + c * 19);
+          circle.setAttribute("cy", 22 + r * 32);
+          circle.setAttribute("r", 4.5);
+          circle.setAttribute("fill", currentStep === 0 ? "var(--bad)" : "var(--good)");
+          circle.setAttribute("opacity", "0.9");
+          gpuCoresGrid.appendChild(circle);
+        }
+      }
+    }
+
+    prevBtn.style.visibility = currentStep === 0 ? "hidden" : "visible";
+    nextBtn.textContent = currentStep === STEPS.length - 1 ? "Start Over ↺" : "Next Step →";
+    dots.forEach(function(d, i) { d.classList.toggle("active", i === currentStep); });
   }
 
-  window.PixelStepper({ frames: FRAMES, applyFrame: applyFrame });
+  nextBtn.addEventListener("click", function() {
+    currentStep = (currentStep + 1) % STEPS.length;
+    renderStep();
+  });
+  prevBtn.addEventListener("click", function() {
+    if (currentStep > 0) { currentStep--; renderStep(); }
+  });
+  dots.forEach(function(dot, idx) {
+    dot.addEventListener("click", function() { currentStep = idx; renderStep(); });
+  });
+
+  renderStep();
 })();
 </script>
 </body>
