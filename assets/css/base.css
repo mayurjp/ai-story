@@ -338,3 +338,559 @@ footer.page-foot {
 /* ---------- Links (home / glossary / about use plain anchors on cards) ---------- */
 a { color: inherit; }
 .next a, .strip a, .idea-chip a { color: var(--c); }
+
+/* ---------- 🧠 Pixel's Brain Evolution Continuity Component ---------- */
+.brain-evolution-card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-l);
+  box-shadow: var(--shadow);
+  padding: 16px 18px;
+  margin: 18px 0 26px;
+  transition: all 0.25s ease;
+}
+
+.brain-evo-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+
+.brain-evo-title-wrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.brain-evo-badge {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--c);
+  background: rgba(255, 107, 69, 0.1);
+  padding: 4px 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 107, 69, 0.25);
+  letter-spacing: 0.03em;
+}
+
+.brain-evo-stat {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--muted);
+  font-weight: 600;
+}
+
+.brain-toggle-btn {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--muted);
+  background: var(--surface-2);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-s);
+  padding: 5px 10px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+.brain-toggle-btn:hover {
+  color: var(--c);
+  border-color: var(--c);
+}
+
+.brain-progress-track {
+  height: 6px;
+  background: var(--surface-2);
+  border-radius: 999px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  margin-bottom: 14px;
+}
+
+.brain-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #FF8E53 0%, var(--c) 100%);
+  border-radius: 999px;
+  transition: width 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* Active Upgrade Spotlight */
+.brain-active-upgrade {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  background: var(--surface-2);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-m);
+  padding: 12px 14px;
+  margin-bottom: 4px;
+}
+
+.upgrade-icon-box {
+  font-size: 1.8rem;
+  line-height: 1;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 8px;
+  box-shadow: var(--shadow);
+  flex-shrink: 0;
+}
+
+.upgrade-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.upgrade-label {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: var(--c);
+  letter-spacing: 0.06em;
+  margin-bottom: 3px;
+}
+
+.upgrade-name {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--ink);
+  line-height: 1.25;
+  margin-bottom: 3px;
+}
+
+.upgrade-desc {
+  font-size: 0.88rem;
+  color: var(--muted);
+  line-height: 1.4;
+  margin: 0;
+}
+
+/* Expandable 18-Node Timeline */
+.brain-timeline-wrap {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.35s ease, margin-top 0.35s ease;
+  margin-top: 0;
+}
+
+.brain-timeline-wrap.open {
+  max-height: 240px;
+  margin-top: 14px;
+}
+
+.brain-timeline-scroll {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  padding: 8px 4px 12px;
+  scrollbar-width: thin;
+  scrollbar-color: var(--line-strong) transparent;
+  -webkit-overflow-scrolling: touch;
+}
+
+.brain-timeline-scroll::-webkit-scrollbar {
+  height: 6px;
+}
+.brain-timeline-scroll::-webkit-scrollbar-thumb {
+  background: var(--line-strong);
+  border-radius: 999px;
+}
+
+.brain-node {
+  flex: 0 0 88px;
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-m);
+  padding: 8px 6px;
+  text-decoration: none;
+  color: inherit;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.brain-node:hover {
+  transform: translateY(-2px);
+  border-color: var(--c);
+}
+
+.brain-node.current {
+  background: var(--surface);
+  border: 2px solid var(--c);
+  box-shadow: 0 0 0 3px rgba(255, 107, 69, 0.2);
+}
+
+.brain-node.unlocked {
+  border-color: var(--good);
+}
+
+.brain-node.locked {
+  opacity: 0.45;
+  background: transparent;
+}
+.brain-node.locked:hover {
+  opacity: 0.8;
+}
+
+.node-icon-circle {
+  position: relative;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: var(--surface);
+  border: 1px solid var(--line-strong);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  margin-bottom: 6px;
+}
+
+.brain-node.current .node-icon-circle {
+  border-color: var(--c);
+  background: rgba(255, 107, 69, 0.1);
+}
+
+.node-check {
+  position: absolute;
+  bottom: -2px;
+  right: -2px;
+  width: 15px;
+  height: 15px;
+  background: var(--good);
+  color: #FFFFFF;
+  border-radius: 50%;
+  font-size: 0.62rem;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.node-pulse {
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  width: 8px;
+  height: 8px;
+  background: var(--c);
+  border-radius: 50%;
+  animation: brainPulse 1.5s infinite;
+}
+
+@keyframes brainPulse {
+  0% { transform: scale(0.9); opacity: 0.8; }
+  50% { transform: scale(1.6); opacity: 0; }
+  100% { transform: scale(0.9); opacity: 0.8; }
+}
+
+.node-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  width: 100%;
+}
+
+.node-num {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: var(--muted);
+  font-weight: 600;
+}
+
+.node-tool {
+  font-family: var(--font-display);
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--ink);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ---------- 🌟 Homepage Evolution Showcase ---------- */
+.brain-home-showcase {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-l);
+  box-shadow: var(--shadow);
+  padding: 24px;
+  margin: 28px 0 36px;
+}
+
+.showcase-header {
+  margin-bottom: 20px;
+}
+
+.showcase-title-wrap {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+}
+
+.showcase-icon {
+  font-size: 2.2rem;
+  line-height: 1;
+}
+
+.showcase-title {
+  font-size: 1.35rem;
+  font-weight: 700;
+  margin: 0 0 4px;
+  color: var(--ink);
+}
+
+.showcase-subtitle {
+  margin: 0;
+  font-size: 0.95rem;
+  color: var(--muted);
+  line-height: 1.45;
+}
+
+.showcase-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 12px;
+}
+
+@media (max-width: 600px) {
+  .showcase-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.showcase-card {
+  background: var(--surface-2);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-m);
+  padding: 12px 14px;
+  text-decoration: none;
+  color: inherit;
+  transition: all 0.2s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.showcase-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--c);
+  box-shadow: var(--shadow);
+}
+
+.showcase-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+
+.showcase-badge {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--c);
+  background: var(--surface);
+  padding: 2px 8px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+}
+
+.showcase-emoji {
+  font-size: 1.3rem;
+}
+
+.showcase-card-name {
+  font-family: var(--font-display);
+  font-size: 0.94rem;
+  font-weight: 700;
+  color: var(--ink);
+  margin: 0 0 4px;
+  line-height: 1.3;
+}
+
+.showcase-card-desc {
+  margin: 0;
+  font-size: 0.82rem;
+  color: var(--muted);
+  line-height: 1.38;
+}
+
+/* ---------- 🌍 Spot It in the Wild Real-World Callouts ---------- */
+.spot-in-the-wild-card {
+  background: linear-gradient(135deg, rgba(255, 107, 69, 0.05) 0%, rgba(46, 158, 91, 0.05) 100%);
+  border: 2px solid var(--line-strong);
+  border-radius: var(--radius-m);
+  padding: 20px 22px;
+  margin-top: 28px;
+  box-shadow: var(--shadow);
+  transition: border-color 0.2s ease, transform 0.2s ease;
+}
+
+.spot-in-the-wild-card:hover {
+  border-color: var(--c);
+  transform: translateY(-1px);
+}
+
+.wild-header {
+  margin-bottom: 8px;
+}
+
+.wild-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--c);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+
+.wild-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--c);
+}
+
+.wild-app-title {
+  font-family: var(--font-display);
+  font-size: 1.18rem;
+  font-weight: 700;
+  color: var(--ink);
+  margin: 0;
+  line-height: 1.25;
+}
+
+.wild-desc {
+  margin: 0 0 14px;
+  font-size: 0.94rem;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.wild-tags-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.wild-tag {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--ink);
+  background: var(--surface);
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+  padding: 3px 10px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+}
+
+/* ---------- 🔊 Audio & Voice Narration Controls (Enhancement 7) ---------- */
+.audio-controls-pill {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  display: inline-flex;
+  align-items: center;
+  background: var(--surface);
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+  padding: 3px 8px;
+  box-shadow: var(--shadow);
+  z-index: 20;
+  backdrop-filter: blur(8px);
+}
+
+.audio-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: transparent;
+  border: none;
+  padding: 4px 8px;
+  border-radius: 999px;
+  cursor: pointer;
+  color: var(--ink);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.audio-btn:hover {
+  background: var(--surface-2);
+  color: var(--c);
+}
+
+.audio-btn.active {
+  background: rgba(255, 107, 69, 0.12);
+  color: var(--c);
+}
+
+.audio-divider {
+  width: 1px;
+  height: 14px;
+  background: var(--line);
+  margin: 0 2px;
+}
+
+.audio-icon {
+  font-size: 0.85rem;
+  display: inline-flex;
+  align-items: center;
+}
+
+.audio-wave-anim {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  height: 10px;
+  margin-left: 2px;
+}
+
+.audio-wave-anim span {
+  width: 2px;
+  height: 100%;
+  background: var(--c);
+  border-radius: 1px;
+  animation: audioWave 0.8s infinite ease-in-out;
+}
+
+.audio-wave-anim span:nth-child(1) { animation-delay: 0.0s; }
+.audio-wave-anim span:nth-child(2) { animation-delay: 0.2s; }
+.audio-wave-anim span:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes audioWave {
+  0%, 100% { height: 3px; }
+  50% { height: 10px; }
+}
+
+@media (max-width: 480px) {
+  .audio-controls-pill {
+    top: 8px;
+    right: 8px;
+    padding: 2px 6px;
+  }
+  .audio-label {
+    display: none;
+  }
+}
+
+
+

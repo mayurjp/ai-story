@@ -137,12 +137,15 @@
 <body>
 <div class="page story-container">
   <a class="back-link" href="/ai-story/">&larr; All chapters</a> <a class="back-link" href="/ai-story/chapters/03-pixel-learns-to-see/">&lsaquo; Pixel Learns to See</a>
-  <div class="eyebrow"><span class="dot"></span> Chapter 5 of 15 &nbsp;&middot;&nbsp; The Pixel Story</div>
+  <div class="eyebrow"><span class="dot"></span> Chapter 5 of 18 &nbsp;&middot;&nbsp; The Pixel Story</div>
 
   <div class="hero">
     <h1>Pixel Reads a Torn-Up Book</h1>
     <p class="dek">Nobody has time to hand-label millions of books. Watch how Pixel learns language automatically just by playing fill-in-the-blank puzzles: Self-Supervised Learning.</p>
   </div>
+
+  <!-- 🧠 Pixel's Brain Evolution Bar -->
+  <div id="pixelBrainEvolution" data-chapter="5"></div>
 
   <div class="story-card">
     <div class="story-stage">
@@ -242,6 +245,9 @@
       In a sentence like <em>"The dog who chased the cat into the garden was tired"</em>, "dog" and "tired" are 8 words apart! Reading left-to-right forgets the start. That's why we need the <strong>Attention Mechanism</strong> in Chapter 6!
     </p>
   </div>
+
+  <!-- 🌍 Spot It in the Wild Callout -->
+  <div id="spotInTheWild" data-chapter="5"></div>
 
   <div class="next" style="margin-top:28px;">
     <div>
@@ -348,5 +354,7 @@
   renderStep();
 })();
 </script>
+<script src="/ai-story/assets/js/brain-evolution.js"></script>
+<script src="/ai-story/assets/js/audio-narration.js"></script>
 </body>
 </html>

@@ -9,24 +9,89 @@
 <link rel="stylesheet" href="/ai-story/assets/css/tokens.css">
 <link rel="stylesheet" href="/ai-story/assets/css/base.css">
 <style>
-  .chapter-list { display: grid; gap: 10px; }
-  .chapter-card {
-    display: flex; align-items: baseline; gap: 14px;
-    background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-m);
-    box-shadow: var(--shadow); padding: 14px 16px; text-decoration: none; color: inherit;
+  .chapter-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 14px;
+    margin-top: 18px;
+  }
+  .unified-chapter-card {
+    display: flex;
+    flex-direction: column;
+    background: var(--surface);
+    border: 1.5px solid var(--line);
+    border-radius: var(--radius-m);
+    box-shadow: var(--shadow);
+    padding: 16px 18px;
+    text-decoration: none;
+    color: inherit;
     transition: all 0.2s ease;
   }
-  .chapter-card:hover { border-color: var(--c); transform: translateY(-1px); }
-  .chapter-card .num {
-    font-family: var(--font-mono); font-size: 0.78rem; color: var(--muted);
-    min-width: 2.4em; flex-shrink: 0;
+  .unified-chapter-card:hover {
+    border-color: var(--c);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(255, 107, 69, 0.12);
   }
-  .chapter-card .body h3 { font-family: var(--font-display); font-weight: 600; font-size: 1.05rem; margin: 0; }
-  .chapter-card .body p { margin: 4px 0 0; color: var(--muted); font-size: 0.92rem; line-height: 1.4; }
-  .topic-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 9px; }
+  .card-header-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 8px;
+  }
+  .chapter-num-badge {
+    font-family: var(--font-mono);
+    font-size: 0.76rem;
+    font-weight: 700;
+    color: var(--muted);
+    background: var(--surface-2);
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    padding: 2px 8px;
+  }
+  .chapter-upgrade-badge {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--c);
+    background: rgba(255, 107, 69, 0.08);
+    border: 1px solid rgba(255, 107, 69, 0.2);
+    border-radius: 999px;
+    padding: 2px 10px;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .unified-chapter-card h3 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: var(--ink);
+    margin: 0 0 6px;
+    line-height: 1.3;
+  }
+  .unified-chapter-card p {
+    margin: 0 0 12px;
+    color: var(--muted);
+    font-size: 0.9rem;
+    line-height: 1.45;
+    flex-grow: 1;
+  }
+  .topic-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: auto;
+  }
   .topic-tag {
-    font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0.02em; color: var(--muted);
-    border: 1px solid var(--line-strong); border-radius: 999px; padding: 3px 10px; white-space: nowrap;
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.02em;
+    color: var(--muted);
+    background: var(--surface-2);
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    padding: 2px 8px;
+    white-space: nowrap;
   }
 </style>
 </head>
@@ -37,86 +102,266 @@
 
   <div class="hero">
     <h1>Learn How Artificial Intelligence Actually Works</h1>
+    <p class="dek">A visual storybook that builds plain-language intuition about how AI actually works, one step at a time.</p>
   </div>
 
-  <div class="section-head">
-    <h2>18 Interactive Chapters</h2>
-    <div class="sub">Click any chapter to start learning step-by-step with animated diagrams.</div>
+  <div class="section-head" style="margin-top: 32px;">
+    <h2>18 Visual Story Chapters</h2>
+    <div class="sub">Follow Pixel step-by-step as each breakthrough unlocks a new cognitive power:</div>
   </div>
 
-  <!-- Storybook Track Chapter List -->
-  <div class="chapter-list">
-    <a class="chapter-card" href="/ai-story/chapters/01-meet-pixel/">
-      <span class="num">01</span>
-      <span class="body"><h3>Meet Pixel</h3><p>Pixel doesn't know anything yet — watch it learn to recognize a cookie shape with weights and dials.</p><span class="topic-tags"><span class="topic-tag">Neuron</span><span class="topic-tag">Weight</span><span class="topic-tag">Classification</span></span></span>
+  <!-- Unified Storybook Track Grid -->
+  <div class="chapter-grid">
+    <a class="unified-chapter-card" href="/ai-story/chapters/01-meet-pixel/">
+      <div class="card-header-row">
+        <span class="chapter-num-badge">Chapter 01</span>
+        <span class="chapter-upgrade-badge">🎛️ Single Dial</span>
+      </div>
+      <h3>Meet Pixel</h3>
+      <p>Pixel doesn't know anything yet — watch it learn to recognize a cookie shape with weights and dials.</p>
+      <div class="topic-tags">
+        <span class="topic-tag">Neuron</span>
+        <span class="topic-tag">Weight</span>
+        <span class="topic-tag">Classification</span>
+      </div>
     </a>
-    <a class="chapter-card" href="/ai-story/chapters/13-pixel-guesses-a-number/">
-      <span class="num">02</span>
-      <span class="body"><h3>Pixel Guesses a Number</h3><p>Instead of sorting a card into a category, Pixel fits a line through dots to predict bouncing balls.</p><span class="topic-tags"><span class="topic-tag">Linear regression</span><span class="topic-tag">Line of best fit</span></span></span>
+
+    <a class="unified-chapter-card" href="/ai-story/chapters/13-pixel-guesses-a-number/">
+      <div class="card-header-row">
+        <span class="chapter-num-badge">Chapter 02</span>
+        <span class="chapter-upgrade-badge">📈 Best-Fit Ruler</span>
+      </div>
+      <h3>Pixel Guesses a Number</h3>
+      <p>Instead of sorting a card into a category, Pixel fits a line through dots to predict bouncing balls.</p>
+      <div class="topic-tags">
+        <span class="topic-tag">Linear Regression</span>
+        <span class="topic-tag">Best Fit</span>
+        <span class="topic-tag">Continuous Loss</span>
+      </div>
     </a>
-    <a class="chapter-card" href="/ai-story/chapters/02-pixel-takes-a-shot/">
-      <span class="num">03</span>
-      <span class="body"><h3>Pixel Takes a Shot</h3><p>A missed basketball hoop turns into backpropagation — working backward from a mistake to fix joint angles.</p><span class="topic-tags"><span class="topic-tag">Backpropagation</span><span class="topic-tag">Gradient descent</span></span></span>
+
+    <a class="unified-chapter-card" href="/ai-story/chapters/02-pixel-takes-a-shot/">
+      <div class="card-header-row">
+        <span class="chapter-num-badge">Chapter 03</span>
+        <span class="chapter-upgrade-badge">🦾 Multi-Joint Arm</span>
+      </div>
+      <h3>Pixel Takes a Shot</h3>
+      <p>A missed basketball hoop turns into backpropagation — working backward from a mistake to fix joint angles.</p>
+      <div class="topic-tags">
+        <span class="topic-tag">Backpropagation</span>
+        <span class="topic-tag">Gradient Descent</span>
+        <span class="topic-tag">Multi-Layer MLP</span>
+      </div>
     </a>
-    <a class="chapter-card" href="/ai-story/chapters/03-pixel-learns-to-see/">
-      <span class="num">04</span>
-      <span class="body"><h3>Pixel Learns to See</h3><p>A photo is too big to take in at once — until Pixel slides a 3x3 filter window across the image.</p><span class="topic-tags"><span class="topic-tag">Convolution</span><span class="topic-tag">Computer vision</span></span></span>
+
+    <a class="unified-chapter-card" href="/ai-story/chapters/03-pixel-learns-to-see/">
+      <div class="card-header-row">
+        <span class="chapter-num-badge">Chapter 04</span>
+        <span class="chapter-upgrade-badge">👁️ 3×3 Glass Filter</span>
+      </div>
+      <h3>Pixel Learns to See</h3>
+      <p>A photo is too big to take in at once — until Pixel slides a 3×3 filter window across the image.</p>
+      <div class="topic-tags">
+        <span class="topic-tag">Convolution</span>
+        <span class="topic-tag">Computer Vision</span>
+        <span class="topic-tag">CNNs</span>
+      </div>
     </a>
-    <a class="chapter-card" href="/ai-story/chapters/04-pixel-reads-a-torn-up-book/">
-      <span class="num">05</span>
-      <span class="body"><h3>Pixel Reads a Torn-Up Book</h3><p>Nobody is around to teach grammar rules — guessing missing words in a torn book teaches world syntax.</p><span class="topic-tags"><span class="topic-tag">Self-supervised</span><span class="topic-tag">Masking</span></span></span>
+
+    <a class="unified-chapter-card" href="/ai-story/chapters/04-pixel-reads-a-torn-up-book/">
+      <div class="card-header-row">
+        <span class="chapter-num-badge">Chapter 05</span>
+        <span class="chapter-upgrade-badge">📖 Word-Mask Decoder</span>
+      </div>
+      <h3>Pixel Reads a Torn-Up Book</h3>
+      <p>Nobody is around to teach grammar rules — guessing missing words in a torn book teaches world syntax.</p>
+      <div class="topic-tags">
+        <span class="topic-tag">Self-Supervised</span>
+        <span class="topic-tag">Masking</span>
+        <span class="topic-tag">BERT</span>
+      </div>
     </a>
-    <a class="chapter-card" href="/ai-story/chapters/05-pixel-learns-to-listen-to-everyone/">
-      <span class="num">06</span>
-      <span class="body"><h3>Pixel Listens to Everyone at Once</h3><p>A tricky sentence clears up when Pixel shines attention spotlights across all words simultaneously.</p><span class="topic-tags"><span class="topic-tag">Attention</span><span class="topic-tag">Transformers</span></span></span>
+
+    <a class="unified-chapter-card" href="/ai-story/chapters/05-pixel-learns-to-listen-to-everyone/">
+      <div class="card-header-row">
+        <span class="chapter-num-badge">Chapter 06</span>
+        <span class="chapter-upgrade-badge">🔦 Attention Spotlights</span>
+      </div>
+      <h3>Pixel Listens to Everyone at Once</h3>
+      <p>A tricky sentence clears up when Pixel shines attention spotlights across all words simultaneously.</p>
+      <div class="topic-tags">
+        <span class="topic-tag">Attention</span>
+        <span class="topic-tag">Transformers</span>
+        <span class="topic-tag">Parallelism</span>
+      </div>
     </a>
-    <a class="chapter-card" href="/ai-story/chapters/06-pixel-becomes-a-know-it-all/">
-      <span class="num">07</span>
-      <span class="body"><h3>Pixel Becomes a Know-It-All</h3><p>Pixel writes stories one token at a time, each new word feeding back into the prompt autoregressively.</p><span class="topic-tags"><span class="topic-tag">Tokens</span><span class="topic-tag">LLMs</span><span class="topic-tag">Autoregressive</span></span></span>
+
+    <a class="unified-chapter-card" href="/ai-story/chapters/06-pixel-becomes-a-know-it-all/">
+      <div class="card-header-row">
+        <span class="chapter-num-badge">Chapter 07</span>
+        <span class="chapter-upgrade-badge">✍️ Next-Word Quill</span>
+      </div>
+      <h3>Pixel Becomes a Know-It-All</h3>
+      <p>Pixel writes stories one token at a time, each new word feeding back into the prompt autoregressively.</p>
+      <div class="topic-tags">
+        <span class="topic-tag">Tokens</span>
+        <span class="topic-tag">LLMs</span>
+        <span class="topic-tag">Autoregressive</span>
+      </div>
     </a>
-    <a class="chapter-card" href="/ai-story/chapters/14-pixel-opens-for-business/">
-      <span class="num">08</span>
-      <span class="body"><h3>Pixel Opens for Business</h3><p>Trainee chef to open restaurant: how an AI goes from raw knowledge to safe deployment with RLHF.</p><span class="topic-tags"><span class="topic-tag">Base model</span><span class="topic-tag">RLHF</span><span class="topic-tag">Deployment</span></span></span>
+
+    <a class="unified-chapter-card" href="/ai-story/chapters/14-pixel-opens-for-business/">
+      <div class="card-header-row">
+        <span class="chapter-num-badge">Chapter 08</span>
+        <span class="chapter-upgrade-badge">👨‍🍳 Chef's Fork & Self-Play</span>
+      </div>
+      <h3>Pixel Opens for Business</h3>
+      <p>Trainee chef to open restaurant: how an AI goes from raw knowledge to safe deployment with RLHF & synthetic data.</p>
+      <div class="topic-tags">
+        <span class="topic-tag">Base Model</span>
+        <span class="topic-tag">RLHF Alignment</span>
+        <span class="topic-tag">Synthetic Data</span>
+      </div>
     </a>
-    <a class="chapter-card" href="/ai-story/chapters/11-pixel-needs-a-bigger-brain/">
-      <span class="num">09</span>
-      <span class="body"><h3>Pixel Needs a Bigger Brain</h3><p>Thinking faster takes parallel hardware: GPUs, data centers, and compute scaling laws.</p><span class="topic-tags"><span class="topic-tag">Compute</span><span class="topic-tag">GPUs</span><span class="topic-tag">Data centers</span></span></span>
+
+    <a class="unified-chapter-card" href="/ai-story/chapters/11-pixel-needs-a-bigger-brain/">
+      <div class="card-header-row">
+        <span class="chapter-num-badge">Chapter 09</span>
+        <span class="chapter-upgrade-badge">⚡ GPU Turbine & TinyML</span>
+      </div>
+      <h3>Pixel Needs a Bigger Brain</h3>
+      <p>Thinking faster takes parallel hardware: GPUs, data centers, compute scaling, and on-device quantization.</p>
+      <div class="topic-tags">
+        <span class="topic-tag">GPUs & FLOPs</span>
+        <span class="topic-tag">Scaling Laws</span>
+        <span class="topic-tag">On-Device TinyML</span>
+      </div>
     </a>
-    <a class="chapter-card" href="/ai-story/chapters/07-pixel-embarrasses-itself/">
-      <span class="num">10</span>
-      <span class="body"><h3>Pixel Embarrasses Itself</h3><p>Reading about a kitchen isn't living in one — Pixel learns why models hallucinate and how to reason.</p><span class="topic-tags"><span class="topic-tag">Hallucination</span><span class="topic-tag">Chain of thought</span></span></span>
+
+    <a class="unified-chapter-card" href="/ai-story/chapters/07-pixel-embarrasses-itself/">
+      <div class="card-header-row">
+        <span class="chapter-num-badge">Chapter 10</span>
+        <span class="chapter-upgrade-badge">💭 Thinking Scratchpad</span>
+      </div>
+      <h3>Pixel Embarrasses Itself</h3>
+      <p>Why models hallucinate: discovering System 1 instinct vs System 2 reasoning models & test-time compute.</p>
+      <div class="topic-tags">
+        <span class="topic-tag">Hallucination</span>
+        <span class="topic-tag">Test-Time Compute</span>
+        <span class="topic-tag">Reasoning Models</span>
+      </div>
     </a>
-    <a class="chapter-card" href="/ai-story/chapters/10-pixel-meets-a-robot-who-lies/">
-      <span class="num">11</span>
-      <span class="body"><h3>Pixel Meets a Robot Who Lies</h3><p>A classmate robot sounds confident but is quietly biased: AI Safety, Red-Teaming, and Alignment.</p><span class="topic-tags"><span class="topic-tag">Bias</span><span class="topic-tag">AI safety</span><span class="topic-tag">Alignment</span></span></span>
+
+    <a class="unified-chapter-card" href="/ai-story/chapters/10-pixel-meets-a-robot-who-lies/">
+      <div class="card-header-row">
+        <span class="chapter-num-badge">Chapter 11</span>
+        <span class="chapter-upgrade-badge">🛡️ Safety Guardrails</span>
+      </div>
+      <h3>Pixel Meets a Robot Who Lies</h3>
+      <p>A classmate robot sounds confident but is quietly biased: AI Safety, Red-Teaming, and Alignment.</p>
+      <div class="topic-tags">
+        <span class="topic-tag">Bias & Fairness</span>
+        <span class="topic-tag">Red-Teaming</span>
+        <span class="topic-tag">Guardrails</span>
+      </div>
     </a>
-    <a class="chapter-card" href="/ai-story/chapters/08-pixel-starts-watching/">
-      <span class="num">12</span>
-      <span class="body"><h3>Pixel Starts Watching, Not Just Reading</h3><p>Watching video streams teaches Pixel common-sense physical intuition: World Models & JEPA.</p><span class="topic-tags"><span class="topic-tag">World models</span><span class="topic-tag">Video prediction</span></span></span>
+
+    <a class="unified-chapter-card" href="/ai-story/chapters/08-pixel-starts-watching/">
+      <div class="card-header-row">
+        <span class="chapter-num-badge">Chapter 12</span>
+        <span class="chapter-upgrade-badge">🎬 Motion Projector</span>
+      </div>
+      <h3>Pixel Starts Watching, Not Just Reading</h3>
+      <p>Watching video streams teaches Pixel common-sense physical intuition: World Models & JEPA.</p>
+      <div class="topic-tags">
+        <span class="topic-tag">World Models</span>
+        <span class="topic-tag">Video Prediction</span>
+        <span class="topic-tag">JEPA</span>
+      </div>
     </a>
-    <a class="chapter-card" href="/ai-story/chapters/15-pixel-gets-to-work/">
-      <span class="num">13</span>
-      <span class="body"><h3>Pixel Gets to Work</h3><p>Watering a wilting plant means checking, using tools, and iterating until the job is autonomously done.</p><span class="topic-tags"><span class="topic-tag">Agentic AI</span><span class="topic-tag">Tool use</span></span></span>
+
+    <a class="unified-chapter-card" href="/ai-story/chapters/15-pixel-gets-to-work/">
+      <div class="card-header-row">
+        <span class="chapter-num-badge">Chapter 13</span>
+        <span class="chapter-upgrade-badge">🛠️ Action Toolbelt</span>
+      </div>
+      <h3>Pixel Gets to Work</h3>
+      <p>Watering a wilting plant means checking, using tools, and iterating until the job is autonomously done.</p>
+      <div class="topic-tags">
+        <span class="topic-tag">Agentic AI</span>
+        <span class="topic-tag">Tool Use</span>
+        <span class="topic-tag">Action Loops</span>
+      </div>
     </a>
-    <a class="chapter-card" href="/ai-story/chapters/09-pixel-visits-the-hospital/">
-      <span class="num">14</span>
-      <span class="body"><h3>Pixel Visits the Hospital</h3><p>Applied AI in healthcare: medical scan triage, anomaly detection, and human-in-the-loop.</p><span class="topic-tags"><span class="topic-tag">Applied AI</span><span class="topic-tag">Healthcare</span></span></span>
+
+    <a class="unified-chapter-card" href="/ai-story/chapters/09-pixel-visits-the-hospital/">
+      <div class="card-header-row">
+        <span class="chapter-num-badge">Chapter 14</span>
+        <span class="chapter-upgrade-badge">🩺 Medical Scanner</span>
+      </div>
+      <h3>Pixel Visits the Hospital</h3>
+      <p>Applied AI in healthcare: medical scan triage, anomaly detection, and human-in-the-loop.</p>
+      <div class="topic-tags">
+        <span class="topic-tag">Applied AI</span>
+        <span class="topic-tag">Healthcare</span>
+        <span class="topic-tag">Scan Triage</span>
+      </div>
     </a>
-    <a class="chapter-card" href="/ai-story/chapters/16-pixel-learns-to-paint/">
-      <span class="num">15</span>
-      <span class="body"><h3>Pixel Learns to Paint</h3><p>How Midjourney and DALL-E sculpt stunning art out of random TV static: Diffusion Models.</p><span class="topic-tags"><span class="topic-tag">Diffusion</span><span class="topic-tag">Generative art</span></span></span>
+
+    <a class="unified-chapter-card" href="/ai-story/chapters/16-pixel-learns-to-paint/">
+      <div class="card-header-row">
+        <span class="chapter-num-badge">Chapter 15</span>
+        <span class="chapter-upgrade-badge">🎨 Denoising Brush</span>
+      </div>
+      <h3>Pixel Learns to Paint</h3>
+      <p>How Midjourney and DALL-E sculpt stunning art out of random TV static: Diffusion Models.</p>
+      <div class="topic-tags">
+        <span class="topic-tag">Diffusion</span>
+        <span class="topic-tag">Generative Art</span>
+        <span class="topic-tag">Denoising</span>
+      </div>
     </a>
-    <a class="chapter-card" href="/ai-story/chapters/17-pixel-goes-to-the-library/">
-      <span class="num">16</span>
-      <span class="body"><h3>Pixel Goes to the Library</h3><p>Retrieval-Augmented Generation (RAG) and Vector Embeddings: open-book accuracy without hallucinations.</p><span class="topic-tags"><span class="topic-tag">RAG</span><span class="topic-tag">Embeddings</span></span></span>
+
+    <a class="unified-chapter-card" href="/ai-story/chapters/17-pixel-goes-to-the-library/">
+      <div class="card-header-row">
+        <span class="chapter-num-badge">Chapter 16</span>
+        <span class="chapter-upgrade-badge">📇 Vector Index Card</span>
+      </div>
+      <h3>Pixel Goes to the Library</h3>
+      <p>Retrieval-Augmented Generation (RAG) and Vector Embeddings: open-book accuracy without hallucinations.</p>
+      <div class="topic-tags">
+        <span class="topic-tag">RAG</span>
+        <span class="topic-tag">Vector DB</span>
+        <span class="topic-tag">Embeddings</span>
+      </div>
     </a>
-    <a class="chapter-card" href="/ai-story/chapters/18-pixel-sees-hears-and-speaks/">
-      <span class="num">17</span>
-      <span class="body"><h3>Pixel Sees, Hears, and Speaks</h3><p>Native Multimodal Omni models: combining vision, real-time voice, and emotional tone in one brain.</p><span class="topic-tags"><span class="topic-tag">Multimodal</span><span class="topic-tag">Omni AI</span></span></span>
+
+    <a class="unified-chapter-card" href="/ai-story/chapters/18-pixel-sees-hears-and-speaks/">
+      <div class="card-header-row">
+        <span class="chapter-num-badge">Chapter 17</span>
+        <span class="chapter-upgrade-badge">🎧 Omni-Sensory Array</span>
+      </div>
+      <h3>Pixel Sees, Hears, and Speaks</h3>
+      <p>Native Multimodal Omni models: combining vision, real-time voice, and emotional tone in one brain.</p>
+      <div class="topic-tags">
+        <span class="topic-tag">Multimodal</span>
+        <span class="topic-tag">Omni AI</span>
+        <span class="topic-tag">Native Audio</span>
+      </div>
     </a>
-    <a class="chapter-card" href="/ai-story/chapters/12-what-pixel-means-for-you/">
-      <span class="num">18</span>
-      <span class="body"><h3>What Pixel Means for You</h3><p>The Grand Finale: Pixel's whole journey, graduation certificate, and your AI superpower.</p><span class="topic-tags"><span class="topic-tag">Graduation</span><span class="topic-tag">Careers</span></span></span>
+
+    <a class="unified-chapter-card" href="/ai-story/chapters/12-what-pixel-means-for-you/">
+      <div class="card-header-row">
+        <span class="chapter-num-badge">Chapter 18</span>
+        <span class="chapter-upgrade-badge">🎓 Graduation Cap</span>
+      </div>
+      <h3>What Pixel Means for You</h3>
+      <p>The Grand Finale: Pixel's whole journey, graduation certificate, and your AI superpower.</p>
+      <div class="topic-tags">
+        <span class="topic-tag">Graduation</span>
+        <span class="topic-tag">Careers</span>
+        <span class="topic-tag">AI Synthesis</span>
+      </div>
     </a>
   </div>
 

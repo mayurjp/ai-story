@@ -133,12 +133,15 @@
 <body>
 <div class="page story-container">
   <a class="back-link" href="/ai-story/">&larr; All chapters</a> <a class="back-link" href="/ai-story/chapters/14-pixel-opens-for-business/">&lsaquo; Pixel Opens for Business</a>
-  <div class="eyebrow"><span class="dot"></span> Chapter 9 of 15 &nbsp;&middot;&nbsp; The Pixel Story</div>
+  <div class="eyebrow"><span class="dot"></span> Chapter 9 of 18 &nbsp;&middot;&nbsp; The Pixel Story</div>
 
   <div class="hero">
     <h1>Pixel Needs a Bigger Brain</h1>
     <p class="dek">Thinking takes enormous amounts of electricity and math. How do thousands of GPU chips and data centers give AI the power to scale?</p>
   </div>
+
+  <!-- 🧠 Pixel's Brain Evolution Bar -->
+  <div id="pixelBrainEvolution" data-chapter="9"></div>
 
   <div class="story-card">
     <div class="story-stage">
@@ -197,7 +200,7 @@
 
   <div class="section-head" style="margin-top: 36px;">
     <h2>Now you know the grown-up words</h2>
-    <div class="sub">The physical hardware and economics powering modern AI:</div>
+    <div class="sub">The physical hardware, economics, and edge compression powering modern AI:</div>
   </div>
 
   <div class="concept-cards-grid">
@@ -206,27 +209,30 @@
       <p>A specialized chip with thousands of tiny cores designed to perform simple math multiplications in parallel.</p>
     </div>
     <div class="concept-card">
-      <h4>⚡ Compute</h4>
-      <p>The total raw mathematical power (measured in FLOPs) available to train and run AI models.</p>
-    </div>
-    <div class="concept-card">
-      <h4>🏢 Data Center</h4>
-      <p>Giant warehouse facilities packed with tens of thousands of networked GPUs and cooling systems.</p>
+      <h4>⚡ Compute & FLOPs</h4>
+      <p>The total raw mathematical power (Floating-Point Operations) available to train and scale AI models.</p>
     </div>
     <div class="concept-card">
       <h4>📈 Scaling Laws</h4>
-      <p>The scientific observation that making models bigger (more compute + more data) reliably makes them smarter.</p>
+      <p>The empirical law proving that combining more compute with more tokens reliably makes neural networks smarter.</p>
+    </div>
+    <div class="concept-card">
+      <h4>📱 On-Device AI & Quantization (TinyML)</h4>
+      <p>Compressing heavy 16-bit weights into lightweight 4-bit numbers so Pixel runs privately on a phone or smartwatch with zero internet.</p>
     </div>
   </div>
 
   <div style="background:var(--surface-2); border:1px solid var(--line-strong); border-radius:var(--radius-m); padding:20px; margin-top:28px;">
     <h3 style="font-family:var(--font-display); font-size:1.15rem; margin:0 0 8px; color:var(--ink);">
-      🤔 If Pixel is so smart, why does it sometimes make silly mistakes?
+      🤔 If Pixel is so powerful, why does it sometimes state impossible facts?
     </h3>
     <p style="margin:0; font-size:0.95rem; color:var(--muted); line-height:1.5;">
-      Even with massive compute, an LLM can sound 100% confident while making up fake facts! Why do AI models hallucinate? Meet <strong>Hallucinations & System 1 vs 2</strong> in Chapter 10!
+      Even with massive data centers, an LLM can sound 100% confident while completely inventing false information! Why do AI models hallucinate, and how do modern reasoning models pause to think? Meet <strong>Hallucinations & Reasoning Models</strong> in Chapter 10!
     </p>
   </div>
+
+  <!-- 🌍 Spot It in the Wild Callout -->
+  <div id="spotInTheWild" data-chapter="9"></div>
 
   <div class="next" style="margin-top:28px;">
     <div>
@@ -345,5 +351,7 @@
   renderStep();
 })();
 </script>
+<script src="/ai-story/assets/js/brain-evolution.js"></script>
+<script src="/ai-story/assets/js/audio-narration.js"></script>
 </body>
 </html>

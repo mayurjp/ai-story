@@ -211,12 +211,15 @@
 <div class="page story-container">
   <a class="back-link" href="/ai-story/">&larr; All chapters</a> <a class="back-link" href="/ai-story/chapters/01-meet-pixel/">&lsaquo; Meet Pixel</a>
 
-  <div class="eyebrow"><span class="dot"></span> Chapter 2 of 15 &nbsp;&middot;&nbsp; The Pixel Story</div>
+  <div class="eyebrow"><span class="dot"></span> Chapter 2 of 18 &nbsp;&middot;&nbsp; The Pixel Story</div>
 
   <div class="hero">
     <h1>Pixel Guesses a Number</h1>
     <p class="dek">In Chapter 1, Pixel answered Yes or No. Now, Pixel faces a new challenge: predicting an exact number (how high a bouncy ball bounces) using a straight line.</p>
   </div>
+
+  <!-- 🧠 Pixel's Brain Evolution Bar -->
+  <div id="pixelBrainEvolution" data-chapter="2"></div>
 
   <!-- Main Storybook Card -->
   <div class="story-card">
@@ -339,6 +342,9 @@
       When you shoot a basketball, it doesn't fly in a straight line—it arcs in a <strong>curve</strong>! A single straight line fails completely on curves. To handle curved real-world physics, Pixel needs <strong>layers of neurons</strong> that learn by working backward from mistakes. That is <strong>Backpropagation</strong> (Chapter 3)!
     </p>
   </div>
+
+  <!-- 🌍 Spot It in the Wild Callout -->
+  <div id="spotInTheWild" data-chapter="2"></div>
 
   <div class="next" style="margin-top:28px;">
     <div>
@@ -477,5 +483,7 @@
   renderStep();
 })();
 </script>
+<script src="/ai-story/assets/js/brain-evolution.js"></script>
+<script src="/ai-story/assets/js/audio-narration.js"></script>
 </body>
 </html>

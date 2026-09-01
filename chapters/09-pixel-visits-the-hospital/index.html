@@ -136,12 +136,15 @@
 <body>
 <div class="page story-container">
   <a class="back-link" href="/ai-story/">&larr; All chapters</a> <a class="back-link" href="/ai-story/chapters/15-pixel-gets-to-work/">&lsaquo; Pixel Gets to Work</a>
-  <div class="eyebrow"><span class="dot"></span> Chapter 14 of 15 &nbsp;&middot;&nbsp; The Pixel Story</div>
+  <div class="eyebrow"><span class="dot"></span> Chapter 14 of 18 &nbsp;&middot;&nbsp; The Pixel Story</div>
 
   <div class="hero">
     <h1>Pixel Visits the Hospital</h1>
     <p class="dek">How does AI save lives in the real world? Discover medical imaging triage, domain data specialization, and why human doctors stay in the loop.</p>
   </div>
+
+  <!-- 🧠 Pixel's Brain Evolution Bar -->
+  <div id="pixelBrainEvolution" data-chapter="14"></div>
 
   <div class="story-card">
     <div class="story-stage">
@@ -246,19 +249,22 @@
 
   <div style="background:var(--surface-2); border:1px solid var(--line-strong); border-radius:var(--radius-m); padding:20px; margin-top:28px;">
     <h3 style="font-family:var(--font-display); font-size:1.15rem; margin:0 0 8px; color:var(--ink);">
-      🎉 You've reached the final chapter!
+      🎨 Can an AI create art out of pure noise?
     </h3>
     <p style="margin:0; font-size:0.95rem; color:var(--muted); line-height:1.5;">
-      You watched Pixel grow from a 1-knob cookie guesser in 1957 to a multimodal medical assistant. What does this mean for YOUR future and career? Let's talk in <strong>Chapter 15: What Pixel Means for You</strong>!
+      Pixel can classify images and analyze scans, but can it PAINT from scratch? How does an AI turn static noise into breathtaking photorealistic art? Meet <strong>Diffusion Models</strong> in Chapter 15!
     </p>
   </div>
+
+  <!-- 🌍 Spot It in the Wild Callout -->
+  <div id="spotInTheWild" data-chapter="14"></div>
 
   <div class="next" style="margin-top:28px;">
     <div>
       <div class="label">Coming next</div>
-      <p>The finale: Careers, creative projects, and what AI means for your future.</p>
+      <p>How Midjourney and DALL-E sculpt art out of random static: Diffusion Models.</p>
     </div>
-    <a class="tag" href="/ai-story/chapters/12-what-pixel-means-for-you/">Chapter 15 · What Pixel Means for You →</a>
+    <a class="tag" href="/ai-story/chapters/16-pixel-learns-to-paint/">Chapter 15 · Diffusion Models & Generative Art →</a>
   </div>
 
   <footer class="page-foot">The Pixel Story</footer>
@@ -365,5 +371,7 @@
   renderStep();
 })();
 </script>
+<script src="/ai-story/assets/js/brain-evolution.js"></script>
+<script src="/ai-story/assets/js/audio-narration.js"></script>
 </body>
 </html>

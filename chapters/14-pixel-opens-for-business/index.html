@@ -133,12 +133,15 @@
 <body>
 <div class="page story-container">
   <a class="back-link" href="/ai-story/">&larr; All chapters</a> <a class="back-link" href="/ai-story/chapters/06-pixel-becomes-a-know-it-all/">&lsaquo; Pixel Becomes a Know-It-All</a>
-  <div class="eyebrow"><span class="dot"></span> Chapter 8 of 15 &nbsp;&middot;&nbsp; The Pixel Story</div>
+  <div class="eyebrow"><span class="dot"></span> Chapter 8 of 18 &nbsp;&middot;&nbsp; The Pixel Story</div>
 
   <div class="hero">
     <h1>Pixel Opens for Business</h1>
     <p class="dek">How does a raw AI model go from reading internet text to becoming a safe, polite assistant you can talk to? Meet Fine-Tuning and RLHF.</p>
   </div>
+
+  <!-- 🧠 Pixel's Brain Evolution Bar -->
+  <div id="pixelBrainEvolution" data-chapter="8"></div>
 
   <div class="story-card">
     <div class="story-stage">
@@ -199,7 +202,7 @@
 
   <div class="section-head" style="margin-top: 36px;">
     <h2>Now you know the grown-up words</h2>
-    <div class="sub">How raw AI models get polished into finished products:</div>
+    <div class="sub">How raw AI models get polished into finished products and train via self-play:</div>
   </div>
 
   <div class="concept-cards-grid">
@@ -212,23 +215,26 @@
       <p>Teaching the model how to follow commands and format answers like a helpful assistant.</p>
     </div>
     <div class="concept-card">
-      <h4>👍 RLHF (Human Feedback)</h4>
-      <p>Reinforcement Learning from Human Feedback: Human testers rank answers to reward helpfulness and honesty.</p>
+      <h4>👍 RLHF & Alignment</h4>
+      <p>Reinforcement Learning from Human Feedback: Ranking answers to reward helpfulness, honesty, and safety.</p>
     </div>
     <div class="concept-card">
-      <h4>🚀 Deployment</h4>
-      <p>Hosting the polished, safe model in high-speed cloud servers so millions of users can chat with it.</p>
+      <h4>🧪 Synthetic Data & Self-Play</h4>
+      <p>When human text runs out, Pixel creates simulated math problems, writes code tests, and critiques its own work to keep learning.</p>
     </div>
   </div>
 
   <div style="background:var(--surface-2); border:1px solid var(--line-strong); border-radius:var(--radius-m); padding:20px; margin-top:28px;">
     <h3 style="font-family:var(--font-display); font-size:1.15rem; margin:0 0 8px; color:var(--ink);">
-      🤔 How much power does it take to run all these calculations?
+      🤔 How much hardware and electricity does it take to run this?
     </h3>
     <p style="margin:0; font-size:0.95rem; color:var(--muted); line-height:1.5;">
-      Training a massive AI model takes thousands of specialized computer chips running day and night. Where does all that computing power come from? Meet <strong>GPUs, Compute & Scaling</strong> in Chapter 9!
+      Training a massive AI model takes thousands of specialized GPU computer chips running day and night in giant data centers. Where does all that computing power come from? Meet <strong>GPUs, Compute Scaling & On-Device AI</strong> in Chapter 9!
     </p>
   </div>
+
+  <!-- 🌍 Spot It in the Wild Callout -->
+  <div id="spotInTheWild" data-chapter="8"></div>
 
   <div class="next" style="margin-top:28px;">
     <div>
@@ -335,5 +341,7 @@
   renderStep();
 })();
 </script>
+<script src="/ai-story/assets/js/brain-evolution.js"></script>
+<script src="/ai-story/assets/js/audio-narration.js"></script>
 </body>
 </html>

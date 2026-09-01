@@ -133,33 +133,49 @@
 <body>
 <div class="page story-container">
   <a class="back-link" href="/ai-story/">&larr; All chapters</a> <a class="back-link" href="/ai-story/chapters/11-pixel-needs-a-bigger-brain/">&lsaquo; Pixel Needs a Bigger Brain</a>
-  <div class="eyebrow"><span class="dot"></span> Chapter 10 of 15 &nbsp;&middot;&nbsp; The Pixel Story</div>
+  <div class="eyebrow"><span class="dot"></span> Chapter 10 of 18 &nbsp;&middot;&nbsp; The Pixel Story</div>
 
   <div class="hero">
-    <h1>Pixel Embarrasses Itself</h1>
-    <p class="dek">Why does AI sometimes state completely made-up facts with 100% confidence? Discover Hallucinations, System 1 vs. System 2, and Chain of Thought reasoning.</p>
+    <h1>Pixel Embarrasses Itself & Learns to Think</h1>
+    <p class="dek">Why does AI sometimes state completely made-up facts with 100% confidence? Discover Hallucinations, System 1 vs. System 2, and modern Reasoning Models (Test-Time Compute).</p>
   </div>
+
+  <!-- 🧠 Pixel's Brain Evolution Bar -->
+  <div id="pixelBrainEvolution" data-chapter="10"></div>
 
   <div class="story-card">
     <div class="story-stage">
       <div class="stage-svg-wrap">
-        <svg viewBox="0 0 460 200" width="100%" height="100%" aria-label="Hallucination versus chain of thought reasoning diagram">
+        <svg viewBox="0 0 460 210" width="100%" height="100%" aria-label="Hallucination versus Test-Time Compute reasoning scratchpad diagram">
           <!-- Glass Dropping Scenario -->
-          <g transform="translate(60, 30)">
-            <text x="0" y="20" font-family="var(--font-display)" font-size="14" font-weight="700" fill="var(--ink)">
-              Question: "If you drop a glass bowl on concrete, what happens?"
+          <g transform="translate(40, 20)">
+            <text x="0" y="18" font-family="var(--font-display)" font-size="13" font-weight="700" fill="var(--ink)">
+              Riddle: "If you drop a glass bowl on concrete, what happens?"
             </text>
 
             <!-- Thinking Process Display Box -->
-            <rect id="thoughtBox" x="0" y="38" width="340" height="90" rx="8" fill="#FEF2F2" stroke="var(--bad)" stroke-width="1.5"/>
-            <text id="thoughtType" x="15" y="60" font-family="var(--font-mono)" font-size="10" font-weight="700" fill="var(--bad)">
-              ⚡ FAST GUESS (SYSTEM 1):
-            </text>
-            <text id="thoughtContent" x="15" y="85" font-family="var(--font-display)" font-size="13" font-weight="600" fill="var(--bad)">
+            <rect id="thoughtBox" x="0" y="32" width="380" height="110" rx="8" fill="#FEF2F2" stroke="var(--bad)" stroke-width="1.5"/>
+            
+            <g transform="translate(14, 52)">
+              <text id="thoughtType" x="0" y="0" font-family="var(--font-mono)" font-size="9.5" font-weight="700" fill="var(--bad)">
+                ⚡ INSTANT GUESS (SYSTEM 1):
+              </text>
+              <text id="thoughtTimeBadge" x="350" y="0" text-anchor="end" font-family="var(--font-mono)" font-size="9" font-weight="700" fill="var(--muted)">
+                ⏱️ 0.05s · 0 thinking tokens
+              </text>
+            </g>
+
+            <text id="thoughtContent" x="14" y="80" font-family="var(--font-display)" font-size="12.5" font-weight="600" fill="var(--bad)">
               "The glass bowl bounces right back up into your hand! 🪃"
             </text>
-            <text id="thoughtVerdict" x="15" y="112" font-family="var(--font-mono)" font-size="10" fill="var(--bad)">
-              ❌ Hallucination! (Sounds fluent, but physically false)
+            
+            <!-- Secondary Scratchpad stream line -->
+            <text id="thoughtScratchpad" x="14" y="105" font-family="var(--font-mono)" font-size="9.5" fill="var(--muted)">
+              ❌ Hallucination! (Fast pattern-match with no internal verification)
+            </text>
+
+            <text id="thoughtVerdict" x="14" y="128" font-family="var(--font-mono)" font-size="9.5" font-weight="700" fill="var(--bad)">
+              Verdict: Factually False
             </text>
           </g>
         </svg>
@@ -196,7 +212,7 @@
 
   <div class="section-head" style="margin-top: 36px;">
     <h2>Now you know the grown-up words</h2>
-    <div class="sub">Why AI makes mistakes and how scientists fix them:</div>
+    <div class="sub">Why AI makes mistakes and how modern 2025–2026 reasoning models fix them:</div>
   </div>
 
   <div class="concept-cards-grid">
@@ -209,12 +225,12 @@
       <p>System 1 is instant instinct (quick guessing); System 2 is slow, deliberate step-by-step reasoning.</p>
     </div>
     <div class="concept-card">
-      <h4>🔗 Chain of Thought (CoT)</h4>
-      <p>Prompting the AI to write out its intermediate thinking steps before blurting out a final conclusion.</p>
+      <h4>⏳ Test-Time Compute (Reasoning Models)</h4>
+      <p>Modern models (like OpenAI o1/o3, DeepSeek R1) spend extra seconds generating hidden thinking tokens before speaking.</p>
     </div>
     <div class="concept-card">
-      <h4>🌍 Grounding</h4>
-      <p>Connecting word tokens to real-world physical laws, verified web searches, or databases.</p>
+      <h4>🔄 Self-Correction & Backtracking</h4>
+      <p>If an internal thought leads to an error during scratchpad reasoning, the model catches its own mistake and tries a better path.</p>
     </div>
   </div>
 
@@ -226,6 +242,9 @@
       If an AI learned from biased internet text, it might give unfair advice. How do researchers test and red-team AI models for safety? Meet <strong>AI Safety & Red-Teaming</strong> in Chapter 11!
     </p>
   </div>
+
+  <!-- 🌍 Spot It in the Wild Callout -->
+  <div id="spotInTheWild" data-chapter="10"></div>
 
   <div class="next" style="margin-top:28px;">
     <div>
@@ -244,64 +263,74 @@
 
   var STEPS = [
     {
-      title: "Confident, but totally wrong",
-      text: "Pixel is asked: <em>'If you drop a glass bowl on concrete, what happens?'</em> Pixel blurts out: <em>'It bounces back up!'</em> Pixel has only ever read text—it has no physical body!",
+      title: "Confident, but totally wrong (System 1)",
+      text: "Pixel is asked: <em>'If you drop a glass bowl on concrete, what happens?'</em> Without thinking, Pixel blurts out instantly: <em>'It bounces back up!'</em> Because it predicted words statistically without checking physical laws.",
       bubble: "It bounces right back up! 🪃❌",
       bubbleClass: "bad",
       boxFill: "#FEF2F2",
       boxStroke: "var(--bad)",
-      thoughtType: "⚡ INSTANT REACTION (SYSTEM 1):",
+      thoughtType: "⚡ INSTANT GUESS (SYSTEM 1):",
+      thoughtTime: "⏱️ 0.05s · 0 thinking tokens",
       thoughtColor: "var(--bad)",
       thoughtContent: "'The glass bowl bounces right back up into your hand! 🪃'",
-      thoughtVerdict: "❌ Hallucination! (Pixel has never experienced gravity or glass)"
+      thoughtScratchpad: "❌ Hallucination! (Fast pattern-match with no internal verification)",
+      thoughtVerdict: "Verdict: Factually False (Zero physics checking)"
     },
     {
       title: "Why did Pixel hallucinate?",
-      text: "LLMs predict the most statistically probable next words. If fantasy stories mention bouncing objects, Pixel stitches those words together without true physics knowledge!",
-      bubble: "I was just guessing likely words! 📚🎲",
+      text: "Standard LLMs generate words in one continuous forward pass. If fairy tales and cartoons talk about bouncing objects, the model stitches those words together without verifying the physics of brittle materials.",
+      bubble: "I was just predicting likely words! 📚🎲",
       bubbleClass: "bad",
       boxFill: "#FEF3C7",
       boxStroke: "#F59E0B",
-      thoughtType: "🔍 STATISTICAL PATTERN MATCHING:",
+      thoughtType: "🔍 STATISTICAL TOKEN MATCHING:",
+      thoughtTime: "⏱️ 0.10s · 0 thinking tokens",
       thoughtColor: "#B45309",
-      thoughtContent: "'Drop + bowl + floor = bounce/return'",
-      thoughtVerdict: "⚠️ No physics model behind the words"
+      thoughtContent: "'Keywords: Drop + bowl + floor → predicted association: bounce'",
+      thoughtScratchpad: "⚠️ The model has no internal physics engine behind instant text generation.",
+      thoughtVerdict: "Issue: Speed over deliberate reasoning"
     },
     {
-      title: "Teaching Pixel to think step-by-step (Chain of Thought)",
-      text: "We tell Pixel: <em>'Think step by step before answering.'</em> Pixel slows down and breaks the problem into logical pieces (<strong>System 2 reasoning</strong>).",
-      bubble: "Let me think through the steps... 🧠",
+      title: "Test-Time Compute: Pausing to Think (Scratchpad)",
+      text: "Instead of speaking immediately, modern <strong>Reasoning Models</strong> pause. Pixel opens an internal scratchpad and spends <strong>extra compute time</strong> generating private thinking tokens.",
+      bubble: "Thinking... let me check step by step! ⏳🧠",
       bubbleClass: "",
       boxFill: "#EFF6FF",
       boxStroke: "#3B82F6",
-      thoughtType: "🧠 CHAIN OF THOUGHT REASONING:",
+      thoughtType: "🧠 SCRATCHPAD (TEST-TIME COMPUTE):",
+      thoughtTime: "⏱️ 3.4s · 84 thinking tokens",
       thoughtColor: "#1D4ED8",
-      thoughtContent: "1. Glass is brittle. 2. Concrete is solid and hard. 3. Dropping creates impact.",
-      thoughtVerdict: "💡 Reasoning step-by-step through materials & forces"
+      thoughtContent: "'Step 1: What is the object? Glass bowl (brittle ceramic/silica).'",
+      thoughtScratchpad: "'Step 2: What is the surface? Concrete (unyielding hard ground with high resistance).'",
+      thoughtVerdict: "⏳ Working through intermediate physics hypotheses..."
     },
     {
-      title: "The correct physical conclusion! 🎉",
-      text: "Pixel connects its steps: <em>'Because brittle glass hits hard concrete with high force, the bowl will shatter into pieces!'</em> Accurate and grounded!",
-      bubble: "It shatters into pieces! 💥✅",
+      title: "Self-Correction & Backtracking 🔄",
+      text: "During thinking, Pixel tests a hypothesis: <em>'Could it bounce?'</em> It checks the tensile strength of glass, realizes that's impossible, and <strong>backtracks</strong> to correct its own mistake before speaking!",
+      bubble: "Wait! Glass is brittle—it can't bounce! 🛑💡",
+      bubbleClass: "good",
+      boxFill: "#F0FDF4",
+      boxStroke: "#22C55E",
+      thoughtType: "🔄 SELF-CORRECTION & VERIFICATION:",
+      thoughtTime: "⏱️ 5.8s · 142 thinking tokens",
+      thoughtColor: "#15803D",
+      thoughtContent: "'Hypothesis 1 (bounce) REJECTED: Glass cannot absorb kinetic shock.'",
+      thoughtScratchpad: "'Hypothesis 2 (fracture) CONFIRMED: High kinetic impact causes brittle shattering.'",
+      thoughtVerdict: "✅ Error caught internally before user sees output!"
+    },
+    {
+      title: "The Grounded Conclusion! 🎉",
+      text: "Pixel finishes thinking and delivers its final verified answer: <em>'The glass bowl will shatter into pieces on impact.'</em> By trading extra seconds for reasoning, hallucinations drop to near zero!",
+      bubble: "It will shatter into pieces on impact! 💥✨",
       bubbleClass: "good",
       boxFill: "#DCFCE7",
       boxStroke: "var(--good)",
-      thoughtType: "✅ REASONED CONCLUSION (SYSTEM 2):",
+      thoughtType: "✨ FINAL REASONED OUTPUT (SYSTEM 2):",
+      thoughtTime: "⏱️ Completed in 6.1s · 156 tokens",
       thoughtColor: "var(--good)",
-      thoughtContent: "'The glass bowl will shatter into pieces on impact.'",
-      thoughtVerdict: "✨ Logically sound and physically accurate!"
-    },
-    {
-      title: "Grounding with Search and Tools",
-      text: "Modern models also search live databases and check Python math calculators before answering, eliminating hallucinations entirely!",
-      bubble: "I think before I speak! 🛡️✨",
-      bubbleClass: "good",
-      boxFill: "#DCFCE7",
-      boxStroke: "var(--good)",
-      thoughtType: "🌐 GROUNDED IN FACTS & TOOLS:",
-      thoughtColor: "var(--good)",
-      thoughtContent: "'Checked material database: Glass shatters under 15N impact.'",
-      thoughtVerdict: "✨ Verified by tools and reasoning"
+      thoughtContent: "'The glass bowl will shatter into sharp pieces upon striking concrete.'",
+      thoughtScratchpad: "'Verified through material science steps: Stress exceeds fracture threshold.'",
+      thoughtVerdict: "🎯 100% Accurate, Grounded, and Verified!"
     }
   ];
 
@@ -311,7 +340,9 @@
   var stageBubbleBadge = document.getElementById("stageBubbleBadge");
   var thoughtBox = document.getElementById("thoughtBox");
   var thoughtType = document.getElementById("thoughtType");
+  var thoughtTimeBadge = document.getElementById("thoughtTimeBadge");
   var thoughtContent = document.getElementById("thoughtContent");
+  var thoughtScratchpad = document.getElementById("thoughtScratchpad");
   var thoughtVerdict = document.getElementById("thoughtVerdict");
   var prevBtn = document.getElementById("prevStepBtn");
   var nextBtn = document.getElementById("nextStepBtn");
@@ -329,8 +360,10 @@
     thoughtBox.setAttribute("stroke", s.boxStroke);
     thoughtType.textContent = s.thoughtType;
     thoughtType.setAttribute("fill", s.thoughtColor);
+    thoughtTimeBadge.textContent = s.thoughtTime;
     thoughtContent.textContent = s.thoughtContent;
     thoughtContent.setAttribute("fill", s.thoughtColor);
+    thoughtScratchpad.textContent = s.thoughtScratchpad;
     thoughtVerdict.textContent = s.thoughtVerdict;
     thoughtVerdict.setAttribute("fill", s.thoughtColor);
 
@@ -353,5 +386,7 @@
   renderStep();
 })();
 </script>
+<script src="/ai-story/assets/js/brain-evolution.js"></script>
+<script src="/ai-story/assets/js/audio-narration.js"></script>
 </body>
 </html>
